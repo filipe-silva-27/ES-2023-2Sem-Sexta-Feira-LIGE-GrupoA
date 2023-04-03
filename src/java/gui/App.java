@@ -1,4 +1,4 @@
-package pt.iscte-iul.ista;
+package gui;
 
 /**
  * Hello world!
