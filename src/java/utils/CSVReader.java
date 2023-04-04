@@ -9,7 +9,7 @@ import java.io.IOException;
 
 public class CSVReader {
     public static void main(String[] args) {
-        String pathToCsv = "PATH/TO/CSV";
+        String pathToCsv = "C:\\Users\\Public\\horarioexemplo.csv";
         try (FileReader reader = new FileReader(pathToCsv);
              CSVParser csvParser = new CSVParser(reader, CSVFormat.DEFAULT.withHeader().withSkipHeaderRecord(false))) {
             for (CSVRecord record : csvParser) {
@@ -18,13 +18,23 @@ public class CSVReader {
                 String unidadeCurricular = record.get(1);
                 String turno = record.get(2);
                 String turma = record.get(3);
-                Integer inscritos = Integer.parseInt(record.get(4));
+                int inscritos = Integer.parseInt(record.get(4));
                 String diaDaSemana = record.get(5);
                 String horaInicio = record.get(6);
                 String horaFim = record.get(7);
                 String data = record.get(8);
                 String sala = record.get(9);
-                Integer lotacao = Integer.parseInt(record.get(10));
+                int lotacao = 0;
+                try {
+                    lotacao = Integer.parseInt(record.get(10));
+                    // do something with the integer value
+                } catch (NumberFormatException e) {
+                    if (record.get(10).isEmpty()) {
+                        // handle empty string
+                        lotacao = 0; //valor default é 0 e depois muda-se quando se souber a lutação
+                    }
+                }
+
                 // print out each value for the record
                 System.out.println(curso + " | " + unidadeCurricular + " | " + turno + " | " + turma + " | " + inscritos
                         + " | " +
