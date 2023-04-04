@@ -15,31 +15,27 @@ import com.opencsv.exceptions.CsvException;
 
 public class FileConverter{
 
-    public static void main(String[] args) {
-
-        String csvFilePath = "horarioexemplo.csv";
-        String jsonFilePath = "horarioexemplo3.json";
-
+    public static void convertCSVJSON(String csvFilePath, String jsonFilePath) {
         try {
             // Read CSV file
             CSVReader reader = new CSVReader(new FileReader(csvFilePath));
             List<String[]> data = reader.readAll();
             reader.close();
 
-            // Convert CSV to List of Maps
+            // Convert CSV to List of Maps with Objects
             String[] headers = data.get(0);
-            List<Map<String, String>> jsonData = new ArrayList<>();
+            List<Map<Object, Object>> jsonData = new ArrayList<>();
 
             for (int i = 1; i < data.size(); i++) {
                 String[] row = data.get(i);
-                Map<String, String> jsonRow = new LinkedHashMap<>();
+                Map<Object, Object> jsonRow = new LinkedHashMap<>();
                 for (int j = 0; j < row.length; j++) {
                     jsonRow.put(headers[j], row[j]);
                 }
                 jsonData.add(jsonRow);
             }
 
-            // Convert List of Maps to JSON
+            // Convert List of Maps with Objects to JSON
             Gson gson = new GsonBuilder().setPrettyPrinting().create();
             String json = gson.toJson(jsonData);
 
