@@ -10,6 +10,7 @@ import javax.swing.JButton;
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
+import javax.swing.filechooser.FileNameExtensionFilter;
 
 /**
  * Classe GUI que é o GUI Java que interage com o utilizador final
@@ -101,6 +102,7 @@ public class GUI {
     protected void importFile(){
         // Abrir um seletor de ficheiros
         JFileChooser fileChooser = new JFileChooser();
+        fileChooser.setFileFilter(new FileNameExtensionFilter("CSV and JSON Files", "csv", "json"));
         int result = fileChooser.showOpenDialog(frame);
         if (result == JFileChooser.APPROVE_OPTION) {
             // Obter o ficheiro selecionado
@@ -109,6 +111,7 @@ public class GUI {
             // TODO: Adicionar lógica para importar o ficheiro
         }
     }
+
 
 
 }
