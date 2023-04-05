@@ -1,10 +1,19 @@
 package gui;
 
+import org.apache.commons.io.FileUtils;
+import org.apache.commons.io.FilenameUtils;
+import org.apache.http.HttpResponse;
+import org.apache.http.client.HttpClient;
+import org.apache.http.client.methods.HttpGet;
+import org.apache.http.impl.client.HttpClients;
+
 import java.awt.BorderLayout;
 import java.awt.Container;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.io.File;
+import java.io.*;
+import java.net.URL;
+import java.nio.file.Files;
 
 import javax.swing.*;
 import javax.swing.filechooser.FileNameExtensionFilter;
@@ -109,14 +118,20 @@ public class GUI {
         });
 
 
-        localBtn.addActionListener(new ActionListener() {
+        remoteBtn.addActionListener(new ActionListener() {
             /**
              * Mostra o menu de import de ficheiros
              * @param e the event to be processed
              */
             public void actionPerformed(ActionEvent e) {
                 //TODO implementacao da funcionalidade de import de ficheiros da web (remotamente)
-                importRemoteFile();
+                try{
+                    importRemoteFile();
+                }catch (IOException ioException){
+                    //TODO Tratar excecao
+                    JPopupMenu errorPopup = new JPopupMenu("Erro na busca do ficheiro remoto!");
+                }
+
             }
         });
 
@@ -142,9 +157,42 @@ public class GUI {
     /**
      * Função que trata do import de ficheiro remoto.
      */
-    protected void importRemoteFile(){
-        //TODO - lógica de importar ficheiro remoto
+    protected void importRemoteFile() throws IOException {
+        // Pede ao utilizador para inserir a URL do ficheiro
+        String url = JOptionPane.showInputDialog(frame, "Insira a URL do ficheiro:");
+
+        if (url != null && !url.isEmpty()) {
+            // Cria um objeto URL a partir da string inserida
+            URL remoteFile = new URL(url);
+
+            // Cria um objeto File para o destino local
+            JFileChooser fileChooser = new JFileChooser();
+            int result = fileChooser.showSaveDialog(frame);
+            if (result == JFileChooser.APPROVE_OPTION) {
+                // Obter o ficheiro selecionado
+                File localFile = fileChooser.getSelectedFile();
+
+                // Obtém a extensão do arquivo remoto
+                String extension = FilenameUtils.getExtension(remoteFile.getPath());
+
+                // Adiciona a extensão ao arquivo local se ela não estiver presente
+                if (!extension.isEmpty() && !localFile.getName().endsWith(extension)) {
+                    localFile = new File(localFile.getAbsolutePath() + "." + extension);
+                }
+
+                // Faz o download do ficheiro remoto e guarda-o no ficheiro local
+                FileUtils.copyURLToFile(remoteFile, localFile);
+
+                // Verifica se o arquivo é CSV ou JSON
+                String contentType = Files.probeContentType(localFile.toPath());
+                if (contentType == null || (!contentType.equals("text/csv") && !contentType.equals("application/json"))) {
+                    JOptionPane.showMessageDialog(frame, "O ficheiro importado não é um ficheiro CSV ou JSON válido.");
+                    localFile.delete();
+                }
+            }
+        }
     }
+
 
 
     /**
