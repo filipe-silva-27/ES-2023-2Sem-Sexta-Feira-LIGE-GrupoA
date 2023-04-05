@@ -13,6 +13,15 @@ import com.google.gson.GsonBuilder;
 import com.opencsv.CSVReader;
 import com.opencsv.exceptions.CsvException;
 
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.dataformat.csv.CsvMapper;
+import com.fasterxml.jackson.dataformat.csv.CsvSchema;
+import com.opencsv.CSVWriter;
+
+import java.io.File;
+import java.util.Iterator;
+
 public class FileConverter{
 
     public static void convertCSVJSON(String csvFilePath, String jsonFilePath) {
@@ -50,6 +59,43 @@ public class FileConverter{
             e.printStackTrace();
         }
 
+    }
+
+    public static void convertJSONCSV(File jsonFile, File csvFile) throws IOException {
+        // Read the JSON file into a JsonNode object
+        ObjectMapper objectMapper = new ObjectMapper();
+        JsonNode rootNode = objectMapper.readTree(jsonFile);
+
+        // Create the CSV writer
+        CSVWriter csvWriter = new CSVWriter(new FileWriter(csvFile));
+
+        // Create the CSV schema based on the JSON structure
+        CsvSchema.Builder schemaBuilder = CsvSchema.builder();
+        List<String> fieldNames = new ArrayList<>();
+        Iterator<JsonNode> elements = rootNode.elements();
+        if (elements.hasNext()) {
+            JsonNode firstElement = elements.next();
+            firstElement.fieldNames().forEachRemaining(fieldName -> {fieldNames.add(fieldName);
+                schemaBuilder.addColumn(fieldName);});
+        }
+        CsvSchema csvSchema = schemaBuilder
+                .setUseHeader(true)
+                .setQuoteChar('\u0000')
+                .build();
+
+        // Write the CSV header and rows
+        CsvMapper csvMapper = new CsvMapper();
+        csvWriter.writeNext(fieldNames.toArray(new String[0]));
+        while (elements.hasNext()) {
+            JsonNode element = elements.next();
+            List<String> rowValues = new ArrayList<>();
+            fieldNames.forEach(fieldName -> {JsonNode fieldValue = element.get(fieldName);String fieldValueString = (fieldValue == null) ? "" : fieldValue.asText();
+                rowValues.add(fieldValueString);});
+            csvWriter.writeNext(rowValues.toArray(new String[0]));
+        }
+
+        // Close the CSV writer
+        csvWriter.close();
     }
 
 }
