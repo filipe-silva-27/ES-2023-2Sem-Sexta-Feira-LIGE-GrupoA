@@ -29,7 +29,6 @@ public class GUI {
 
     /**
      * Inicializa a interface gráfica do utilizador.
-     * @author Mário Cao
      */
     public void init(){
 
@@ -53,7 +52,6 @@ public class GUI {
 
     /**
      * Função que mostra o menu principal
-     * @author Mário Cao
      */
     protected void showMainMenu(){
         // Cria o painel para os botões
@@ -81,7 +79,6 @@ public class GUI {
 
     /**
      * Sub-menu de import de ficheiros
-     * @author Mário Cao
      */
     protected void showImportMenu(){
         contentPanel.removeAll();
@@ -128,7 +125,6 @@ public class GUI {
 
     /**
      * Exporta dados para um ficheiro selecionado pelo utilizador.
-     * @author Mário Cao
      */
     protected void exportFile() {
         // Abrir um seletor de ficheiros
@@ -145,7 +141,6 @@ public class GUI {
 
     /**
      * Função que trata do import de ficheiro remoto.
-     * @author Mário Cao
      */
     protected void importRemoteFile(){
         //TODO - lógica de importar ficheiro remoto
@@ -155,7 +150,6 @@ public class GUI {
     /**
      * Função que trata do import do ficheiro de uma pasta local
      * Só aceita ficheiros do tipo CSV e JSON.
-     * @author Mário Cao
      */
     protected void importLocalFile(){
         // Abrir um seletor de ficheiros
