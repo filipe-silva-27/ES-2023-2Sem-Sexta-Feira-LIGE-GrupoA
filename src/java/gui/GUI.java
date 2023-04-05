@@ -6,10 +6,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
 
-import javax.swing.JButton;
-import javax.swing.JFileChooser;
-import javax.swing.JFrame;
-import javax.swing.JPanel;
+import javax.swing.*;
 import javax.swing.filechooser.FileNameExtensionFilter;
 
 /**
@@ -17,7 +14,8 @@ import javax.swing.filechooser.FileNameExtensionFilter;
  */
 public class GUI {
 
-    private JFrame frame;
+    private final JFrame frame;
+    private Container contentPanel;
 
     /**
      * Cria uma nova instância da classe GUI.
@@ -32,53 +30,85 @@ public class GUI {
      * Inicializa a interface gráfica do utilizador.
      */
     public void init(){
-        // Cria o painel para os botões
-        JPanel panel = new JPanel();
 
-        // Cria os botões e adiciona-os ao painel
-        JButton importBtn = new JButton("Importar");
-        JButton exportBtn = new JButton("Exportar");
+        // Inicializa o painel de conteudo
+        contentPanel = frame.getContentPane();
 
-        panel.add(importBtn);
-        panel.add(exportBtn);
-
-        // Adiciona o painel ao contentor principal da janela
-        Container contentPane = frame.getContentPane();
-        contentPane.add(panel, BorderLayout.CENTER);
+        showMainMenu();
 
         // Define o tamanho da janela
         frame.setSize(400, 300);
 
         // Define o comportamento da janela quando fechar
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
 
         // Define a janela como visível
         frame.setVisible(true);
 
+
+    }
+
+
+    /**
+     * Função que mostra o menu principal
+     */
+    protected void showMainMenu(){
+        // Cria o painel para os botões
+        JPanel panel = new JPanel();
+
+        // Cria os botões e adiciona-os ao painel
+        JButton importBtn = new JButton("Importar horário");
+
+        panel.add(importBtn);
+
+        // Adiciona o painel ao contentor principal da janela
+        contentPanel.add(panel, BorderLayout.CENTER);
+
         // Configura ação do botão de importar
         importBtn.addActionListener(new ActionListener() {
             /**
-             * Executa a ação correspondente ao botão "Importar".
-             *
-             * @param e o evento de clique do botão "Importar".
+             * Mostra o menu de import de ficheiros
+             * @param e the event to be processed
+             */
+            public void actionPerformed(ActionEvent e) {
+                showImportMenu();
+            }
+        });
+    }
+
+
+
+    protected void showImportMenu(){
+        contentPanel.removeAll();
+
+        // Cria o painel para os botões
+        JPanel panel = new JPanel();
+
+        // Cria os botões e adiciona-os ao painel
+        JButton localBtn = new JButton("Ficheiro local");
+        JButton remoteBtn = new JButton("Ficheiro online");
+
+        panel.add(localBtn);
+        panel.add(remoteBtn);
+
+        // Adiciona o painel ao contentor principal da janela
+        contentPanel.add(panel, BorderLayout.CENTER);
+
+        contentPanel.revalidate();
+
+        // Configura ação do botão de importar
+        localBtn.addActionListener(new ActionListener() {
+            /**
+             * Mostra o menu de import de ficheiros
+             * @param e the event to be processed
              */
             public void actionPerformed(ActionEvent e) {
                 importFile();
             }
         });
 
-        // Configura ação do botão de exportar
-        exportBtn.addActionListener(new ActionListener() {
-            /**
-             * Executa a ação correspondente ao botão "Exportar".
-             *
-             * @param e o evento de clique do botão "Exportar".
-             */
-            public void actionPerformed(ActionEvent e) {
-                exportFile();
-            }
-        });
     }
+
 
 
     /**
