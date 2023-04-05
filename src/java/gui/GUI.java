@@ -11,6 +11,7 @@ import javax.swing.filechooser.FileNameExtensionFilter;
 
 /**
  * Classe GUI que é o GUI Java que interage com o utilizador final
+ * @author Mário Cao
  */
 public class GUI {
 
@@ -19,7 +20,7 @@ public class GUI {
 
     /**
      * Cria uma nova instância da classe GUI.
-     *
+     * @author Mário Cao
      * @param title o título da janela da interface gráfica.
      */
     public GUI(String title) {
@@ -28,6 +29,7 @@ public class GUI {
 
     /**
      * Inicializa a interface gráfica do utilizador.
+     * @author Mário Cao
      */
     public void init(){
 
@@ -51,6 +53,7 @@ public class GUI {
 
     /**
      * Função que mostra o menu principal
+     * @author Mário Cao
      */
     protected void showMainMenu(){
         // Cria o painel para os botões
@@ -64,10 +67,9 @@ public class GUI {
         // Adiciona o painel ao contentor principal da janela
         contentPanel.add(panel, BorderLayout.CENTER);
 
-        // Configura ação do botão de importar
         importBtn.addActionListener(new ActionListener() {
             /**
-             * Mostra o menu de import de ficheiros
+             * Mostra o sub-menu de import de ficheiros
              * @param e the event to be processed
              */
             public void actionPerformed(ActionEvent e) {
@@ -77,7 +79,10 @@ public class GUI {
     }
 
 
-
+    /**
+     * Sub-menu de import de ficheiros
+     * @author Mário Cao
+     */
     protected void showImportMenu(){
         contentPanel.removeAll();
 
@@ -96,23 +101,34 @@ public class GUI {
 
         contentPanel.revalidate();
 
-        // Configura ação do botão de importar
+        localBtn.addActionListener(new ActionListener() {
+            /**
+             * Mostra o menu de import de ficheiros locais
+             * @param e the event to be processed
+             */
+            public void actionPerformed(ActionEvent e) {
+                importLocalFile();
+            }
+        });
+
+
         localBtn.addActionListener(new ActionListener() {
             /**
              * Mostra o menu de import de ficheiros
              * @param e the event to be processed
              */
             public void actionPerformed(ActionEvent e) {
-                importFile();
+                //TODO implementacao da funcionalidade de import de ficheiros da web (remotamente)
+                importRemoteFile();
             }
         });
 
     }
 
 
-
     /**
      * Exporta dados para um ficheiro selecionado pelo utilizador.
+     * @author Mário Cao
      */
     protected void exportFile() {
         // Abrir um seletor de ficheiros
@@ -126,10 +142,22 @@ public class GUI {
         }
     }
 
+
     /**
-     * Importa o calendário
+     * Função que trata do import de ficheiro remoto.
+     * @author Mário Cao
      */
-    protected void importFile(){
+    protected void importRemoteFile(){
+        //TODO - lógica de importar ficheiro remoto
+    }
+
+
+    /**
+     * Função que trata do import do ficheiro de uma pasta local
+     * Só aceita ficheiros do tipo CSV e JSON.
+     * @author Mário Cao
+     */
+    protected void importLocalFile(){
         // Abrir um seletor de ficheiros
         JFileChooser fileChooser = new JFileChooser();
         fileChooser.setFileFilter(new FileNameExtensionFilter("CSV and JSON Files", "csv", "json"));
