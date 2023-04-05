@@ -10,7 +10,7 @@ import java.util.List;
 public class CsvToHtml {
     public static void main(String[] args) throws Exception {
         String csvFilePath = "C:\\Users\\casa\\Desktop\\horario-exemplo.csv";
-        String htmlFilePath = "C:\\Users\\casa\\Desktop\\table.html";
+        String htmlFilePath = "src/table.html";
         List<String[]> data = readCsv(csvFilePath);
         String html = generateHtmlTable(data);
         writeHtml(html, htmlFilePath);
