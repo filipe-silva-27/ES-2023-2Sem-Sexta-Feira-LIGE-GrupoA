@@ -13,21 +13,25 @@ import java.io.IOException;
 import java.net.URL;
 import java.nio.file.Files;
 
-public class ImportMenu {
+public class ImportMenu extends GUI{
+    /**
+     * Sub-menu de import de ficheiros recebe a janela e o contentor da janela Main Menu
+     */
 
     private final JFrame frame;
     private final Container contentPanel;
 
-    /**
-     * Sub-menu de import de ficheiros recebe a janela e o contentor da janela Main Menu
-     */
-    public ImportMenu(JFrame frame, Container contentPanel) {
-        this.frame = frame;
-        this.contentPanel = contentPanel;
+    public ImportMenu(String title) {
+        super(title);
+        frame = getFrame();
+        contentPanel = getContentPanel();
 
-        this.init(); // Inicializa o menu
+        this.init();
     }
 
+    /**
+     * Inicializa o menu de import de ficheiros
+     */
     public void init(){
 
         contentPanel.removeAll();
@@ -74,6 +78,17 @@ public class ImportMenu {
 
             }
         });
+        //cria painel para botoes de redirecionamento entre menus
+        JPanel redirectPanel = new JPanel();
+
+        //adiciona botoes de redirecionamento
+        redirectPanel.add(super.convertBtn);
+        redirectPanel.add(super.visualizarBtn);
+
+        contentPanel.add(redirectPanel, BorderLayout.SOUTH);
+
+
+
 
     }
 
