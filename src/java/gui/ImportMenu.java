@@ -13,19 +13,20 @@ import java.io.IOException;
 import java.net.URL;
 import java.nio.file.Files;
 
-public class ImportMenu extends GUI{
+public class ImportMenu {
     /**
      * Sub-menu de import de ficheiros recebe a janela e o contentor da janela Main Menu
      */
-
+    private final GUI gui;
     private final JFrame frame;
     private final Container contentPanel;
 
     public ImportMenu(String title) {
-        super(title);
-        frame = getFrame();
-        contentPanel = getContentPanel();
-
+        System.out.println("Home: " + title);
+        gui = GUI.getInstance();
+        frame = gui.getFrame();
+        frame.setName(title);
+        contentPanel = gui.getContentPanel();
         this.init();
     }
 
@@ -49,7 +50,7 @@ public class ImportMenu extends GUI{
         // Adiciona o painel ao contentor principal da janela
         contentPanel.add(panel, BorderLayout.CENTER);
 
-        contentPanel.revalidate();
+
 
         localBtn.addActionListener(new ActionListener() {
             /**
@@ -82,13 +83,13 @@ public class ImportMenu extends GUI{
         JPanel redirectPanel = new JPanel();
 
         //adiciona botoes de redirecionamento
-        redirectPanel.add(super.convertBtn);
-        redirectPanel.add(super.visualizarBtn);
+        redirectPanel.add(gui.convertBtn);
+        redirectPanel.add(gui.visualizarBtn);
 
         contentPanel.add(redirectPanel, BorderLayout.SOUTH);
 
 
-
+        contentPanel.revalidate();
 
     }
 

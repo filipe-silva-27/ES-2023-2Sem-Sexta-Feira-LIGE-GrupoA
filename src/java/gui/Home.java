@@ -10,8 +10,9 @@ import javax.swing.*;
  * @author Mário Cao
  */
 
-public class Home extends GUI{
+public class Home {
 
+    private final GUI gui;
     private final Container contentPanel;
     /**
      * Cria uma nova instância da classe GUI.
@@ -19,9 +20,11 @@ public class Home extends GUI{
 
     private final JFrame frame;
     public Home(String title) {
-        super(title);
-        frame = getFrame();
-        contentPanel = getContentPanel();
+        System.out.println("Home: " + title);
+        gui = GUI.getInstance();
+        frame = gui.getFrame();
+        frame.setName(title);
+        contentPanel = gui.getContentPanel();
         this.init();
     }
 
@@ -29,25 +32,20 @@ public class Home extends GUI{
      * Inicializa a interface gráfica do utilizador.
      */
     public void init(){
-        showMainMenu();
-    }
-
-
-    /**
-     * Função que mostra o menu principal
-     */
-    protected void showMainMenu(){
         // Cria o painel para os botões
         JPanel panel = new JPanel();
 
         // adiciona os botoes ao painel
-        panel.add(super.importBtn);
-        panel.add(super.criarBtn);
+        panel.add(gui.importBtn);
+        panel.add(gui.criarBtn);
 
         // Adiciona o painel ao contentor principal da janela
         contentPanel.add(panel, BorderLayout.CENTER);
 
+        contentPanel.revalidate();
+        System.out.println("btns added");
     }
+
 
     /**
      * Exporta dados para um ficheiro selecionado pelo utilizador.

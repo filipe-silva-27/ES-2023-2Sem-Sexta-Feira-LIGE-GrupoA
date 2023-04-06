@@ -5,33 +5,30 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-public abstract class GUI {
-
-    public JFrame getFrame() {
-        return frame;
-    }
-
-    public Container getContentPanel() {
-        return contentPanel;
-    }
+public class GUI {
 
     /**
      * classe com componentes da GUI que podem ser reutilizados
      */
 
-    private final JFrame frame;
-    private final Container contentPanel;
+    private static GUI instance = null;
 
+    private final JFrame frame;
+
+    private final Container contentPanel;
     protected final JButton criarBtn = new JButton("Criar ficheiro");
+
     protected final JButton importBtn = new JButton("Importar ficheiro");
     protected final JButton convertBtn = new JButton("Converter ficheiro");
     protected final JButton visualizarBtn = new JButton("Visualizar ficheiro");
     private final JButton exportBtn = new JButton("Exportar ficheiro");
     private final JButton backBtn = new JButton("Voltar");
 
-    protected GUI(String title) {
-        frame = new JFrame(title);
-
+    protected GUI() {
+        frame = new JFrame("Gestão de Horários");
+        System.out.println(
+                "GUI: " + frame.getName() + " " + frame.getSize() + " " + frame.getLocation() + " " + frame.isVisible()
+        );
         // Inicializa o painel de conteudo
         contentPanel = frame.getContentPane();
         // Define o tamanho da janela
@@ -44,6 +41,26 @@ public abstract class GUI {
         frame.setVisible(true);
 
         setButtons();
+
+    }
+
+    //singleton getInstance method
+    public static GUI getInstance() {
+        System.out.println(instance);
+        if (instance == null) {
+            System.out.println("GUI: Creating new instance");
+            instance = new GUI();
+        }
+        return instance;
+    }
+    //public GUI() { }
+
+    public JFrame getFrame() {
+        return frame;
+    }
+
+    public Container getContentPanel() {
+        return contentPanel;
     }
 
     private void setButtons() {
@@ -68,7 +85,10 @@ public abstract class GUI {
         });
     }
 
-    public abstract void init();
+    public void init(){
+        System.out.println("GUI: init");
+        new Home("home");
+    }
 
 
 
