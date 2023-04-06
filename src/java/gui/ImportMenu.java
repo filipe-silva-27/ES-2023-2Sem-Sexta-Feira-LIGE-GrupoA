@@ -2,94 +2,34 @@ package gui;
 
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.FilenameUtils;
-import org.apache.http.HttpResponse;
-import org.apache.http.client.HttpClient;
-import org.apache.http.client.methods.HttpGet;
-import org.apache.http.impl.client.HttpClients;
-
-import java.awt.BorderLayout;
-import java.awt.Container;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.io.*;
-import java.net.URL;
-import java.nio.file.Files;
 
 import javax.swing.*;
 import javax.swing.filechooser.FileNameExtensionFilter;
+import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.io.File;
+import java.io.IOException;
+import java.net.URL;
+import java.nio.file.Files;
 
-/**
- * Classe GUI que é o GUI Java que interage com o utilizador final
- * @author Mário Cao
- */
-public class GUI {
+public class ImportMenu {
 
     private final JFrame frame;
-    private Container contentPanel;
+    private final Container contentPanel;
 
     /**
-     * Cria uma nova instância da classe GUI.
-     * @author Mário Cao
-     * @param title o título da janela da interface gráfica.
+     * Sub-menu de import de ficheiros recebe a janela e o contentor da janela Main Menu
      */
-    public GUI(String title) {
-        frame = new JFrame(title);
+    public ImportMenu(JFrame frame, Container contentPanel) {
+        this.frame = frame;
+        this.contentPanel = contentPanel;
+
+        this.init(); // Inicializa o menu
     }
 
-    /**
-     * Inicializa a interface gráfica do utilizador.
-     */
     public void init(){
 
-        // Inicializa o painel de conteudo
-        contentPanel = frame.getContentPane();
-
-        showMainMenu();
-
-        // Define o tamanho da janela
-        frame.setSize(400, 300);
-
-        // Define o comportamento da janela quando fechar
-        frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-
-        // Define a janela como visível
-        frame.setVisible(true);
-
-
-    }
-
-
-    /**
-     * Função que mostra o menu principal
-     */
-    protected void showMainMenu(){
-        // Cria o painel para os botões
-        JPanel panel = new JPanel();
-
-        // Cria os botões e adiciona-os ao painel
-        JButton importBtn = new JButton("Importar horário");
-
-        panel.add(importBtn);
-
-        // Adiciona o painel ao contentor principal da janela
-        contentPanel.add(panel, BorderLayout.CENTER);
-
-        importBtn.addActionListener(new ActionListener() {
-            /**
-             * Mostra o sub-menu de import de ficheiros
-             * @param e the event to be processed
-             */
-            public void actionPerformed(ActionEvent e) {
-                showImportMenu();
-            }
-        });
-    }
-
-
-    /**
-     * Sub-menu de import de ficheiros
-     */
-    protected void showImportMenu(){
         contentPanel.removeAll();
 
         // Cria o painel para os botões
@@ -136,23 +76,6 @@ public class GUI {
         });
 
     }
-
-
-    /**
-     * Exporta dados para um ficheiro selecionado pelo utilizador.
-     */
-    protected void exportFile() {
-        // Abrir um seletor de ficheiros
-        JFileChooser fileChooser = new JFileChooser();
-        int result = fileChooser.showSaveDialog(frame);
-        if (result == JFileChooser.APPROVE_OPTION) {
-            // Obter o ficheiro selecionado
-            File selectedFile = fileChooser.getSelectedFile();
-
-            // TODO: Adicionar lógica para exportar para o ficheiro
-        }
-    }
-
 
     /**
      * Função que trata do import de ficheiro remoto.
@@ -209,9 +132,8 @@ public class GUI {
             File selectedFile = fileChooser.getSelectedFile();
 
             // TODO: Adicionar lógica para importar o ficheiro
+            //devolver p torgo
         }
     }
-
-
 
 }
