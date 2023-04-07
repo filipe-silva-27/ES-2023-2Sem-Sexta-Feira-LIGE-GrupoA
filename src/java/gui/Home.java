@@ -1,7 +1,6 @@
 package gui;
 
 import java.awt.BorderLayout;
-import java.awt.Container;
 import javax.swing.*;
 
 /**
@@ -9,21 +8,10 @@ import javax.swing.*;
  * @author Mário Cao
  */
 
-public class Home {
+public class Home extends Screen{
 
-    private final GUI gui;
-    private final Container contentPanel;
-    /**
-     * Cria uma nova instância da classe GUI.
-     */
-
-    private final JFrame frame;
     public Home(String title) {
-        gui = GUI.getInstance();
-        frame = gui.getFrame();
-        frame.setName(title);
-        contentPanel = gui.getContentPanel();
-        this.init();
+        super(title);
     }
 
     /**

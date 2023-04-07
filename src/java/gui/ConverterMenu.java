@@ -5,19 +5,10 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-public class ConverterMenu {
-
-    private final GUI gui;
-    private final JFrame frame;
-    private final Container contentPanel;
-
+public class ConverterMenu extends Screen {
 
     public ConverterMenu(String title) {
-        gui = GUI.getInstance();
-        frame = gui.getFrame();
-        frame.setName(title);
-        contentPanel = gui.getContentPanel();
-        this.init();
+        super(title);
     }
 
     /**
@@ -65,6 +56,7 @@ public class ConverterMenu {
         JPanel redirectPanel = new JPanel();
 
         //adiciona botoes de redirecionamento
+        redirectPanel.add(gui.backBtn);
         redirectPanel.add(gui.exportBtn);
         redirectPanel.add(gui.visualizarBtn);
 

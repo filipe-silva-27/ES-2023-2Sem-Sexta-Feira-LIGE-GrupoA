@@ -3,21 +3,14 @@ package gui;
 import javax.swing.*;
 import java.awt.*;
 
-public class VisualizarMenu {
+public class VisualizarMenu extends Screen {
 
-    private final GUI gui;
-    private final Container contentPanel;
-    private final JFrame frame;
 
     public VisualizarMenu(String title) {
-        gui = GUI.getInstance();
-        frame = gui.getFrame();
-        frame.setName(title);
-        contentPanel = gui.getContentPanel();
-        this.init();
+        super(title);
     }
 
-    private void init() {
+    public void init() {
 
         contentPanel.removeAll();
 
@@ -36,6 +29,16 @@ public class VisualizarMenu {
 
         // Adiciona o painel ao contentor principal da janela
         contentPanel.add(panel, BorderLayout.CENTER);
+
+        //cria painel para botoes de redirecionamento entre menus
+        JPanel redirectPanel = new JPanel();
+
+        //adiciona botoes de redirecionamento
+        redirectPanel.add(gui.backBtn);
+        redirectPanel.add(gui.exportBtn);
+        redirectPanel.add(gui.convertBtn);
+
+        contentPanel.add(redirectPanel, BorderLayout.SOUTH);
 
         contentPanel.revalidate();
     }

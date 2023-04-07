@@ -23,7 +23,7 @@ public class GUI {
     protected final JButton convertBtn = new JButton("Converter ficheiro");
     protected final JButton visualizarBtn = new JButton("Visualizar ficheiro");
     final JButton exportBtn = new JButton("Exportar ficheiro");
-    private final JButton backBtn = new JButton("Voltar");
+    final JButton backBtn = new JButton("Voltar");
 
     protected GUI() {
         frame = new JFrame("Gestão de Horários");
@@ -70,7 +70,7 @@ public class GUI {
              * @param e the event to be processed
              */
             public void actionPerformed(ActionEvent e) {
-                new ImportMenu("Importar calendário");
+                App.SCREENS.add(new ImportMenu("Importar calendário"));
             }
         });
         criarBtn.addActionListener(new ActionListener() {
@@ -79,7 +79,7 @@ public class GUI {
              * @param e the event to be processed
              */
             public void actionPerformed(ActionEvent e) {
-                //new CriarMenu();
+                //App.stack.add(new CriarMenu();
             }
         });
         convertBtn.addActionListener(new ActionListener() {
@@ -89,7 +89,7 @@ public class GUI {
              * @param e the event to be processed
              */
             public void actionPerformed(ActionEvent e) {
-                new ConverterMenu("Converter ficheiro");
+                App.SCREENS.add(new ConverterMenu("Converter ficheiro"));
             }
         });
         visualizarBtn.addActionListener(new ActionListener() {
@@ -99,7 +99,7 @@ public class GUI {
              * @param e the event to be processed
              */
             public void actionPerformed(ActionEvent e) {
-                new VisualizarMenu("Visualizar calendário");
+                App.SCREENS.add(new VisualizarMenu("Visualizar calendário"));
             }
         });
         /**
@@ -120,7 +120,23 @@ public class GUI {
             }
         });
 
-        //TODO: implementar o botão de voltar
+
+        backBtn.addActionListener(new ActionListener() {
+            /**
+             * Mostra o menu principal
+             *
+             * @param e the event to be processed
+             */
+            public void actionPerformed(ActionEvent e) {
+                try{
+                    App.SCREENS.pop(); //remove currentScreen
+                    Screen previousScreen = App.SCREENS.get(App.SCREENS.size()-1); //get previous screen
+                    previousScreen.init();
+                }catch (NullPointerException ex){
+                    System.err.println("There is no previous Screen");
+                }
+            }
+        });
     }
 
     public void init(){
@@ -128,6 +144,8 @@ public class GUI {
         new Home("home");
     }
 
-
-
+    //TODO: implementar getters para encapsulamento?
+    /*public JButton getBackBtn() {
+        return backBtn;
+    }*/
 }
