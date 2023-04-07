@@ -4,6 +4,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.File;
 
 public class GUI {
 
@@ -102,13 +103,21 @@ public class GUI {
             }
         });
         exportBtn.addActionListener(new ActionListener() {
-            /**
-             * Mostra o sub-menu de exportar de ficheiros
-             *
-             * @param e the event to be processed
-             */
             public void actionPerformed(ActionEvent e) {
-                //new ExportarMenu();
+                /**
+                 * Exporta dados para um ficheiro selecionado pelo utilizador.
+                 */
+
+                // Abrir um seletor de ficheiros
+                JFileChooser fileChooser = new JFileChooser();
+                int result = fileChooser.showSaveDialog(frame);
+                if (result == JFileChooser.APPROVE_OPTION) {
+                    // Obter o ficheiro selecionado
+                    File selectedFile = fileChooser.getSelectedFile();
+
+                    // TODO: Adicionar lógica para exportar para o ficheiro
+
+                }
             }
         });
 

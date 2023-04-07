@@ -45,24 +45,4 @@ public class Home {
         contentPanel.revalidate();
     }
 
-
-    /**
-     * Exporta dados para um ficheiro selecionado pelo utilizador.
-     */
-    protected void exportFile() {
-        // Abrir um seletor de ficheiros
-        JFileChooser fileChooser = new JFileChooser();
-        int result = fileChooser.showSaveDialog(frame);
-        if (result == JFileChooser.APPROVE_OPTION) {
-            // Obter o ficheiro selecionado
-            File selectedFile = fileChooser.getSelectedFile();
-
-            // TODO: Adicionar lógica para exportar para o ficheiro
-        }
-    }
-
-
-
-
-
 }
