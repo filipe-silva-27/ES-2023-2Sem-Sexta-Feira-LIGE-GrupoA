@@ -1,24 +1,15 @@
 package gui;
 
-import java.awt.BorderLayout;
-import java.awt.Container;
 import javax.swing.*;
+import java.awt.*;
 
-/**
- * Classe Home que é o da página principal Java que interage com o utilizador final
- * @author Mário Cao
- */
-
-public class Home {
+public class VisualizarMenu {
 
     private final GUI gui;
     private final Container contentPanel;
-    /**
-     * Cria uma nova instância da classe GUI.
-     */
-
     private final JFrame frame;
-    public Home(String title) {
+
+    public VisualizarMenu(String title) {
         gui = GUI.getInstance();
         frame = gui.getFrame();
         frame.setName(title);
@@ -26,21 +17,26 @@ public class Home {
         this.init();
     }
 
-    /**
-     * Inicializa a interface gráfica do utilizador.
-     */
-    public void init(){
+    private void init() {
+
+        contentPanel.removeAll();
+
         // Cria o painel para os botões
         JPanel panel = new JPanel();
 
-        // adiciona os botoes ao painel
-        panel.add(gui.importBtn);
-        panel.add(gui.criarBtn);
+        // TODO: @Rui get a table to hold the calendar data
+        //JTable calendarData = new JTable();
+
+        // add the table to the calendar panel
+        //panel.add(calendarData);
+
+        // redraw the calendar panel
+        //panel.revalidate();
+
 
         // Adiciona o painel ao contentor principal da janela
         contentPanel.add(panel, BorderLayout.CENTER);
 
         contentPanel.revalidate();
     }
-
 }

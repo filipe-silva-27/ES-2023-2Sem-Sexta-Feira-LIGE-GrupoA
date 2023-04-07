@@ -13,7 +13,6 @@ public class ConverterMenu {
 
 
     public ConverterMenu(String title) {
-        System.out.println("Home: " + title);
         gui = GUI.getInstance();
         frame = gui.getFrame();
         frame.setName(title);

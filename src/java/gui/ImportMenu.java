@@ -22,7 +22,6 @@ public class ImportMenu {
     private final Container contentPanel;
 
     public ImportMenu(String title) {
-        System.out.println("Home: " + title);
         gui = GUI.getInstance();
         frame = gui.getFrame();
         frame.setName(title);
@@ -65,11 +64,12 @@ public class ImportMenu {
              * @param e the event to be processed
              */
             public void actionPerformed(ActionEvent e) {
-                //TODO implementacao da funcionalidade de import de ficheiros da web (remotamente)
+                //TODO: implementacao da funcionalidade de import de ficheiros da web (remotamente)
                 try{
                     importRemoteFile();
                 }catch (IOException ioException){
-                    //TODO Tratar excecao
+
+                    //TODO: tratar da excepcao
                     JPopupMenu errorPopup = new JPopupMenu("Erro na busca do ficheiro remoto!");
                 }
 

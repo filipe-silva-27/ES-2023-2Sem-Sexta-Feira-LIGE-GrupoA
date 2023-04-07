@@ -70,7 +70,7 @@ public class GUI {
              * @param e the event to be processed
              */
             public void actionPerformed(ActionEvent e) {
-                new ImportMenu("Importar ficheiro");
+                new ImportMenu("Importar calendário");
             }
         });
         criarBtn.addActionListener(new ActionListener() {
@@ -99,15 +99,14 @@ public class GUI {
              * @param e the event to be processed
              */
             public void actionPerformed(ActionEvent e) {
-                //new VisualizarMenu();
+                new VisualizarMenu("Visualizar calendário");
             }
         });
+        /**
+         * Exporta dados para um ficheiro selecionado pelo utilizador.
+         */
         exportBtn.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                /**
-                 * Exporta dados para um ficheiro selecionado pelo utilizador.
-                 */
-
                 // Abrir um seletor de ficheiros
                 JFileChooser fileChooser = new JFileChooser();
                 int result = fileChooser.showSaveDialog(frame);
