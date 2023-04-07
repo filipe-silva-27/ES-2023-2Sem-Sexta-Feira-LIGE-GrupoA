@@ -50,8 +50,6 @@ public class ImportMenu {
         // Adiciona o painel ao contentor principal da janela
         contentPanel.add(panel, BorderLayout.CENTER);
 
-
-
         localBtn.addActionListener(new ActionListener() {
             /**
              * Mostra o menu de import de ficheiros locais
@@ -61,8 +59,6 @@ public class ImportMenu {
                 importLocalFile();
             }
         });
-
-
         remoteBtn.addActionListener(new ActionListener() {
             /**
              * Mostra o menu de import de ficheiros
@@ -79,6 +75,7 @@ public class ImportMenu {
 
             }
         });
+
         //cria painel para botoes de redirecionamento entre menus
         JPanel redirectPanel = new JPanel();
 

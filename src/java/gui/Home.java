@@ -43,7 +43,6 @@ public class Home {
         contentPanel.add(panel, BorderLayout.CENTER);
 
         contentPanel.revalidate();
-        System.out.println("btns added");
     }
 
 

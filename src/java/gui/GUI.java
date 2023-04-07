@@ -21,7 +21,7 @@ public class GUI {
     protected final JButton importBtn = new JButton("Importar ficheiro");
     protected final JButton convertBtn = new JButton("Converter ficheiro");
     protected final JButton visualizarBtn = new JButton("Visualizar ficheiro");
-    private final JButton exportBtn = new JButton("Exportar ficheiro");
+    final JButton exportBtn = new JButton("Exportar ficheiro");
     private final JButton backBtn = new JButton("Voltar");
 
     protected GUI() {
@@ -44,7 +44,7 @@ public class GUI {
 
     }
 
-    //singleton getInstance method
+
     public static GUI getInstance() {
         System.out.println(instance);
         if (instance == null) {
@@ -53,7 +53,6 @@ public class GUI {
         }
         return instance;
     }
-    //public GUI() { }
 
     public JFrame getFrame() {
         return frame;
@@ -66,7 +65,7 @@ public class GUI {
     private void setButtons() {
         importBtn.addActionListener(new ActionListener() {
             /**
-             * Mostra o sub-menu de import de ficheiros
+             * Mostra o sub-menu de importar de ficheiros
              * @param e the event to be processed
              */
             public void actionPerformed(ActionEvent e) {
@@ -75,14 +74,45 @@ public class GUI {
         });
         criarBtn.addActionListener(new ActionListener() {
             /**
-             * Mostra o sub-menu de import de ficheiros
+             * Mostra o sub-menu de criar de ficheiros
              * @param e the event to be processed
              */
             public void actionPerformed(ActionEvent e) {
                 //new CriarMenu();
-                //FIXME: Criar classe de menu de criar horário
             }
         });
+        convertBtn.addActionListener(new ActionListener() {
+            /**
+             * Mostra o sub-menu de converter ficheiros
+             *
+             * @param e the event to be processed
+             */
+            public void actionPerformed(ActionEvent e) {
+                new ConverterMenu("Converter ficheiro");
+            }
+        });
+        visualizarBtn.addActionListener(new ActionListener() {
+            /**
+             * Mostra o sub-menu para visualizar ficheiros
+             *
+             * @param e the event to be processed
+             */
+            public void actionPerformed(ActionEvent e) {
+                //new VisualizarMenu();
+            }
+        });
+        exportBtn.addActionListener(new ActionListener() {
+            /**
+             * Mostra o sub-menu de exportar de ficheiros
+             *
+             * @param e the event to be processed
+             */
+            public void actionPerformed(ActionEvent e) {
+                //new ExportarMenu();
+            }
+        });
+
+        //TODO: implementar o botão de voltar
     }
 
     public void init(){
