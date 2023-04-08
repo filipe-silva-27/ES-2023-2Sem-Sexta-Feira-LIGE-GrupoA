@@ -129,9 +129,13 @@ public class GUI {
              */
             public void actionPerformed(ActionEvent e) {
                 try{
-                    App.SCREENS.pop(); //remove currentScreen
-                    Screen previousScreen = App.SCREENS.get(App.SCREENS.size()-1); //get previous screen
-                    previousScreen.init();
+                    if (!App.SCREENS.empty()) {
+                        App.SCREENS.pop(); //remove currentScreen
+                        if(App.SCREENS.size() > 0) {
+                            Screen previousScreen = App.SCREENS.get(App.SCREENS.size() - 1); //get previous screen
+                            previousScreen.init();
+                        }
+                    }
                 }catch (NullPointerException ex){
                     System.err.println("There is no previous Screen");
                 }
