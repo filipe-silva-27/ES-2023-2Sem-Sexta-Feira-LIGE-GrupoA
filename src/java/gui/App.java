@@ -1,6 +1,5 @@
 package gui;
 
-import views.ConvertFilesView;
 import views.MainMenuView;
 import views.UploadFilesView;
 
@@ -9,16 +8,15 @@ import java.awt.CardLayout;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
-public class GUI {
+public class App {
     private final JFrame frame;
     private final JPanel mainPanel;
     private final CardLayout cardLayout;
     private final MainMenuView mainMenuView;
-    private final ConvertFilesView convertFilesView;
     private final UploadFilesView uploadFilesView;
     private final ViewController viewController;
 
-    public GUI() {
+    public App() {
         // Initialize the frame and main panel
         this.frame = new JFrame("Calendar App");
         this.cardLayout = new CardLayout();
@@ -31,11 +29,9 @@ public class GUI {
 
         // Initialize the views
         this.mainMenuView = new MainMenuView(viewController);
-        this.convertFilesView = new ConvertFilesView(viewController);
         this.uploadFilesView = new UploadFilesView(viewController);
 
         mainPanel.add(mainMenuView, "mainMenuView");
-        mainPanel.add(convertFilesView, "convertFilesView");
         mainPanel.add(uploadFilesView, "uploadFilesView");
 
         // Add the main panel to the frame and set the frame properties
@@ -43,6 +39,8 @@ public class GUI {
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.pack();
         frame.setVisible(true);
+
+        showView("uploadFilesView");
     }
 
     protected JFrame getFrame(){
@@ -54,7 +52,6 @@ public class GUI {
     }
 
     public static void main(String[] args) {
-        GUI gui = new GUI();
-        gui.showView("mainMenuView");
+        App app = new App();
     }
 }

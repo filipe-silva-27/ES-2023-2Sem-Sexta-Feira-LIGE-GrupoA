@@ -7,22 +7,24 @@ import javax.swing.JPanel;
 
 public class MainMenuView extends JPanel {
     private final ViewController viewController;
-    private final JButton criarBtn;
-    private final JButton convertBtn;
-    private final JButton visualizarBtn;
 
     public MainMenuView(ViewController viewController) {
         this.viewController = viewController;
 
-        criarBtn = new JButton("Criar Horário");
-        convertBtn = new JButton("Converter Ficheiros");
-        visualizarBtn = new JButton("Visualizar Horário");
+        JButton criarBtn = new JButton("Criar Horário");
+        JButton convertToJSONBtn = new JButton("Converter CSV para JSON");
+        JButton convertToCSVBtn = new JButton("Converter JSON para CSV");
+        JButton viewBtn = new JButton("Visualizar Horário");
 
-        convertBtn.addActionListener(e -> viewController.showConvertFilesView());
+        criarBtn.addActionListener(e -> viewController.showMainMenuView()); //TODO mudar para criar
+        convertToJSONBtn.addActionListener(e -> viewController.convertCSVtoJSON());
+        convertToCSVBtn.addActionListener(e -> viewController.convertJSONtoCSV());
+        //TODO botao de view
 
         add(criarBtn);
-        add(convertBtn);
-        add(visualizarBtn);
+        add(convertToJSONBtn);
+        add(convertToCSVBtn);
+        add(viewBtn);
     }
 }
 
