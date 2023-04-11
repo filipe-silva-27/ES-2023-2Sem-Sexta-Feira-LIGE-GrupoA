@@ -7,8 +7,7 @@ import views.UploadFilesView;
 
 import java.awt.BorderLayout;
 import java.awt.CardLayout;
-import javax.swing.JFrame;
-import javax.swing.JPanel;
+import javax.swing.*;
 
 /**
  * Classe que e´ a app principal que interage com o utilizador - GUI
@@ -20,16 +19,6 @@ public class App {
      */
     private final JFrame frame;
     private final JPanel mainPanel;
-    private final CardLayout cardLayout;
-
-
-    /**
-     * Objetos View
-     */
-    private MainMenuView mainMenuView;
-    private UploadFilesView uploadFilesView;
-    private CreateScheduleView createScheduleView;
-    private ShowScheduleView showScheduleView;
 
     /**
      * Objetos Controller
@@ -50,7 +39,7 @@ public class App {
     public App() {
         // Inicializar a frame e o painel principal
         this.frame = new JFrame("Calendar App");
-        this.cardLayout = new CardLayout();
+        CardLayout cardLayout = new CardLayout();
         this.mainPanel = new JPanel();
 
         mainPanel.setLayout(cardLayout);
@@ -60,7 +49,7 @@ public class App {
 
         // Configurar a frame
         frame.getContentPane().add(mainPanel, BorderLayout.CENTER);
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         frame.pack();
         frame.setVisible(true);
 
@@ -81,10 +70,10 @@ public class App {
     private void initViews(){
 
         // Inicializar as views
-        mainMenuView = new MainMenuView(viewController);
-        uploadFilesView = new UploadFilesView(viewController);
-        createScheduleView = new CreateScheduleView(viewController);
-        showScheduleView = new ShowScheduleView(viewController);
+        MainMenuView mainMenuView = new MainMenuView(viewController);
+        UploadFilesView uploadFilesView = new UploadFilesView(viewController);
+        CreateScheduleView createScheduleView = new CreateScheduleView(viewController);
+        ShowScheduleView showScheduleView = new ShowScheduleView(viewController);
 
         // Adicionar as views ao CardLayout
         mainPanel.add(mainMenuView, MAIN_MENU_VIEW);
@@ -95,6 +84,6 @@ public class App {
     }
 
     public static void main(String[] args) {
-        App app = new App();
+        new App();
     }
 }

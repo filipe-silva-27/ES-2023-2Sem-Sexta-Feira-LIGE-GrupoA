@@ -9,6 +9,11 @@ import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 
 public class FileDownloader {
+
+    private FileDownloader(){
+        throw new IllegalStateException("Classe de funções de utilidade!");
+    }
+
     /**
      * Faz download de um ficheiro CSV ou JSON dado um link URL e guarda num ficheiro local
      *

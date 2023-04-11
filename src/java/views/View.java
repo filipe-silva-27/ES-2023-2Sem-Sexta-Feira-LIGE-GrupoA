@@ -9,7 +9,7 @@ import javax.swing.*;
  */
 public abstract class View extends JPanel {
 
-    protected final ViewController viewController;
+    protected final transient ViewController viewController;
 
     /**
      * Construtor da view que inicializa a frame (pintar os componentes)
