@@ -8,47 +8,60 @@ import java.awt.CardLayout;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
+/**
+ * Classe que e´ a app principal que interage com o utilizador - GUI
+ */
 public class App {
     private final JFrame frame;
     private final JPanel mainPanel;
     private final CardLayout cardLayout;
-    private final MainMenuView mainMenuView;
-    private final UploadFilesView uploadFilesView;
-    private final ViewController viewController;
+    private MainMenuView mainMenuView;
+    private UploadFilesView uploadFilesView;
+    private ViewController viewController;
 
+    /**
+     * Método construtor
+     */
     public App() {
-        // Initialize the frame and main panel
+        // Inicializar a frame e o painel principal
         this.frame = new JFrame("Calendar App");
         this.cardLayout = new CardLayout();
         this.mainPanel = new JPanel();
-        // Add each view panel to the main panel with a unique identifier
+
         mainPanel.setLayout(cardLayout);
 
-        // Initialize the controller with the views
-        this.viewController = new ViewController(mainPanel, frame);
+        initControllers();
+        initViews();
 
-        // Initialize the views
-        this.mainMenuView = new MainMenuView(viewController);
-        this.uploadFilesView = new UploadFilesView(viewController);
-
-        mainPanel.add(mainMenuView, "mainMenuView");
-        mainPanel.add(uploadFilesView, "uploadFilesView");
-
-        // Add the main panel to the frame and set the frame properties
+        // Configurar a frame
         frame.getContentPane().add(mainPanel, BorderLayout.CENTER);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.pack();
         frame.setVisible(true);
 
-        showView("uploadFilesView");
+        // Mostrar o menu de upload de ficheiros/horario
+        viewController.showUploadFilesView();
     }
 
-    protected JFrame getFrame(){
-        return frame;
+    /**
+     * Método que inicializa os controllers da GUI (MVC)
+     */
+    private void initControllers(){
+        viewController = new ViewController(mainPanel, frame);
     }
 
-    public void showView(String viewName) {
-        cardLayout.show(mainPanel, viewName);
+    /**
+     * Função que inicializa as views e adiciona ao painel
+     */
+    private void initViews(){
+
+        // Inicializar as views
+        mainMenuView = new MainMenuView(viewController);
+        uploadFilesView = new UploadFilesView(viewController);
+
+        // Adicionar as views ao CardLayout
+        mainPanel.add(mainMenuView, "mainMenuView");
+        mainPanel.add(uploadFilesView, "uploadFilesView");
     }
 
     public static void main(String[] args) {

@@ -33,6 +33,7 @@ public class ViewController {
     public void convertCSVtoJSON(){
         //convert(uploadedFile);
         if(isFileUploaded()){
+            //TODO chamar funcao de converter CSV para JSON
             System.out.println(uploadedFile);
             System.out.println("Conversão CSV to JSON");
         }else{
@@ -43,8 +44,8 @@ public class ViewController {
     }
 
     public void convertJSONtoCSV(){
-        //convert(uploadedFile);
         if(isFileUploaded()){
+            //TODO chamar funcao de converter JSON para CSV
             System.out.println(uploadedFile);
             System.out.println("Conversão JSON para CSV");
         }else{
