@@ -4,12 +4,14 @@ import gui.ViewController;
 
 import javax.swing.*;
 
-public class UploadFilesView extends JPanel {
-    private final ViewController viewController;
+public class UploadFilesView extends View {
 
     public UploadFilesView(ViewController viewController) {
-        this.viewController = viewController;
+        super(viewController);
+    }
 
+    @Override
+    public void initFrame() {
         // Cria os botões e adiciona-os ao painel
         JButton localBtn = new JButton("Ficheiro local");
         JButton remoteBtn = new JButton("Ficheiro online");

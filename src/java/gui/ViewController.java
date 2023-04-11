@@ -7,6 +7,8 @@ import java.awt.*;
 import java.io.File;
 
 public class ViewController {
+
+    //TODO - implementar Models numa package models
     private final CardLayout cardLayout;
     private final JFrame frame;
     private final JPanel contentPane;
@@ -19,11 +21,24 @@ public class ViewController {
     }
 
     public void showMainMenuView() {
-        cardLayout.show(contentPane, "mainMenuView");
+        if(isFileUploaded()){
+            cardLayout.show(contentPane, App.MAIN_MENU_VIEW);
+        }else {
+            showUploadFilesView();
+        }
+
     }
 
     public void showUploadFilesView(){
-        cardLayout.show(contentPane,"uploadFilesView");
+        cardLayout.show(contentPane,App.UPLOAD_MENU_VIEW);
+    }
+
+    public void showShowScheduleView() {
+        cardLayout.show(contentPane,App.SHOW_SCHEDULE_VIEW);
+    }
+
+    public void showCreateScheduleView() {
+        cardLayout.show(contentPane,App.CREATE_SCHEDULE_VIEW);
     }
 
     public boolean isFileUploaded(){
@@ -82,6 +97,9 @@ public class ViewController {
             System.out.println(uploadedFile);
         }
     }
+
+
+
 
     // add methods for other views as needed
 }
