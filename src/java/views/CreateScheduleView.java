@@ -4,6 +4,9 @@ import gui.ViewController;
 
 import javax.swing.*;
 
+/**
+ * Classe que é a view de visualização do horário
+ */
 public class CreateScheduleView extends View{
 
     public CreateScheduleView(ViewController viewController){
