@@ -62,14 +62,7 @@ public class FileDownloader {
      *
      * @return o ficheiro local onde o ficheiro remoto foi salvo, ou null se o utilizador cancelar ou ocorrer erro.
      */
-    public static File downloadRemoteFile() {
-        String url = JOptionPane.showInputDialog(null, "Introduza o URL do ficheiro remoto:");
-        if (url == null || url.isEmpty()) {
-            JOptionPane.showMessageDialog(null, "Por favor introduza um URL válido.",
-                    "Erro", JOptionPane.ERROR_MESSAGE);
-            return null;
-        }
-
+    public static File downloadRemoteFile(String url) {
         try {
             return downloadFile(new URL(url));
         } catch (IOException e) {

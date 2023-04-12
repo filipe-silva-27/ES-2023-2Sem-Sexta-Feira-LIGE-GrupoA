@@ -111,19 +111,14 @@ public class ViewController {
      * Função que trata do carregamento do ficheiro local
      */
     public void importLocalFile() {
-        //TODO só aceitar CSV para o converter CSV to JSON
-        //TODO só aceitar JSON para o converter JSON to CSV
-        // Abrir um seletor de ficheiros
         JFileChooser fileChooser = new JFileChooser();
-        fileChooser.setFileFilter(new FileNameExtensionFilter("CSV and JSON Files", "csv", "json"));
+        fileChooser.setFileFilter(new FileNameExtensionFilter("Ficheiros CSV e JSON", 
+                                                        "csv", "json"));
         int result = fileChooser.showOpenDialog(frame);
         if (result == JFileChooser.APPROVE_OPTION) {
             // Obter o ficheiro selecionado
             uploadedFile = fileChooser.getSelectedFile();
-            if(isFileUploaded()){
-                //TODO Mostrar view de menu
-                showMainMenuView();
-            }
+            handleFileUpload();
         }
     }
 
@@ -131,10 +126,27 @@ public class ViewController {
      * Função que trata do import de ficheiro remoto.
      */
     public void importRemoteFile()  {
-        uploadedFile = FileDownloader.downloadRemoteFile();
+        String url = JOptionPane.showInputDialog(null, "Introduza o URL do ficheiro remoto:");
+        if (url == null || url.isEmpty()) {
+            JOptionPane.showMessageDialog(null, "Por favor introduza um URL válido.",
+                    "Erro", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+        uploadedFile = FileDownloader.downloadRemoteFile(url);
+        handleFileUpload();
+    }
+
+    private void handleFileUpload(){
         if(isFileUploaded()){
-            System.out.println(uploadedFile);
+            JOptionPane.showMessageDialog(null, "Ficheiro carregado com sucesso!",
+                    "Sucesso", JOptionPane.INFORMATION_MESSAGE);
+            showMainMenuView();
+        }else{
+            JOptionPane.showMessageDialog(null, "Ocorreu um erro no carregamento do ficheiro!",
+                    "Erro", JOptionPane.ERROR_MESSAGE);
+            showUploadFilesView();
         }
     }
+
 
 }
