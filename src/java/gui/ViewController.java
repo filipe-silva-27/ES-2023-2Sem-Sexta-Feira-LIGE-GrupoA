@@ -1,5 +1,6 @@
 package gui;
 
+import models.Schedule;
 import utils.FileDownloader;
 import javax.swing.*;
 import javax.swing.filechooser.FileNameExtensionFilter;
@@ -12,11 +13,10 @@ import java.io.File;
  */
 public class ViewController {
 
-    //TODO - implementar Models numa package models
     private final CardLayout cardLayout;
     private final JFrame frame;
     private final JPanel contentPane;
-    private File uploadedFile = null;
+    private Schedule uploadedFile = null;
 
     /**
      * Construtor do controlador
@@ -72,7 +72,7 @@ public class ViewController {
      * @return boolean - se o ficheiro foi uploaded ou não
      */
     public boolean isFileUploaded(){
-        return uploadedFile != null;
+        return uploadedFile.getFile() != null;
     }
 
     /**
@@ -119,7 +119,8 @@ public class ViewController {
         int result = fileChooser.showOpenDialog(frame);
         if (result == JFileChooser.APPROVE_OPTION) {
             // Obter o ficheiro selecionado
-            uploadedFile = fileChooser.getSelectedFile();
+            uploadedFile = new Schedule(" ", 7);
+            uploadedFile.setFile(fileChooser.getSelectedFile());
             if(isFileUploaded()){
                 //TODO Mostrar view de menu
                 showMainMenuView();
@@ -131,7 +132,7 @@ public class ViewController {
      * Função que trata do import de ficheiro remoto.
      */
     public void importRemoteFile()  {
-        uploadedFile = FileDownloader.downloadRemoteFile();
+        uploadedFile.setFile(FileDownloader.downloadRemoteFile());
         if(isFileUploaded()){
             System.out.println(uploadedFile);
         }
