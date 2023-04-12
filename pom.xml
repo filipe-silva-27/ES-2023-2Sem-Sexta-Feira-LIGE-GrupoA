@@ -26,7 +26,6 @@
     </repository>
   </repositories>
 
-
   <dependencies>
     <dependency>
       <groupId>junit</groupId>
@@ -108,13 +107,16 @@
         </plugin>
       </plugins>
     </pluginManagement>
-  </build>
-
-  <reporting>
     <plugins>
       <plugin>
-        <artifactId>maven-project-info-reports-plugin</artifactId>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-compiler-plugin</artifactId>
+        <configuration>
+          <source>8</source>
+          <target>8</target>
+        </configuration>
       </plugin>
     </plugins>
-  </reporting>
+  </build>
+
 </project>
