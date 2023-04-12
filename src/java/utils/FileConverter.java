@@ -89,7 +89,8 @@ public class FileConverter{
         while (elements.hasNext()) {
             JsonNode element = elements.next();
             List<String> rowValues = new ArrayList<>();
-            fieldNames.forEach(fieldName -> {JsonNode fieldValue = element.get(fieldName);String fieldValueString = (fieldValue == null) ? "" : fieldValue.asText();
+            fieldNames.forEach(fieldName -> {JsonNode fieldValue = element.get(fieldName);
+                String fieldValueString = (fieldValue == null) ? "" : fieldValue.asText();
                 rowValues.add(fieldValueString);});
             csvWriter.writeNext(rowValues.toArray(new String[0]));
         }
