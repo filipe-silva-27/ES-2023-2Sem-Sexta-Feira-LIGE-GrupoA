@@ -4,6 +4,9 @@ import gui.ViewController;
 
 import javax.swing.JButton;
 
+import static gui.App.*;
+import static java.lang.System.out;
+
 public class MainMenuView extends View {
 
     public MainMenuView(ViewController viewController) {
@@ -14,19 +17,23 @@ public class MainMenuView extends View {
     @Override
     public void initFrame() {
         JButton criarBtn = new JButton("Criar Horário");
-        JButton convertToJSONBtn = new JButton("Converter CSV para JSON");
-        JButton convertToCSVBtn = new JButton("Converter JSON para CSV");
         JButton viewBtn = new JButton("Visualizar Horário");
+        JButton convertBtn = new JButton("Converter");
 
-        criarBtn.addActionListener(e -> viewController.showCreateScheduleView());
-        convertToJSONBtn.addActionListener(e -> viewController.convertCSVtoJSON());
-        convertToCSVBtn.addActionListener(e -> viewController.convertJSONtoCSV());
-        viewBtn.addActionListener(e -> viewController.showShowScheduleView());
+        out.println(viewController.getClass());
+        criarBtn.addActionListener(e -> viewController.getApp().getControllers().get(CREATE_SCHEDULE_MENU).showView());
+        viewBtn.addActionListener(e -> viewController.getApp().getControllers().get(SHOW_SCHEDULE_MENU).showView());
+        convertBtn.addActionListener(e -> viewController.getApp().getControllers().get(CONVERT_MENU).showView());
+
+        //back button to redirect to UploadFilesView
+        JButton backBtn = new JButton("Voltar");
+        backBtn.addActionListener(e -> viewController.getApp().getControllers().get(UPLOAD_MENU).showView());
+
 
         add(criarBtn);
-        add(convertToJSONBtn);
-        add(convertToCSVBtn);
         add(viewBtn);
+        add(convertBtn);
+        add(backBtn);
     }
 }
 

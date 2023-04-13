@@ -1,7 +1,7 @@
 package models;
 
 import java.io.File;
-import java.util.HashMap;
+import java.util.EnumMap;
 import java.util.List;
 import java.util.Map;
 
@@ -15,7 +15,7 @@ public class Schedule {
         this.name = name;
         this.file = null;
         this.dayPeriod = dayPeriod;
-        this.horario = new HashMap<DayOfWeek, List<AulaUCTurno>>();
+        this.horario = new EnumMap<>( DayOfWeek.class );
     }
 
     public void generateSchedule(List<UnidadeCurricular> ucs) {

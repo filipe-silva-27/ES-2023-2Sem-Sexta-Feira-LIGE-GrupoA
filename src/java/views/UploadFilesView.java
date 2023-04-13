@@ -1,5 +1,6 @@
 package views;
 
+import gui.UploadFilesController;
 import gui.ViewController;
 
 import javax.swing.*;
@@ -16,8 +17,8 @@ public class UploadFilesView extends View {
         JButton localBtn = new JButton("Ficheiro local");
         JButton remoteBtn = new JButton("Ficheiro online");
 
-        localBtn.addActionListener(e -> viewController.importLocalFile());
-        remoteBtn.addActionListener(e -> viewController.importRemoteFile());
+        localBtn.addActionListener(e -> ((UploadFilesController) viewController).importLocalFile());
+        remoteBtn.addActionListener(e -> ((UploadFilesController) viewController).importRemoteFile());
 
         // Add the buttons to the panel
         add(localBtn);

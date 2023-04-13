@@ -4,6 +4,8 @@ import gui.ViewController;
 
 import javax.swing.*;
 
+import static gui.App.*;
+
 public class ShowScheduleView extends View{
 
     public ShowScheduleView(ViewController viewController) {
@@ -37,8 +39,7 @@ public class ShowScheduleView extends View{
         JScrollPane jScrollPane = new JScrollPane(jTable);
 
         JButton backBtn = new JButton("Voltar");
-        backBtn.addActionListener(e -> viewController.showMainMenuView());
-
+        backBtn.addActionListener(e -> viewController.getApp().getControllers().get(MAIN_MENU).showView());
 
         //add botao para exportar
         add(jScrollPane);
