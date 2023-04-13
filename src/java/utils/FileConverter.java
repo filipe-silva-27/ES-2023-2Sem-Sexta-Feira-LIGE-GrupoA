@@ -24,10 +24,10 @@ import java.util.Iterator;
 
 public class FileConverter{
 
-    public static void convertCSVJSON(String csvFilePath, String jsonFilePath) {
+    public static void convertCSVTOJSON(File csvFile, File jsonFile) {
         try {
             // Read CSV file
-            CSVReader reader = new CSVReader(new FileReader(csvFilePath));
+            CSVReader reader = new CSVReader(new FileReader(csvFile));
             List<String[]> data = reader.readAll();
             reader.close();
 
@@ -49,7 +49,7 @@ public class FileConverter{
             String json = gson.toJson(jsonData);
 
             // Write JSON to file
-            FileWriter writer = new FileWriter(jsonFilePath);
+            FileWriter writer = new FileWriter(jsonFile);
             writer.write(json);
             writer.close();
 
@@ -58,7 +58,6 @@ public class FileConverter{
         } catch (IOException | CsvException e) {
             e.printStackTrace();
         }
-
     }
 
     public static void convertJSONCSV(File jsonFile, File csvFile) throws IOException {
