@@ -11,9 +11,6 @@ public class ConvertController extends ViewController{
         super(app);
     }
 
-    public void showView(){
-       cardLayout.show(contentPane,App.CONVERT_MENU);
-    }
 
     /**
      * Função que faz a conversão de CSV para JSON

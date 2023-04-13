@@ -6,16 +6,10 @@ import utils.FileDownloader;
 import javax.swing.*;
 import javax.swing.filechooser.FileNameExtensionFilter;
 
-import static gui.App.*;
-
 public class UploadFilesController extends ViewController{
 
     public UploadFilesController(App app) {
         super(app);
-    }
-
-    public void showView(){
-        cardLayout.show(contentPane,App.UPLOAD_MENU);
     }
 
     /**
@@ -30,12 +24,11 @@ public class UploadFilesController extends ViewController{
         int result = fileChooser.showOpenDialog(frame);
         if (result == JFileChooser.APPROVE_OPTION) {
             // Obter o ficheiro selecionado
-            //super.setSchedule(new Schedule(" ", 7));
             app.setSchedule(new Schedule(" ", 7));
             app.getSchedule().setFile(fileChooser.getSelectedFile());
             if(isFileUploaded()){
                 //TODO Mostrar view de menu
-                app.getControllers().get(MAIN_MENU).showView();
+                cardLayout.show(contentPane, App.MAIN_MENU);
             }
         }
     }
@@ -48,7 +41,7 @@ public class UploadFilesController extends ViewController{
         app.getSchedule().setFile(FileDownloader.downloadRemoteFile());
         if(isFileUploaded()) {
             // Mostrar view de menu
-            app.getControllers().get(MAIN_MENU).showView();
+            cardLayout.show(contentPane, App.MAIN_MENU);
         }
     }
 

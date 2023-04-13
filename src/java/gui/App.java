@@ -5,8 +5,6 @@ import views.*;
 
 import java.awt.BorderLayout;
 import java.awt.CardLayout;
-import java.util.HashMap;
-import java.util.Map;
 import javax.swing.*;
 
 /**
@@ -18,8 +16,6 @@ public class App {
     private final JPanel mainPanel;
     private Schedule schedule;
 
-    private Map<String, ViewController> controllers;
-
     /**
      * Variáveis estáticas
      */
@@ -29,9 +25,6 @@ public class App {
     public static final String CONVERT_MENU = "convertView";
     public static final String CREATE_SCHEDULE_MENU ="createScheduleView";
 
-
-
-
     /**
      * Método construtor
      */
@@ -40,28 +33,29 @@ public class App {
         this.frame = new JFrame("Calendar App");
         CardLayout cardLayout = new CardLayout();
         this.mainPanel = new JPanel();
-        this.controllers = new HashMap<>();
+        this.schedule = null;
 
-        getMainPanel().setLayout(cardLayout);
+        mainPanel.setLayout(cardLayout);
 
-        initControllers();
+        //initControllers();
         initViews();
 
         // Configurar a frame
-        getFrame().getContentPane().add(getMainPanel(), BorderLayout.CENTER);
-        getFrame().setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-        getFrame().pack();
-        getFrame().setVisible(true);
+        frame.getContentPane().add(mainPanel, BorderLayout.CENTER);
+        frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+        frame.pack();
+        frame.setVisible(true);
 
         // Mostrar o menu de upload de ficheiros/horario
-        controllers.get(UPLOAD_MENU).showView();
+        cardLayout.show(mainPanel, UPLOAD_MENU);
         schedule = null;
     }
 
     /**
      * Método que inicializa os controllers da GUI (MVC)
      */
-    private void initControllers(){
+    /*private void initControllers(){
+        //this.controller = new ViewController(this);
         //initialize each class of controllers
         MainMenuController mainMenuController = new MainMenuController(this);
         UploadFilesController uploadFilesController = new UploadFilesController(this);
@@ -70,14 +64,12 @@ public class App {
         ConvertController convertController = new ConvertController(this);
 
         //add each controller to the list
-        getControllers().put(MAIN_MENU, mainMenuController);
-        getControllers().put(UPLOAD_MENU ,uploadFilesController);
-        getControllers().put(CREATE_SCHEDULE_MENU,createScheduleController);
-        getControllers().put(SHOW_SCHEDULE_MENU,showScheduleController);
-        getControllers().put(CONVERT_MENU,convertController);
-
-
-    }
+        controllers.put(MAIN_MENU, mainMenuController);
+        controllers.put(UPLOAD_MENU ,uploadFilesController);
+        controllers.put(CREATE_SCHEDULE_MENU,createScheduleController);
+        controllers.put(SHOW_SCHEDULE_MENU,showScheduleController);
+        controllers.put(CONVERT_MENU,convertController);
+    }*/
 
     /**
      * Função que inicializa as views e adiciona ao painel
@@ -85,18 +77,18 @@ public class App {
     private void initViews(){
 
         // Inicializar as views
-        MainMenuView mainMenuView = new MainMenuView(getControllers().get(MAIN_MENU));
-        UploadFilesView uploadFilesView = new UploadFilesView(getControllers().get(UPLOAD_MENU));
-        CreateScheduleView createScheduleView = new CreateScheduleView(getControllers().get(CREATE_SCHEDULE_MENU));
-        ShowScheduleView showScheduleView = new ShowScheduleView(getControllers().get(SHOW_SCHEDULE_MENU));
-        ConvertFilesView convertFilesView = new ConvertFilesView(getControllers().get(CONVERT_MENU));
+        MainMenuView mainMenuView = new MainMenuView(new MainMenuController(this));
+        UploadFilesView uploadFilesView = new UploadFilesView(new UploadFilesController(this));
+        CreateScheduleView createScheduleView = new CreateScheduleView(new CreateScheduleController(this));
+        ShowScheduleView showScheduleView = new ShowScheduleView( new ShowScheduleController(this));
+        ConvertFilesView convertFilesView = new ConvertFilesView(new ConvertController(this));
 
         // Adicionar as views ao CardLayout
-        getMainPanel().add(mainMenuView, MAIN_MENU);
-        getMainPanel().add(uploadFilesView, UPLOAD_MENU);
-        getMainPanel().add(createScheduleView, CREATE_SCHEDULE_MENU);
-        getMainPanel().add(showScheduleView, SHOW_SCHEDULE_MENU);
-        getMainPanel().add(convertFilesView, CONVERT_MENU);
+        mainPanel.add(mainMenuView, MAIN_MENU);
+        mainPanel.add(uploadFilesView, UPLOAD_MENU);
+        mainPanel.add(createScheduleView, CREATE_SCHEDULE_MENU);
+        mainPanel.add(showScheduleView, SHOW_SCHEDULE_MENU);
+        mainPanel.add(convertFilesView, CONVERT_MENU);
 
     }
 
@@ -113,13 +105,6 @@ public class App {
 
     public JPanel getMainPanel() {
         return mainPanel;
-    }
-
-    /**
-     * Objetos Controller
-     */
-    public Map<String, ViewController> getControllers() {
-        return controllers;
     }
 
     public Schedule getSchedule() {

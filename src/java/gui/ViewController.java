@@ -8,7 +8,7 @@ import java.io.File;
  * Classe ViewController que é o controlador das views todas que
  * trata da lógica dos botões etc
  */
-public abstract class ViewController {
+public class ViewController {
 
     protected final App app;
     protected final CardLayout cardLayout;
@@ -25,8 +25,6 @@ public abstract class ViewController {
         this.frame = app.getFrame();
         this.app = app;
     }
-
-    public abstract void showView();
 
     /**
      * Método que verifica se o ficheiro/horário foi uploaded
@@ -50,4 +48,36 @@ public abstract class ViewController {
             File f = app.getSchedule().getFile();
         }
     }
+
+    /**
+     * Métodos que mostram as views
+     */
+
+    public void showConvertView(){
+        cardLayout.show(contentPane, App.CONVERT_MENU);
+    }
+
+    public void showCreateScheduleView(){
+        cardLayout.show(contentPane, App.CREATE_SCHEDULE_MENU);
+    }
+
+    public void showMainMenuView(){
+        if(isFileUploaded()){
+            cardLayout.show(contentPane, App.MAIN_MENU);
+        }else {
+            cardLayout.show(contentPane, App.UPLOAD_MENU);
+        }
+    }
+
+    public void showShowScheduleView(){
+        cardLayout.show(contentPane, App.SHOW_SCHEDULE_MENU);
+    }
+
+    public void showUploadFilesView(){
+        cardLayout.show(contentPane, App.UPLOAD_MENU);
+    }
+
+
+
+
 }

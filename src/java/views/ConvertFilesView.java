@@ -5,8 +5,6 @@ import gui.ViewController;
 
 import javax.swing.*;
 
-import static gui.App.*;
-
 public class ConvertFilesView extends View{
 
     public ConvertFilesView(ViewController viewController){
@@ -28,7 +26,7 @@ public class ConvertFilesView extends View{
 
         //buscar controller da Main Menu atraves da app do viewController
         JButton backBtn = new JButton("Voltar");
-        backBtn.addActionListener(e -> viewController.getApp().getControllers().get(MAIN_MENU).showView());
+        backBtn.addActionListener(e -> viewController.showMainMenuView());
 
         add(backBtn);
 
