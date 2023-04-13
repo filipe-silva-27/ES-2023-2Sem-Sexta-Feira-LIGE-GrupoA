@@ -24,10 +24,14 @@ public class ConvertFilesView extends View{
         add(convertToJSONBtn);
         add(convertToCSVBtn);
 
+        //botao para exportar
+        JButton exportBtn = new JButton("Exportar");
+        exportBtn.addActionListener(e -> viewController.exportSchedule());
+        add(exportBtn);
+
         //buscar controller da Main Menu atraves da app do viewController
         JButton backBtn = new JButton("Voltar");
         backBtn.addActionListener(e -> viewController.showMainMenuView());
-
         add(backBtn);
 
     }

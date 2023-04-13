@@ -39,9 +39,15 @@ public class ShowScheduleView extends View{
         JButton backBtn = new JButton("Voltar");
         backBtn.addActionListener(e -> viewController.showMainMenuView());
 
+        //botao para exportar
+        JButton exportBtn = new JButton("Exportar");
+        exportBtn.addActionListener(e -> viewController.exportSchedule());
+
         //add botao para exportar
         add(jScrollPane);
+        add(exportBtn);
         add(backBtn);
+
     }
 
 

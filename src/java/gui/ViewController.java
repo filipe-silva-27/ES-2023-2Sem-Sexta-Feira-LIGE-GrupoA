@@ -3,6 +3,9 @@ package gui;
 import javax.swing.*;
 import java.awt.*;
 import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
+import javax.swing.JFileChooser;
 
 /**
  * Classe ViewController que é o controlador das views todas que
@@ -43,9 +46,19 @@ public class ViewController {
         return app;
     }
 
-    public void exportScheduleToCSV(){
+    public void exportSchedule(){
         if(isFileUploaded()){
-            File f = app.getSchedule().getFile();
+            File fileFrom = app.getSchedule().getFile();
+            JFileChooser fileChooser = new JFileChooser();
+            int result = fileChooser.showSaveDialog(null);
+            if (result == JFileChooser.APPROVE_OPTION) {
+                File fileTo = fileChooser.getSelectedFile();
+                try (FileWriter writer = new FileWriter(fileTo)) {
+                    // TODO: Code to write export data to the file
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
         }
     }
 
@@ -70,7 +83,11 @@ public class ViewController {
     }
 
     public void showShowScheduleView(){
-        cardLayout.show(contentPane, App.SHOW_SCHEDULE_MENU);
+        if(isFileUploaded()){
+            cardLayout.show(contentPane, App.SHOW_SCHEDULE_MENU);
+        }else {
+            cardLayout.show(contentPane, App.UPLOAD_MENU);
+        }
     }
 
     public void showUploadFilesView(){
