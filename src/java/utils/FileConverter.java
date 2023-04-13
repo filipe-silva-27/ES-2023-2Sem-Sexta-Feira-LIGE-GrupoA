@@ -33,13 +33,20 @@ public class FileConverter{
 
             // Convert CSV to List of Maps with Objects
             String[] headers = data.get(0);
-            List<Map<Object, Object>> jsonData = new ArrayList<>();
+            List<Map<String, Object>> jsonData = new ArrayList<>();
 
             for (int i = 1; i < data.size(); i++) {
                 String[] row = data.get(i);
-                Map<Object, Object> jsonRow = new LinkedHashMap<>();
+                Map<String, Object> jsonRow = new LinkedHashMap<>();
                 for (int j = 0; j < row.length; j++) {
-                    jsonRow.put(headers[j], row[j]);
+                    try {
+                        // Try to parse the value as an integer
+                        int intValue = Integer.parseInt(row[j]);
+                        jsonRow.put(headers[j], intValue);
+                    } catch (NumberFormatException e) {
+                        // If it can't be parsed as an integer, add it as a string
+                        jsonRow.put(headers[j], row[j]);
+                    }
                 }
                 jsonData.add(jsonRow);
             }
