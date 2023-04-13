@@ -15,7 +15,6 @@ import com.opencsv.exceptions.CsvException;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.dataformat.csv.CsvMapper;
 import com.fasterxml.jackson.dataformat.csv.CsvSchema;
 import com.opencsv.CSVWriter;
 
@@ -67,7 +66,7 @@ public class FileConverter{
         }
     }
 
-    public static void convertJSONCSV(File jsonFile, File csvFile) throws IOException {
+    public static void convertJSONTOCSV(File jsonFile, File csvFile) throws IOException {
         // Read the JSON file into a JsonNode object
         ObjectMapper objectMapper = new ObjectMapper();
         JsonNode rootNode = objectMapper.readTree(jsonFile);
@@ -75,29 +74,36 @@ public class FileConverter{
         // Create the CSV writer
         CSVWriter csvWriter = new CSVWriter(new FileWriter(csvFile));
 
-        // Create the CSV schema based on the JSON structure
+        // Create the CSV schema based on all fields in the JSON array
         CsvSchema.Builder schemaBuilder = CsvSchema.builder();
         List<String> fieldNames = new ArrayList<>();
         Iterator<JsonNode> elements = rootNode.elements();
-        if (elements.hasNext()) {
-            JsonNode firstElement = elements.next();
-            firstElement.fieldNames().forEachRemaining(fieldName -> {fieldNames.add(fieldName);
-                schemaBuilder.addColumn(fieldName);});
+        while (elements.hasNext()) {
+            JsonNode element = elements.next();
+            element.fieldNames().forEachRemaining(fieldName -> {
+                if (!fieldNames.contains(fieldName)) {
+                    fieldNames.add(fieldName);
+                    schemaBuilder.addColumn(fieldName);
+                }
+            });
         }
-        CsvSchema csvSchema = schemaBuilder
+        /*CsvSchema csvSchema = schemaBuilder
                 .setUseHeader(true)
                 .setQuoteChar('\u0000')
                 .build();
+        */
 
         // Write the CSV header and rows
-        CsvMapper csvMapper = new CsvMapper();
         csvWriter.writeNext(fieldNames.toArray(new String[0]));
+        elements = rootNode.elements();
         while (elements.hasNext()) {
             JsonNode element = elements.next();
             List<String> rowValues = new ArrayList<>();
-            fieldNames.forEach(fieldName -> {JsonNode fieldValue = element.get(fieldName);
+            fieldNames.forEach(fieldName -> {
+                JsonNode fieldValue = element.get(fieldName);
                 String fieldValueString = (fieldValue == null) ? "" : fieldValue.asText();
-                rowValues.add(fieldValueString);});
+                rowValues.add(fieldValueString);
+            });
             csvWriter.writeNext(rowValues.toArray(new String[0]));
         }
 
