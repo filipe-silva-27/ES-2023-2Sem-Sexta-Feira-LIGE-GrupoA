@@ -1,7 +1,7 @@
 package views;
 
-import gui.UploadFilesController;
-import gui.ViewController;
+import controllers.UploadFilesController;
+import controllers.ViewController;
 
 import javax.swing.*;
 

@@ -1,5 +1,6 @@
-package gui;
+package controllers;
 
+import gui.App;
 import models.Schedule;
 import utils.FileDownloader;
 
