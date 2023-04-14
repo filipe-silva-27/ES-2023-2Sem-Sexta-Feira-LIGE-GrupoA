@@ -21,16 +21,25 @@ import com.opencsv.CSVWriter;
 import java.io.File;
 import java.util.Iterator;
 
-public class FileConverter{
+/**
+ * Classe utilitaria com metodos para converter ficheiros CSV para JSON e JSON para CSV.
+ */
+public class FileConverter {
 
+    /**
+     * Converte ficheiro CSV para JSON.
+     *
+     * @param csvFile  ficheiro CSV a converter
+     * @param jsonFile ficheiro JSON para onde sera convertido o CSV
+     */
     public static void convertCSVTOJSON(File csvFile, File jsonFile) {
         try {
-            // Read CSV file
+            // Ler ficheiro CSV
             CSVReader reader = new CSVReader(new FileReader(csvFile));
             List<String[]> data = reader.readAll();
             reader.close();
 
-            // Convert CSV to List of Maps with Objects
+            // Converter CSV para uma lista de mapas com objetos
             String[] headers = data.get(0);
             List<Map<String, Object>> jsonData = new ArrayList<>();
 
@@ -39,42 +48,47 @@ public class FileConverter{
                 Map<String, Object> jsonRow = new LinkedHashMap<>();
                 for (int j = 0; j < row.length; j++) {
                     try {
-                        // Try to parse the value as an integer
+                        // Procurar por valores do tipo integer
                         int intValue = Integer.parseInt(row[j]);
                         jsonRow.put(headers[j], intValue);
                     } catch (NumberFormatException e) {
-                        // If it can't be parsed as an integer, add it as a string
+                        // Se não encontrar valores do tipo integer, regista como string
                         jsonRow.put(headers[j], row[j]);
                     }
                 }
                 jsonData.add(jsonRow);
             }
 
-            // Convert List of Maps with Objects to JSON
+            // Converte a lista de mapas com objetos para JSON
             Gson gson = new GsonBuilder().setPrettyPrinting().create();
             String json = gson.toJson(jsonData);
 
-            // Write JSON to file
+            // Escrever ficheiro JSON
             FileWriter writer = new FileWriter(jsonFile);
             writer.write(json);
             writer.close();
-
-            System.out.println("Conversion complete!");
 
         } catch (IOException | CsvException e) {
             e.printStackTrace();
         }
     }
 
+    /**
+     * Converte ficheiro JSON para CSV
+     *
+     * @param jsonFile ficheiro JSON a converter
+     * @param csvFile  ficheiro de CSV para onde vai ser convertido o JSON
+     * @throws IOException para o caso de existir algum erro na leitura ou escrita dos ficheiros
+     */
     public static void convertJSONTOCSV(File jsonFile, File csvFile) throws IOException {
-        // Read the JSON file into a JsonNode object
+        //Leitura do ficheiro JSON para objeto JsonNode
         ObjectMapper objectMapper = new ObjectMapper();
         JsonNode rootNode = objectMapper.readTree(jsonFile);
 
-        // Create the CSV writer
+        // Criar escritor do ficheiro CSV
         CSVWriter csvWriter = new CSVWriter(new FileWriter(csvFile));
 
-        // Create the CSV schema based on all fields in the JSON array
+        //Criar esquema do CSV com base nos parametros presentes no ficheiro JSON
         CsvSchema.Builder schemaBuilder = CsvSchema.builder();
         List<String> fieldNames = new ArrayList<>();
         Iterator<JsonNode> elements = rootNode.elements();
@@ -87,13 +101,8 @@ public class FileConverter{
                 }
             });
         }
-        /*CsvSchema csvSchema = schemaBuilder
-                .setUseHeader(true)
-                .setQuoteChar('\u0000')
-                .build();
-        */
 
-        // Write the CSV header and rows
+        // Escreve o cabeçalho e colunas do ficheiro CSV
         csvWriter.writeNext(fieldNames.toArray(new String[0]));
         elements = rootNode.elements();
         while (elements.hasNext()) {
@@ -107,7 +116,7 @@ public class FileConverter{
             csvWriter.writeNext(rowValues.toArray(new String[0]));
         }
 
-        // Close the CSV writer
+        // Fechar o escritor do ficheiro CSV
         csvWriter.close();
     }
 
