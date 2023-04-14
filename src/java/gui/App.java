@@ -2,7 +2,8 @@ package gui;
 
 import models.Schedule;
 import views.*;
-
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import java.awt.BorderLayout;
 import java.awt.CardLayout;
 import javax.swing.*;
@@ -15,6 +16,7 @@ public class App {
     private final JFrame frame;
     private final JPanel mainPanel;
     private Schedule schedule;
+    private static final Logger logger = LoggerFactory.getLogger(App.class);
 
     /**
      * Variáveis estáticas
@@ -29,6 +31,7 @@ public class App {
      * Método construtor
      */
     public App() {
+        logger.info("Inicializando a GUI...");
         // Inicializar a frame e o painel principal
         this.frame = new JFrame("Calendar App");
         CardLayout cardLayout = new CardLayout();
@@ -49,6 +52,7 @@ public class App {
         // Mostrar o menu de upload de ficheiros/horario
         cardLayout.show(mainPanel, UPLOAD_MENU);
         schedule = null;
+        logger.info("GUI inicializada com sucesso!");
     }
 
     /**
