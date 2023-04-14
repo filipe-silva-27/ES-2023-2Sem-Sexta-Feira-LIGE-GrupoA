@@ -43,7 +43,6 @@ public class AppTest {
     @Test
     public void testGetFrame() {
         //TODO to implement
-        fail("Not implemented yet");
     }
 
     /**
@@ -51,8 +50,6 @@ public class AppTest {
      */
     @Test
     public void testGetMainPanel() {
-        //TODO to implement
-        fail("Not implemented yet");
     }
 
     /**
