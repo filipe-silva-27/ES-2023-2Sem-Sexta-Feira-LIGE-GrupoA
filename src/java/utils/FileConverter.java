@@ -26,6 +26,10 @@ import java.util.Iterator;
  */
 public class FileConverter {
 
+    private FileConverter(){
+        //Construtor privado para esconder o publico que e implicito
+    }
+
     /**
      * Converte ficheiro CSV para JSON.
      *
@@ -33,11 +37,11 @@ public class FileConverter {
      * @param jsonFile ficheiro JSON para onde sera convertido o CSV
      */
     public static void convertCSVTOJSON(File csvFile, File jsonFile) {
-        try {
+        try (CSVReader reader = new CSVReader(new FileReader(csvFile));
+             FileWriter writer = new FileWriter(jsonFile)) {
+
             // Ler ficheiro CSV
-            CSVReader reader = new CSVReader(new FileReader(csvFile));
             List<String[]> data = reader.readAll();
-            reader.close();
 
             // Converter CSV para uma lista de mapas com objetos
             String[] headers = data.get(0);
@@ -45,17 +49,7 @@ public class FileConverter {
 
             for (int i = 1; i < data.size(); i++) {
                 String[] row = data.get(i);
-                Map<String, Object> jsonRow = new LinkedHashMap<>();
-                for (int j = 0; j < row.length; j++) {
-                    try {
-                        // Procurar por valores do tipo integer
-                        int intValue = Integer.parseInt(row[j]);
-                        jsonRow.put(headers[j], intValue);
-                    } catch (NumberFormatException e) {
-                        // Se não encontrar valores do tipo integer, regista como string
-                        jsonRow.put(headers[j], row[j]);
-                    }
-                }
+                Map<String, Object> jsonRow = createJsonRow(headers, row);
                 jsonData.add(jsonRow);
             }
 
@@ -64,9 +58,7 @@ public class FileConverter {
             String json = gson.toJson(jsonData);
 
             // Escrever ficheiro JSON
-            FileWriter writer = new FileWriter(jsonFile);
             writer.write(json);
-            writer.close();
 
         } catch (IOException | CsvException e) {
             e.printStackTrace();
@@ -74,7 +66,29 @@ public class FileConverter {
     }
 
     /**
-     * Converte ficheiro JSON para CSV
+     * Cria uma fila para o ficheiro JSON dado o cabeçalho e a informação presente nas linhas.
+     *
+     * @param headers Array the strings que representa o cabeçalho para a linha do ficheiro JSON
+     * @param row Array the strings que representa a informação a ser passada para o JSON
+     * @return Um Map object que representa linhas do JSON.
+     */
+    private static Map<String, Object> createJsonRow(String[] headers, String[] row) {
+        Map<String, Object> jsonRow = new LinkedHashMap<>();
+        for (int j = 0; j < row.length; j++) {
+            try {
+                // Procurar por valores do tipo integer
+                int intValue = Integer.parseInt(row[j]);
+                jsonRow.put(headers[j], intValue);
+            } catch (NumberFormatException e) {
+                // Se não encontrar valores do tipo integer, regista como string
+                jsonRow.put(headers[j], row[j]);
+            }
+        }
+        return jsonRow;
+    }
+
+    /**
+     * Converte ficheiro JSON para CSV.
      *
      * @param jsonFile ficheiro JSON a converter
      * @param csvFile  ficheiro de CSV para onde vai ser convertido o JSON
