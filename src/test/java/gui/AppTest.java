@@ -7,5 +7,9 @@ public class AppTest extends TestCase {
     @Test
     void main() {
     }
+
+    @Test
+    public void testMain() {
+    }
     /**/
 }
