@@ -1,4 +1,6 @@
-package gui;
+package controllers;
+
+import gui.App;
 
 import javax.swing.*;
 

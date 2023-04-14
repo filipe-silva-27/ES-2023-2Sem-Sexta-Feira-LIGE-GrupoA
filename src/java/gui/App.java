@@ -1,5 +1,6 @@
 package gui;
 
+import controllers.*;
 import models.Schedule;
 import views.*;
 import org.slf4j.Logger;
