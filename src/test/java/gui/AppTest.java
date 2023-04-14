@@ -17,14 +17,14 @@ public class AppTest {
     private Schedule schedule;
 
     @Before
-    void setUp() {
+    public void setUp() {
         app = Mockito.spy(new App());
         schedule = new Schedule("Test Schedule", 7);
         app.setSchedule(schedule);
     }
 
     @After
-    void tearDown() {
+    public void tearDown() {
         //TODO To be implemented
     }
 
@@ -32,7 +32,7 @@ public class AppTest {
      * Description: Test method for shipAt.
      */
     @Test
-    void testMain() {
+    public void testMain() {
         // Verify that the main method runs without exceptions
         App.main(new String[] {});
     }
@@ -41,7 +41,7 @@ public class AppTest {
      * Description: Test method for shipAt.
      */
     @Test
-    void testGetFrame() {
+    public void testGetFrame() {
         //TODO to implement
         fail("Not implemented yet");
     }
@@ -50,7 +50,7 @@ public class AppTest {
      * Description: Test method for shipAt.
      */
     @Test
-    void testGetMainPanel() {
+    public void testGetMainPanel() {
         //TODO to implement
         fail("Not implemented yet");
     }
@@ -59,7 +59,7 @@ public class AppTest {
      * Description: Test method for getSchedule.
      */
     @Test
-    void testGetSchedule() {
+    public void testGetSchedule() {
         Schedule s = app.getSchedule();
         assertNotNull(s);
         assertEquals(s, schedule);
@@ -69,7 +69,7 @@ public class AppTest {
      * Description: Test method for setSchedule.
      */
     @Test
-    void testSetSchedule() {
+    public void testSetSchedule() {
         Schedule s = new Schedule("Another Test Schedule", 14);
         app.setSchedule(s);
         assertEquals(s, app.getSchedule());
