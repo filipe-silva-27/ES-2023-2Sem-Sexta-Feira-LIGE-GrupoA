@@ -1,6 +1,8 @@
 package controllers;
 
 import gui.App;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import javax.swing.*;
 import java.awt.*;
@@ -48,6 +50,7 @@ public class ViewController {
         return app;
     }
 
+    //TODO - implementar
     public void exportSchedule(){
         if(isFileUploaded()){
             File fileFrom = app.getSchedule().getFile();

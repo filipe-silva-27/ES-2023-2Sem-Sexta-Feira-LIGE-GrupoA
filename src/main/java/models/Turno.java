@@ -7,7 +7,7 @@ public class Turno {
     private final String id;
     private String turma;
     private int inscritos;
-    private List<AulaUCTurno> aulas;
+    private List<AulaTurno> aulas;
 
     private List<UnidadeCurricular> ucs;
 

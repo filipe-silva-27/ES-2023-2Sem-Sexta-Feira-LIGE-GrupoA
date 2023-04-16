@@ -5,13 +5,13 @@ import java.util.List;
 public class UnidadeCurricular {
 
     private String nome;
-    private List<AulaUCTurno> aulas;
+    private List<AulaTurno> aulas;
 
-    public List<AulaUCTurno> getAulas() {
+    public List<AulaTurno> getAulas() {
         return aulas;
     }
 
-    public void addAula(AulaUCTurno cls) {
+    public void addAula(AulaTurno cls) {
         aulas.add(cls);
     }
 

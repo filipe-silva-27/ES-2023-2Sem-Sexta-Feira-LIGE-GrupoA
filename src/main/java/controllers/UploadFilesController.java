@@ -2,6 +2,8 @@ package controllers;
 
 import gui.App;
 import models.Schedule;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import utils.FileDownloader;
 
 import javax.swing.*;
@@ -9,8 +11,11 @@ import javax.swing.filechooser.FileNameExtensionFilter;
 
 public class UploadFilesController extends ViewController{
 
+    private static final Logger logger = LoggerFactory.getLogger(UploadFilesController.class);
+
     public UploadFilesController(App app) {
         super(app);
+        logger.info("- inicializado com sucesso.");
     }
 
     /**
@@ -29,7 +34,7 @@ public class UploadFilesController extends ViewController{
             app.getSchedule().setFile(fileChooser.getSelectedFile());
             if(isFileUploaded()){
                 //TODO Mostrar view de menu
-                cardLayout.show(contentPane, App.MAIN_MENU);
+                showMainMenuView();
             }
         }
     }
@@ -42,7 +47,7 @@ public class UploadFilesController extends ViewController{
         app.getSchedule().setFile(FileDownloader.downloadRemoteFile());
         if(isFileUploaded()) {
             // Mostrar view de menu
-            cardLayout.show(contentPane, App.MAIN_MENU);
+            showMainMenuView();
         }
     }
 

@@ -9,7 +9,7 @@ public class Schedule {
     private String name;
     private File file;
     private int dayPeriod;
-    Map<DayOfWeek, List<AulaUCTurno>> horario;
+    Map<DayOfWeek, List<AulaTurno>> horario;
 
     public Schedule(String name, int dayPeriod) {
         this.name = name;

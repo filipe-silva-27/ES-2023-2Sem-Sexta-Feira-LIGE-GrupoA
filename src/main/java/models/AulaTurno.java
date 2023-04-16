@@ -3,7 +3,7 @@ package models;
 import java.time.LocalTime;
 import java.util.Date;
 
-public class AulaUCTurno {
+public class AulaTurno {
 
     private Date dia;
     private LocalTime horaInicio;
@@ -14,7 +14,7 @@ public class AulaUCTurno {
     private Turno turno;
     private UnidadeCurricular uc;
 
-public AulaUCTurno(Date dia, LocalTime horaInicio, LocalTime horaFim, Date data, String sala, int lotacao, Turno turno, UnidadeCurricular uc) {
+public AulaTurno(Date dia, LocalTime horaInicio, LocalTime horaFim, Date data, String sala, int lotacao, Turno turno, UnidadeCurricular uc) {
         this.dia = dia;
         this.horaInicio = horaInicio;
         this.horaFim = horaFim;
