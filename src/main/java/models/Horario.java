@@ -1,11 +1,10 @@
 package models;
 
-import controllers.UploadFilesController;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.File;
-import java.util.List;
+import java.util.Set;
 
 /**
  * Classe Horario que é o modelo utilizado pela GUI e outras funcionalidades
@@ -15,25 +14,25 @@ import java.util.List;
 public class Horario {
     private String name;    // Nome do horário
     private File file;      // Ficheiro associado ao horário para importação e exportação
-    private List<UnidadeCurricular> unidadesCurriculares;   // Lista de unidades curriculares
+    private Set<UnidadeCurricular> unidadesCurriculares;   // Set de unidades curriculares
     private static final Logger logger = LoggerFactory.getLogger(Horario.class);
 
     /**
      * Método construtor do horário
      * @param name Nome do horário
-     * @param unidadesCurriculares Lista de unidades curriculares associadas ao horário
+     * @param unidadesCurriculares Set de unidades curriculares associadas ao horário
      */
-    public Horario(String name, List<UnidadeCurricular> unidadesCurriculares) {
+    public Horario(String name, Set<UnidadeCurricular> unidadesCurriculares) {
         this.name = name;
         this.unidadesCurriculares = unidadesCurriculares;
         this.file = null;
     }
 
-    public List<UnidadeCurricular> getUnidadesCurriculares() {
+    public Set<UnidadeCurricular> getUnidadesCurriculares() {
         return unidadesCurriculares;
     }
 
-    public void setUnidadesCurriculares(List<UnidadeCurricular> unidadesCurriculares) {
+    public void setUnidadesCurriculares(Set<UnidadeCurricular> unidadesCurriculares) {
         this.unidadesCurriculares = unidadesCurriculares;
     }
 

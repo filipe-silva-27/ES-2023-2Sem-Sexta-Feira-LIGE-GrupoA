@@ -6,6 +6,9 @@ import models.Horario;
 import org.junit.*;
 import org.mockito.*;
 
+import java.util.TreeSet;
+
+
 public class AppTest {
 
     private App app;
@@ -14,7 +17,7 @@ public class AppTest {
     @Before
     public void setUp() {
         app = Mockito.spy(new App());
-        horario = new Horario("Test Horario", 7);
+        horario = new Horario("Test Horario", new TreeSet<>());
     }
 
     @After
@@ -59,6 +62,6 @@ public class AppTest {
      */
     @Test
     public void testSetSchedule() {
-        Horario s = new Horario("Another Test Horario", 14);
+        Horario s = new Horario("Another Test Horario", new TreeSet<>());
     }
 }
