@@ -7,36 +7,30 @@ import org.apache.commons.csv.CSVRecord;
 import java.io.FileReader;
 import java.io.IOException;
 
+import static java.lang.System.*;
+
 public class CSVReader {
     public static void main(String[] args) {
         String pathToCsv = "C:\\Users\\Public\\horarioexemplo.csv";
         try (FileReader reader = new FileReader(pathToCsv);
-             CSVParser csvParser = new CSVParser(reader, CSVFormat.DEFAULT.withHeader().withSkipHeaderRecord(false))) {
-            for (CSVRecord record : csvParser) {
-                // process each record here
-                String curso = record.get(0);
-                String unidadeCurricular = record.get(1);
-                String turno = record.get(2);
-                String turma = record.get(3);
-                int inscritos = Integer.parseInt(record.get(4));
-                String diaDaSemana = record.get(5);
-                String horaInicio = record.get(6);
-                String horaFim = record.get(7);
-                String data = record.get(8);
-                String sala = record.get(9);
+             CSVParser csvParser = new CSVParser(reader, CSVFormat.DEFAULT.builder().setHeader().setSkipHeaderRecord(false).build())) {
+            for (CSVRecord recrd : csvParser) {
+                // process each recrd here
+                String curso = recrd.get(0);
+                String unidadeCurricular = recrd.get(1);
+                String turno = recrd.get(2);
+                String turma = recrd.get(3);
+                int inscritos = Integer.parseInt(recrd.get(4));
+                String diaDaSemana = recrd.get(5);
+                String horaInicio = recrd.get(6);
+                String horaFim = recrd.get(7);
+                String data = recrd.get(8);
+                String sala = recrd.get(9);
                 int lotacao = 0;
-                try {
-                    lotacao = Integer.parseInt(record.get(10));
-                    // do something with the integer value
-                } catch (NumberFormatException e) {
-                    if (record.get(10).isEmpty()) {
-                        // handle empty string
-                        lotacao = 0; //valor default é 0 e depois muda-se quando se souber a lutação
-                    }
-                }
+                lotacao = Integer.parseInt(recrd.get(10));
 
-                // print out each value for the record
-                System.out.println(curso + " | " + unidadeCurricular + " | " + turno + " | " + turma + " | " + inscritos
+                // print out each value for the recrd
+                out.println(curso + " | " + unidadeCurricular + " | " + turno + " | " + turma + " | " + inscritos
                         + " | " +
                         diaDaSemana + " | " + horaInicio + " | " + horaFim + " | " + data + " | " + sala + " | " + lotacao);
 
@@ -44,7 +38,7 @@ public class CSVReader {
         } catch (IOException e) {
             e.printStackTrace();
         } catch (NumberFormatException e) {
-            System.err.println("Invalid integer value in CSV file.");
+            err.println("Invalid integer value in CSV file.");
             e.printStackTrace();
         }
     }
