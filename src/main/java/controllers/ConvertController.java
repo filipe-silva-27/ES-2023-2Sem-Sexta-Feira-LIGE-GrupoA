@@ -3,9 +3,11 @@ package controllers;
 import gui.App;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import utils.FileConverter;
+
 import javax.swing.*;
 
-
+import static java.lang.System.*;
 
 public class ConvertController extends ViewController{
 
@@ -25,6 +27,7 @@ public class ConvertController extends ViewController{
         if(isFileUploaded()){
             //TODO chamar funcao de converter CSV para JSON
             logger.info("Conversão CSV to JSON");
+            //FileConverter.convertCSVTOJSON(getSchedule().getFile());
         }else{
             JOptionPane.showMessageDialog(contentPane, "Por favor faça upload de um ficheiro primeiro!",
                     "Error", JOptionPane.ERROR_MESSAGE);
