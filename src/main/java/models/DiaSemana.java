@@ -1,6 +1,6 @@
 package models;
 
-public enum DayOfWeek {
+public enum DiaSemana {
 
     MONDAY("Segunda-feira"),
     TUESDAY("Terça-feira"),
@@ -12,7 +12,7 @@ public enum DayOfWeek {
 
     private String name;
 
-    DayOfWeek(String name) {
+    DiaSemana(String name) {
         this.name = name;
     }
 

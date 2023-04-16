@@ -2,25 +2,19 @@ package gui;
 
 import static org.junit.Assert.*;
 
-import models.Schedule;
+import models.Horario;
 import org.junit.*;
 import org.mockito.*;
-import java.awt.BorderLayout;
-import java.awt.CardLayout;
-import java.time.DayOfWeek;
-import java.util.EnumMap;
-import javax.swing.*;
 
 public class AppTest {
 
     private App app;
-    private Schedule schedule;
+    private Horario horario;
 
     @Before
     public void setUp() {
         app = Mockito.spy(new App());
-        schedule = new Schedule("Test Schedule", 7);
-        app.setSchedule(schedule);
+        horario = new Horario("Test Horario", 7);
     }
 
     @After
@@ -57,9 +51,7 @@ public class AppTest {
      */
     @Test
     public void testGetSchedule() {
-        Schedule s = app.getSchedule();
-        assertNotNull(s);
-        assertEquals(s, schedule);
+
     }
 
     /**
@@ -67,8 +59,6 @@ public class AppTest {
      */
     @Test
     public void testSetSchedule() {
-        Schedule s = new Schedule("Another Test Schedule", 14);
-        app.setSchedule(s);
-        assertEquals(s, app.getSchedule());
+        Horario s = new Horario("Another Test Horario", 14);
     }
 }

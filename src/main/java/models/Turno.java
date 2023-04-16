@@ -1,46 +1,39 @@
 package models;
 
+import java.util.LinkedList;
 import java.util.List;
 
 public class Turno {
 
-    private final String id;
-    private String turma;
-    private int inscritos;
-    private List<AulaTurno> aulas;
+    private final String idTurno;
+    private final String turmas;
+    private final Integer numInscritos;
+    private List<Aula> aulas;
 
-    private List<UnidadeCurricular> ucs;
-
-    public Turno(String id, String turma, int inscritos, String dia, String horaInicio, String horaFim, String data, String sala, String lotacao) {
-        this.id = id;
-        this.turma = turma;
-        this.inscritos = inscritos;
+    public Turno(String idTurno, String turmas, Integer numInscritos) {
+        this.idTurno = idTurno;
+        this.turmas = turmas;
+        this.numInscritos = numInscritos;
+        this.aulas = new LinkedList<>();
     }
 
-    public String getId() {
-        return id;
+    public String getIdTurno() {
+        return idTurno;
     }
 
-    public String getTurma() {
-        return turma;
+    public String getTurmas() {
+        return turmas;
     }
 
-    public int getInscritos() {
-        return inscritos;
+    public Integer getNumInscritos() {
+        return numInscritos;
     }
 
-    public void setTurma(String turma) {
-        this.turma = turma;
+    public List<Aula> getAulas() {
+        return aulas;
     }
 
-    public void setInscritos(int inscritos) {
-        this.inscritos = inscritos;
+    public void setAulas(List<Aula> aulas) {
+        this.aulas = aulas;
     }
-
-    @Override
-    public String toString() {
-        return "Turno{" + "id=" + id + ", turma=" + turma + ", inscritos=" + inscritos + '}';
-    }
-
-
 }

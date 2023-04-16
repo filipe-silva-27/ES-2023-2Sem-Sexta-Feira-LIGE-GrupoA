@@ -1,8 +1,7 @@
 package controllers;
 
 import gui.App;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import models.Horario;
 
 import javax.swing.*;
 import java.awt.*;
@@ -22,6 +21,7 @@ public class ViewController {
 
     protected final JFrame frame;
     protected final JPanel contentPane;
+    private static Horario horario = null;
 
     /**
      * Construtor do controlador
@@ -38,12 +38,7 @@ public class ViewController {
      * @return boolean - se o ficheiro foi uploaded ou não
      */
     public boolean isFileUploaded(){
-        if ( app.getSchedule() != null){
-            return app.getSchedule() != null;
-
-        }else {
-            throw new NullPointerException("Schedule is null");
-        }
+        return getHorario().getFile() != null;
     }
 
     public App getApp() {
@@ -53,7 +48,7 @@ public class ViewController {
     //TODO - implementar
     public void exportSchedule(){
         if(isFileUploaded()){
-            File fileFrom = app.getSchedule().getFile();
+            File fileFrom = getHorario().getFile();
             JFileChooser fileChooser = new JFileChooser();
             int result = fileChooser.showSaveDialog(null);
             if (result == JFileChooser.APPROVE_OPTION) {
@@ -65,6 +60,14 @@ public class ViewController {
                 }
             }
         }
+    }
+
+    public Horario getHorario() {
+        return horario;
+    }
+
+    public void setHorario(Horario horario) {
+        this.horario = horario;
     }
 
     /**
