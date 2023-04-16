@@ -10,7 +10,7 @@ import java.net.URL;
 /**
  * The SaveJSONToWeb class provides a method to upload a JSON file to a web server.
  */
-public class saveJSONToWeb {
+public class SaveJSONToWeb {
 
         /**
          * Uploads a JSON file to the specified web server.

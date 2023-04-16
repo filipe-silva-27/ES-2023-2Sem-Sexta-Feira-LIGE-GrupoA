@@ -8,7 +8,7 @@ import java.net.URL;
 /**
  A utility class for saving a JSON file from a URL to the local file system.
  */
-public class saveJSONToLocal {
+public class SaveJSONToLocal {
 
         /**
          * Downloads a JSON file from a specified URL and saves it to the local file system.
