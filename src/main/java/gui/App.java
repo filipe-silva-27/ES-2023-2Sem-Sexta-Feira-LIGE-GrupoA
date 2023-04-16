@@ -1,7 +1,6 @@
 package gui;
 
 import controllers.*;
-import models.Schedule;
 import views.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -16,7 +15,6 @@ public class App {
 
     private final JFrame frame;
     private final JPanel mainPanel;
-    private Schedule schedule;
     private static final Logger logger = LoggerFactory.getLogger(App.class);
 
     /**
@@ -37,11 +35,9 @@ public class App {
         this.frame = new JFrame("Calendar App");
         CardLayout cardLayout = new CardLayout();
         this.mainPanel = new JPanel();
-        this.schedule = null;
 
         mainPanel.setLayout(cardLayout);
 
-        //initControllers();
         initViews();
 
         // Configurar a frame
@@ -52,35 +48,14 @@ public class App {
 
         // Mostrar o menu de upload de ficheiros/horario
         cardLayout.show(mainPanel, UPLOAD_MENU);
-        schedule = null;
         logger.info("GUI inicializada com sucesso!");
     }
-
-    /**
-     * Método que inicializa os controllers da GUI (MVC)
-     */
-    /*private void initControllers(){
-        //this.controller = new ViewController(this);
-        //initialize each class of controllers
-        MainMenuController mainMenuController = new MainMenuController(this);
-        UploadFilesController uploadFilesController = new UploadFilesController(this);
-        CreateScheduleController createScheduleController = new CreateScheduleController(this);
-        ShowScheduleController showScheduleController = new ShowScheduleController(this);
-        ConvertController convertController = new ConvertController(this);
-
-        //add each controller to the list
-        controllers.put(MAIN_MENU, mainMenuController);
-        controllers.put(UPLOAD_MENU ,uploadFilesController);
-        controllers.put(CREATE_SCHEDULE_MENU,createScheduleController);
-        controllers.put(SHOW_SCHEDULE_MENU,showScheduleController);
-        controllers.put(CONVERT_MENU,convertController);
-    }*/
 
     /**
      * Função que inicializa as views e adiciona ao painel
      */
     private void initViews(){
-
+        logger.info("Inicializando as views...");
         // Inicializar as views
         MainMenuView mainMenuView = new MainMenuView(new MainMenuController(this));
         UploadFilesView uploadFilesView = new UploadFilesView(new UploadFilesController(this));
@@ -94,7 +69,7 @@ public class App {
         mainPanel.add(createScheduleView, CREATE_SCHEDULE_MENU);
         mainPanel.add(showScheduleView, SHOW_SCHEDULE_MENU);
         mainPanel.add(convertFilesView, CONVERT_MENU);
-
+        logger.info("Views inicializadas");
     }
 
     public static void main(String[] args) {
@@ -112,11 +87,4 @@ public class App {
         return mainPanel;
     }
 
-    public Schedule getSchedule() {
-        return schedule;
-    }
-
-    public void setSchedule(final Schedule schedule) {
-        this.schedule = schedule;
-    }
 }

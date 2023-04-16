@@ -1,6 +1,9 @@
 package controllers;
 
 import gui.App;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import utils.FileConverter;
 
 import javax.swing.*;
 
@@ -8,9 +11,11 @@ import static java.lang.System.*;
 
 public class ConvertController extends ViewController{
 
+    private static final Logger logger = LoggerFactory.getLogger(ConvertController.class);
 
     public ConvertController(App app) {
         super(app);
+        logger.info("- inicializado com sucesso.");
     }
 
 
@@ -21,8 +26,8 @@ public class ConvertController extends ViewController{
         //TODO chamar convert(uploadedFile); ~Torgo
         if(isFileUploaded()){
             //TODO chamar funcao de converter CSV para JSON
-            out.println(app.getSchedule());
-            out.println("Conversão CSV to JSON");
+            logger.info("Conversão CSV to JSON");
+            //FileConverter.convertCSVTOJSON(getSchedule().getFile());
         }else{
             JOptionPane.showMessageDialog(contentPane, "Por favor faça upload de um ficheiro primeiro!",
                     "Error", JOptionPane.ERROR_MESSAGE);
@@ -36,8 +41,7 @@ public class ConvertController extends ViewController{
     public void convertJSONtoCSV(){
         if(isFileUploaded()){
             //TODO chamar funcao de converter JSON para CSV
-            out.println(app.getSchedule());
-            out.println("Conversão JSON para CSV");
+            logger.info("Conversão JSON para CSV");
         }else{
             JOptionPane.showMessageDialog(contentPane, "Por favor faça upload de um ficheiro primeiro!",
                     "Error", JOptionPane.ERROR_MESSAGE);

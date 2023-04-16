@@ -1,7 +1,9 @@
 package controllers;
 
 import gui.App;
-import models.Schedule;
+import models.Horario;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import utils.FileDownloader;
 
 import javax.swing.*;
@@ -9,8 +11,11 @@ import javax.swing.filechooser.FileNameExtensionFilter;
 
 public class UploadFilesController extends ViewController{
 
+    private static final Logger logger = LoggerFactory.getLogger(UploadFilesController.class);
+
     public UploadFilesController(App app) {
         super(app);
+        logger.info("- inicializado com sucesso.");
     }
 
     /**
@@ -25,11 +30,13 @@ public class UploadFilesController extends ViewController{
         int result = fileChooser.showOpenDialog(frame);
         if (result == JFileChooser.APPROVE_OPTION) {
             // Obter o ficheiro selecionado
-            app.setSchedule(new Schedule(" ", 7));
-            app.getSchedule().setFile(fileChooser.getSelectedFile());
+            //TODO alterar
+            setHorario(new Horario(" ", null));
+            getHorario().setFile(fileChooser.getSelectedFile());
+            logger.debug(String.valueOf(getHorario().getFile()));
             if(isFileUploaded()){
                 //TODO Mostrar view de menu
-                cardLayout.show(contentPane, App.MAIN_MENU);
+                showMainMenuView();
             }
         }
     }
@@ -38,11 +45,12 @@ public class UploadFilesController extends ViewController{
      * Função que trata do import de ficheiro remoto.
      */
     public void importRemoteFile()  {
-        //schedule.
-        app.getSchedule().setFile(FileDownloader.downloadRemoteFile());
+        //TODO alterar
+        setHorario(new Horario(" ", null));
+        getHorario().setFile(FileDownloader.downloadRemoteFile());
         if(isFileUploaded()) {
             // Mostrar view de menu
-            cardLayout.show(contentPane, App.MAIN_MENU);
+            showMainMenuView();
         }
     }
 
