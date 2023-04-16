@@ -6,9 +6,12 @@ import java.io.File;
 import java.io.IOException;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class FileUploader {
 
+    private static final Logger LOGGER = Logger.getLogger(FileUploader.class.getName());
     private FileUploader(){
         throw new IllegalStateException("Classe de funções de utilidade!");
     }
@@ -21,9 +24,14 @@ public class FileUploader {
      * @throws IOException caso ocorra um erro durante o processo de upload ou de leitura do ficheiro
      */
     public static void uploadFile(File file, String remoteUrl) throws IOException {
+
+        LOGGER.info("Iniciando upload do arquivo " + file.getName() + " para " + remoteUrl);
+
         String fileExtension = getFileExtension(file);
         if (!fileExtension.equalsIgnoreCase("csv") && !fileExtension.equalsIgnoreCase("json")) {
-            throw new IllegalArgumentException("O arquivo selecionado não é um arquivo CSV ou JSON.");
+            String errorMsg = "O arquivo selecionado não é um arquivo CSV ou JSON.";
+            LOGGER.warning(errorMsg);
+            throw new IllegalArgumentException(errorMsg);
         }
 
         URL url = new URL(remoteUrl);
@@ -37,6 +45,7 @@ public class FileUploader {
         try {
             fileBytes = FileUtils.readFileToByteArray(file);
         } catch (IOException e) {
+            LOGGER.log(Level.SEVERE, "Erro ao ler o arquivo: " + e.getMessage(), e);
             throw new IOException("Erro ao ler o arquivo: " + e.getMessage(), e);
         }
 
@@ -44,12 +53,17 @@ public class FileUploader {
         try {
             conn.getOutputStream().write(fileBytes);
         } catch (IOException e) {
+            LOGGER.log(Level.SEVERE, "Erro ao enviar o arquivo: " + e.getMessage(), e);
             throw new IOException("Erro ao enviar o arquivo: " + e.getMessage(), e);
         }
 
         if (conn.getResponseCode() != HttpURLConnection.HTTP_OK) {
-            throw new RuntimeException("Falha ao enviar o arquivo: " + conn.getResponseCode() + " " + conn.getResponseMessage());
+            String errorMsg = "Falha ao enviar o arquivo: " + conn.getResponseCode() + " " + conn.getResponseMessage();
+            LOGGER.warning(errorMsg);
+            throw new RuntimeException(errorMsg);
         }
+
+        LOGGER.info("Arquivo " + file.getName() + " enviado com sucesso para " + remoteUrl);
     }
 
     /**
