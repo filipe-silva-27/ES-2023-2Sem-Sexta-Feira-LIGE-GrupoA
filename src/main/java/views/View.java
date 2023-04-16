@@ -1,6 +1,6 @@
 package views;
 
-import gui.ViewController;
+import controllers.ViewController;
 
 import javax.swing.*;
 

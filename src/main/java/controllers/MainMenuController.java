@@ -1,4 +1,6 @@
-package gui;
+package controllers;
+
+import gui.App;
 
 public class MainMenuController extends ViewController{
 

@@ -43,6 +43,13 @@ public class FileDownloader {
         fileName += "." + fileExtension;
         File localFile = new File(selectedDirectory, fileName);
 
+        if(fileExtension == null){
+            JOptionPane.showMessageDialog(null,
+                    "A extensão do ficheiro não é reconhecida!",
+                    "Erro", JOptionPane.ERROR_MESSAGE);
+            return null;
+        }
+
         FileUtils.copyURLToFile(remoteUrl, localFile);
         if (!fileExtension.equalsIgnoreCase("csv") &&
                 !fileExtension.equalsIgnoreCase("json")) {

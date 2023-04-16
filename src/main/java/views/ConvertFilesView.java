@@ -1,7 +1,7 @@
 package views;
 
-import gui.ConvertController;
-import gui.ViewController;
+import controllers.ConvertController;
+import controllers.ViewController;
 
 import javax.swing.*;
 
