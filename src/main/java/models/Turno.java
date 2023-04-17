@@ -1,20 +1,20 @@
 package models;
 
-import java.util.LinkedList;
-import java.util.List;
+import java.util.Set;
+import java.util.TreeSet;
 
 public class Turno {
 
     private final String idTurno;
     private final String turmas;
     private final Integer numInscritos;
-    private List<Aula> aulas;
+    private Set<Aula> aulas;
 
     public Turno(String idTurno, String turmas, Integer numInscritos) {
         this.idTurno = idTurno;
         this.turmas = turmas;
         this.numInscritos = numInscritos;
-        this.aulas = new LinkedList<>();
+        this.aulas = new TreeSet<>();
     }
 
     public String getIdTurno() {
@@ -29,11 +29,11 @@ public class Turno {
         return numInscritos;
     }
 
-    public List<Aula> getAulas() {
+    public Set<Aula> getAulas() {
         return aulas;
     }
 
-    public void setAulas(List<Aula> aulas) {
+    public void setAulas(Set<Aula> aulas) {
         this.aulas = aulas;
     }
 }
