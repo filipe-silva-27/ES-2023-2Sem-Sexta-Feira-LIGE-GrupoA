@@ -31,7 +31,7 @@ public class UploadFilesController extends ViewController{
         if (result == JFileChooser.APPROVE_OPTION) {
             // Obter o ficheiro selecionado
             //TODO alterar
-            setHorario(new Horario(" ", null));
+            setHorario(new Horario(" "));
             getHorario().setFile(fileChooser.getSelectedFile());
             logger.debug(String.valueOf(getHorario().getFile()));
             if(isFileUploaded()){
@@ -46,7 +46,7 @@ public class UploadFilesController extends ViewController{
      */
     public void importRemoteFile()  {
         //TODO alterar
-        setHorario(new Horario(" ", null));
+        setHorario(new Horario(" "));
         getHorario().setFile(FileDownloader.downloadRemoteFile());
         if(isFileUploaded()) {
             // Mostrar view de menu

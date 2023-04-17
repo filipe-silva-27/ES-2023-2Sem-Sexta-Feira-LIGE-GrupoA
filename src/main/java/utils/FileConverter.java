@@ -60,6 +60,7 @@ public class FileConverter {
             // Escrever ficheiro JSON
             writer.write(json);
 
+            //return jsonFile;
         } catch (IOException | CsvException e) {
             e.printStackTrace();
         }
