@@ -4,6 +4,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.File;
+import java.util.HashSet;
 import java.util.Set;
 
 /**
@@ -14,18 +15,30 @@ import java.util.Set;
 public class Horario {
     private String name;    // Nome do horário
     private File file;      // Ficheiro associado ao horário para importação e exportação
-    private Set<UnidadeCurricular> unidadesCurriculares;   // Set de unidades curriculares
+    private Set<UnidadeCurricular> unidadesCurriculares = new HashSet<>();   // Set de unidades curriculares
     private static final Logger logger = LoggerFactory.getLogger(Horario.class);
 
     /**
      * Método construtor do horário
      * @param name Nome do horário
-     * @param unidadesCurriculares Set de unidades curriculares associadas ao horário
      */
-    public Horario(String name, Set<UnidadeCurricular> unidadesCurriculares) {
+    public Horario(String name) {
         this.name = name;
-        this.unidadesCurriculares = unidadesCurriculares;
         this.file = null;
+    }
+
+    public UnidadeCurricular getUnidadeCurricularPorNome(String nome) {
+        for (UnidadeCurricular uc : unidadesCurriculares) {
+            if (uc.getNome().equals(nome)) {
+                return uc;
+            }
+        }
+        return null;
+    }
+
+
+    public boolean addUnidadeCurricular(UnidadeCurricular uc){
+        return unidadesCurriculares.add(uc);
     }
 
     public Set<UnidadeCurricular> getUnidadesCurriculares() {
@@ -50,5 +63,14 @@ public class Horario {
 
     public void setFile(File selectedFile) {
         this.file = selectedFile;
+    }
+
+    @Override
+    public String toString() {
+        String ucs = "";
+        for (UnidadeCurricular uc : unidadesCurriculares) {
+            ucs += uc.toString() + "\n";
+        }
+        return ucs;
     }
 }

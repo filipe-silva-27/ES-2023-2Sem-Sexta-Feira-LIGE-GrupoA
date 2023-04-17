@@ -2,6 +2,7 @@ package models;
 
 import java.time.LocalTime;
 import java.util.Date;
+import java.util.Objects;
 
 public class DataAula {
     private final DiaSemana diaSemana;
@@ -30,5 +31,31 @@ public class DataAula {
 
     public Date getData() {
         return data;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof DataAula)) return false;
+        DataAula dataAula = (DataAula) o;
+        return diaSemana == dataAula.diaSemana &&
+                horaInicio.equals(dataAula.horaInicio) &&
+                horaFim.equals(dataAula.horaFim) &&
+                data.equals(dataAula.data);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(diaSemana, horaInicio, horaFim, data);
+    }
+
+    @Override
+    public String toString() {
+        return "DataAula{" +
+                "diaSemana=" + diaSemana +
+                ", horaInicio=" + horaInicio +
+                ", horaFim=" + horaFim +
+                ", data=" + data +
+                '}';
     }
 }

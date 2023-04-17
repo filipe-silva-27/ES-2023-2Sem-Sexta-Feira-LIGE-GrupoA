@@ -1,6 +1,8 @@
 package models;
 
+import java.util.HashSet;
 import java.util.Set;
+import java.util.TreeSet;
 
 
 /**
@@ -16,13 +18,28 @@ public class UnidadeCurricular {
     /**
      * Método construtor da Unidade Curricular
      * @param nome Nome da Unidade Curricular
-     * @param cursos cursos que contém esta UC
-     * @param turnos turnos que contém esta UC
      */
-    public UnidadeCurricular(String nome, Set<Curso> cursos, Set<Turno> turnos) {
+    public UnidadeCurricular(String nome) {
         this.nome = nome;
-        this.cursos = cursos;
-        this.turnos = turnos;
+        this.cursos = new HashSet<>();
+        this.turnos = new HashSet<>();
+    }
+
+    public boolean addCurso(Curso curso){
+        return cursos.add(curso);
+    }
+
+    public boolean addTurno(Turno turno){
+        return turnos.add(turno);
+    }
+
+    public Turno getTurnoPorNome(String nome) {
+        for (Turno turno : turnos) {
+            if (turno.getIdTurno().equals(nome)) {
+                return turno;
+            }
+        }
+        return null;
     }
 
     public String getNome() {
