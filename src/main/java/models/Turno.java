@@ -17,6 +17,10 @@ public class Turno {
         this.aulas = new TreeSet<>();
     }
 
+    public boolean addAula(Aula aula){
+        return aulas.add(aula);
+    }
+
     public String getIdTurno() {
         return idTurno;
     }
@@ -35,5 +39,24 @@ public class Turno {
 
     public void setAulas(Set<Aula> aulas) {
         this.aulas = aulas;
+    }
+
+    public Aula getAulaBy(final DataAula dataAula, final Sala salaAula) {
+        for (Aula aula : aulas) {
+            if (aula.getDataAula().equals(dataAula) && aula.getSala().equals(salaAula)) {
+                return aula;
+            }
+        }
+        return null;
+    }
+
+    @Override
+    public String toString() {
+        return "Turno{" +
+                "idTurno='" + idTurno + '\'' +
+                ", turmas='" + turmas + '\'' +
+                ", numInscritos=" + numInscritos +
+                ", aulas=" + aulas +
+                '}';
     }
 }

@@ -16,4 +16,10 @@ public class Curso {
         this.nome = nome;
     }
 
+    @Override
+    public String toString() {
+        return "Curso{" +
+                "nome='" + nome + '\'' +
+                '}';
+    }
 }
