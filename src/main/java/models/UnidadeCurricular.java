@@ -1,74 +1,52 @@
 package models;
 
-import java.util.HashSet;
-import java.util.Set;
-import java.util.TreeSet;
+import java.util.*;
 
 
-/**
- * Modelo para representar as Unidades Curriculares,
- * é a classe que englobará todos os outros modelos.
- */
 public class UnidadeCurricular {
 
-    private String nome;
-    private Set<Curso> cursos; //  cursos que contém esta UC
-    private Set<Turno> turnos; //  turnos que contém esta UC
+    private String curso;
+    private String nomeUC;
+    private List<Aula> aulas;
 
-    /**
-     * Método construtor da Unidade Curricular
-     * @param nome Nome da Unidade Curricular
-     */
-    public UnidadeCurricular(String nome) {
-        this.nome = nome;
-        this.cursos = new HashSet<>();
-        this.turnos = new HashSet<>();
+    public UnidadeCurricular(String curso, String nomeUC) {
+        this.curso = curso;
+        this.nomeUC = nomeUC;
+        this.aulas = new ArrayList<>();
     }
 
-    public boolean addCurso(Curso curso){
-        return cursos.add(curso);
+    public String getCurso() {
+        return curso;
     }
 
-    public boolean addTurno(Turno turno){
-        return turnos.add(turno);
+    public String getNomeUC() {
+        return nomeUC;
     }
 
-    public Turno getTurnoPorNome(String nome) {
-        for (Turno turno : turnos) {
-            if (turno.getIdTurno().equals(nome)) {
-                return turno;
-            }
-        }
-        return null;
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        UnidadeCurricular that = (UnidadeCurricular) o;
+        return Objects.equals(curso, that.curso) && Objects.equals(nomeUC, that.nomeUC);
     }
 
-    public String getNome() {
-        return nome;
+    @Override
+    public int hashCode() {
+        return Objects.hash(curso, nomeUC);
     }
 
-    public void setNome(final String nome) {
-        this.nome = nome;
-    }
-
-    public Set<Curso> getCursos() {
-        return cursos;
-    }
-
-    public void setCursos(final Set<Curso> cursos) {
-        this.cursos = cursos;
-    }
-
-    public Set<Turno> getTurnos() {
-        return turnos;
-    }
-
-    public void setTurnos(final Set<Turno> turnos) {
-        this.turnos = turnos;
+    public boolean addAula(Aula aula){
+        return aulas.add(aula);
     }
 
     @Override
     public String toString() {
-        return "UnidadeCurricular{" + "nome=" + nome + ", cursos=" + cursos + ", turnos=" + turnos + '}';
+        return "UnidadeCurricular{" +
+                "curso='" + curso + '\'' +
+                ", nomeUC='" + nomeUC + '\'' +
+                ", aulas=" + aulas +
+                '}';
     }
 
 }

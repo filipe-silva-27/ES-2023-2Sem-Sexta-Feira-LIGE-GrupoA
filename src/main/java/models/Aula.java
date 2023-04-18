@@ -1,18 +1,22 @@
 package models;
 
-import java.time.LocalTime;
-import java.util.Comparator;
-import java.util.Date;
 import java.util.Objects;
 
 public class Aula implements Comparable<Aula>{
 
-    private DataAula dataAula;
-    private Sala sala;
+    private String turno;
+    private String turma;
+    private Integer numInscritos;
+    private DataAula dataAula = null;
+    private String sala;
+    private Integer lotacao;
 
-    public Aula(DataAula dataAula, Sala sala) {
-        this.dataAula = dataAula;
+    public Aula(String turno, String turma, Integer numInscritos,String sala, Integer lotacao) {
+        this.turno = turno;
+        this.turma = turma;
+        this.numInscritos = numInscritos;
         this.sala = sala;
+        this.lotacao = lotacao;
     }
 
     public DataAula getDataAula() {
@@ -23,13 +27,6 @@ public class Aula implements Comparable<Aula>{
         this.dataAula = dataAula;
     }
 
-    public Sala getSala() {
-        return sala;
-    }
-
-    public void setSala(Sala sala) {
-        this.sala = sala;
-    }
 
     @Override
     public int compareTo(Aula o) {
@@ -43,9 +40,14 @@ public class Aula implements Comparable<Aula>{
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (!(o instanceof Aula)) return false;
-        Aula that = (Aula) o;
-        return Objects.equals(dataAula, that.dataAula) && Objects.equals(sala, that.sala);
+        if (o == null || getClass() != o.getClass()) return false;
+        Aula aula = (Aula) o;
+        return Objects.equals(turno, aula.turno) &&
+                Objects.equals(turma, aula.turma) &&
+                Objects.equals(numInscritos, aula.numInscritos) &&
+                Objects.equals(dataAula, aula.dataAula) &&
+                Objects.equals(sala, aula.sala) &&
+                Objects.equals(lotacao, aula.lotacao);
     }
 
     @Override
@@ -56,9 +58,12 @@ public class Aula implements Comparable<Aula>{
     @Override
     public String toString() {
         return "Aula{" +
-                "dataAula=" + dataAula +
-                ", sala=" + sala.getNome() +
+                "turno='" + turno + '\'' +
+                ", turma='" + turma + '\'' +
+                ", numInscritos=" + numInscritos +
+                ", dataAula=" + dataAula +
+                ", sala='" + sala + '\'' +
+                ", lotacao=" + lotacao +
                 '}';
     }
-
 }
