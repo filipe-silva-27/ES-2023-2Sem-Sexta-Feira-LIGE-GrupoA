@@ -23,6 +23,10 @@ public class UnidadeCurricular {
         return nomeUC;
     }
 
+    public List<Aula> getAulas() {
+        return aulas;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

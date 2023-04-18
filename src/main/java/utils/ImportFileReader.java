@@ -45,7 +45,7 @@ public class ImportFileReader {
     public UnidadeCurricular criaUC(String curso, String unidadeCurricular){
         UnidadeCurricular uc = new UnidadeCurricular(curso, unidadeCurricular);
         if(!horario.addUnidadeCurricular(uc)){
-            uc = horario.getUnidadeCurricularByNome(uc);
+            uc = horario.getUnidadeCurricular(uc);
         }
         return uc;
     }
