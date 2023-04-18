@@ -21,6 +21,10 @@ public class Aula implements Comparable<Aula>{
         this.lotacao = lotacao;
     }
 
+    public UnidadeCurricular getUc() {
+        return uc;
+    }
+
     public DataAula getDataAula() {
         return dataAula;
     }

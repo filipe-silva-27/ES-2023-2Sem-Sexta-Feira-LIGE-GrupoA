@@ -20,26 +20,19 @@ public class ShowScheduleController extends ViewController{
         logger.info("- inicializado com sucesso.");
     }
 
-    public Map<UnidadeCurricular, List<Aula>> getAulas() {
-        Map<UnidadeCurricular, List<Aula>> aulasMap = new HashMap<>();
+    public List<Aula> getAulas() {
+        List<Aula> aulaList = new ArrayList<>();
         if (isHorarioSet()) {
             for(UnidadeCurricular uc : getHorario().getUnidadesCurriculares()){
                 List<Aula> aulasAux = uc.getAulas();
-                Collections.sort(aulasAux);
-                aulasMap.put(uc, aulasAux);
+                aulaList.addAll(aulasAux);
             }
         }
-
-        // Debug the map contents
-        for (Map.Entry<UnidadeCurricular, List<Aula>> entry : aulasMap.entrySet()) {
-            UnidadeCurricular uc = entry.getKey();
-            List<Aula> aulas = entry.getValue();
-            for (Aula a : aulas) {
-                logger.debug("Unidade Curricular: " + uc.getNomeUC() + " " + a.getTurno() + " " + a.getDataAula().toString());
-            }
+        Collections.sort(aulaList);
+        for(Aula a : aulaList){
+            logger.debug(a.getUc().getNomeUC() + " | " + a.getDataAula().toString());
         }
-
-        return aulasMap;
+        return aulaList;
     }
 
 

@@ -34,7 +34,7 @@ public class UploadFilesController extends ViewController{
             if(isFileUploaded()){
                 logger.debug(String.valueOf(getHorario().getFile()));
                 ImportFileReader importFileReader = new ImportFileReader();
-                setHorario(importFileReader.CSVtoHorario(getHorario().getFile()));
+                setHorario(importFileReader.csvToHorario(getHorario().getFile()));
                 showMainMenuView();
             }else{
                 showUploadFilesView();
@@ -53,7 +53,7 @@ public class UploadFilesController extends ViewController{
         if(isFileUploaded()){
             logger.debug(String.valueOf(getHorario().getFile()));
             ImportFileReader importFileReader = new ImportFileReader();
-            setHorario(importFileReader.CSVtoHorario(getHorario().getFile()));
+            setHorario(importFileReader.csvToHorario(getHorario().getFile()));
             showMainMenuView();
         }else{
             showUploadFilesView();

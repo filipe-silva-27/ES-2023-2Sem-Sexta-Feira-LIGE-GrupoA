@@ -83,23 +83,28 @@ public class ImportFileReader {
             String[] recrd;
             csvReader.readNext(); // skip header
             while ((recrd = csvReader.readNext()) != null) {
+                try{
+                    String unidadeCurricular = recrd[1];
+                    String curso = recrd[0];
+                    String turno = recrd[2];
+                    String turma = recrd[3];
+                    String diaDaSemana = recrd[5];
+                    String horaInicio = recrd[6];
+                    String horaFim = recrd[7];
+                    String data = recrd[8];
+                    String sala = recrd[9];
 
-                String unidadeCurricular = recrd[1];
-                String curso = recrd[0];
-                String turno = recrd[2];
-                String turma = recrd[3];
-                String diaDaSemana = recrd[5];
-                String horaInicio = recrd[6];
-                String horaFim = recrd[7];
-                String data = recrd[8];
-                String sala = recrd[9];
+                    Integer inscritos = Integer.parseInt(recrd[4]);
+                    Integer lotacao = Integer.parseInt(recrd[10]);
 
-                Integer inscritos = Integer.parseInt(recrd[4]);
-                Integer lotacao = Integer.parseInt(recrd[10]);
+                    if (unidadeCurricular.equals("") || horaInicio.equals("") || horaFim.equals("") || data.equals("") || diaDaSemana.equals("") ) continue;
 
-                if (unidadeCurricular.equals("") || horaInicio.equals("") || horaFim.equals("") || data.equals("") || diaDaSemana.equals("") ) continue;
-
-                criaHorario(unidadeCurricular, curso, turno, turma, diaDaSemana, horaInicio, horaFim, data, sala, inscritos, lotacao);
+                    criaHorario(unidadeCurricular, curso, turno,
+                            turma, diaDaSemana, horaInicio,
+                            horaFim, data, sala, inscritos, lotacao);
+                }catch (Exception e){
+                    logger.error(String.valueOf(e));
+                }
             }
             logger.info("Lines read: " + csvReader.getLinesRead());
 
