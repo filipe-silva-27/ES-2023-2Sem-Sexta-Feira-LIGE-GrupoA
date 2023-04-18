@@ -2,13 +2,15 @@ package utils;
 
 import com.opencsv.CSVReader;
 import com.opencsv.exceptions.CsvValidationException;
-import controllers.ViewController;
 import models.*;
-import org.apache.commons.csv.CSVRecord;
+import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.lang.management.ManagementFactory;
@@ -86,37 +88,6 @@ public class CSVFileReader {
         return t;
     }
 
-    public Horario CSVtoHorarioTeste() {
-                // process each recrd here
-//                String unidadeCurricular = recrd.get(1);
-//                String curso = recrd.get(0);
-//                String turno = recrd.get(2);
-//                String turma = recrd.get(3);
-//                String diaDaSemana = recrd.get(5);
-//                String horaInicio = recrd.get(6);
-//                String horaFim = recrd.get(7);
-//                String data = recrd.get(8);
-//                String sala = recrd.get(9);
-//                Integer inscritos = Integer.parseInt(recrd.get(4));
-
-        String unidadeCurricular = "Fundamentos de Arquitetura de Computadores";
-        String curso = "LETI, LEI, LEI-PL, LIGE, LIGE-PL";
-        String turno = "L0705TP23";
-        String turma = "ET-A9, ET-A8, ET-A7, ET-A12, ET-A11, ET-A10";
-        String diaDaSemana = "Sex";
-        String horaInicio = "13:00:00";
-        String horaFim = "14:30:00";
-        String data = "09/12/2022";
-        String sala = "C5.06";
-        Integer inscritos = Integer.parseInt("70");
-
-        UnidadeCurricular uc = criaUC(unidadeCurricular);
-        criaCursos(uc, curso);
-        Turno turnoObject = criaTurno(uc,turno, turma, inscritos);
-        criaAula(turnoObject, inscritos, diaDaSemana, horaInicio, horaFim, data, sala);
-        return horario;
-    }
-
 
     public Horario CSVtoHorario (File fileCSV) {
         try (FileReader reader = new FileReader(fileCSV);
@@ -160,5 +131,94 @@ public class CSVFileReader {
         return horario;
     }
 
+    public Horario JSONtoHorario(File jsonFile){
+        try (FileReader reader = new FileReader(jsonFile)){
+            Object o = new JSONParser().parse(reader);
+
+            //debug
+            o = new JSONParser().parse(new FileReader("C:\\Users\\Public\\horarioMiniExemplo.json"));
+
+            JSONArray jArray = (JSONArray) o;
+
+            for (Object doc: jArray) {
+
+                JSONObject jsonDoc = (JSONObject) doc;
+
+                String curso = (String) jsonDoc.get("﻿Curso");
+                String unidadeCurricular = (String) jsonDoc.get("Unidade Curricular");
+                String turno = (String) jsonDoc.get("Turno");
+                String turma = (String) jsonDoc.get("Turma");
+                Integer inscritos = ((Long) jsonDoc.get("Inscritos no turno")).intValue();
+                String diaDaSemana = (String) jsonDoc.get("Dia da semana");
+                String horaInicio = (String) jsonDoc.get("Hora inÃ\u00ADcio da aula");
+                String horaFim = (String)  jsonDoc.get("Hora fim da aula");
+                String data = (String) jsonDoc.get("Data da aula");
+                String sala = (String) jsonDoc.get("Sala atribuÃ\u00ADda Ã  aula");
+                Integer lotacao =((Long) jsonDoc.get("LotaÃ§Ã£o da sala")).intValue();
+
+
+                logger.debug("Curso: " + curso);
+                logger.debug("uc: " + unidadeCurricular);
+                logger.debug("turno: " +turno);
+                logger.debug("inscritos: " + inscritos);
+                logger.debug("dia: " + diaDaSemana);
+                logger.debug("horaIni: " + horaInicio);
+                logger.debug("horaFim: " + horaFim);
+                logger.debug("data: " + data);
+                logger.debug("sala: " + sala);
+                logger.debug("lotacao: " + lotacao);
+
+
+
+                UnidadeCurricular uc = criaUC(unidadeCurricular);
+                criaCursos(uc, curso);
+                Turno turnoObject = criaTurno(uc,turno, turma, inscritos);
+                criaAula(turnoObject, inscritos, diaDaSemana, horaInicio, horaFim, data, sala);
+
+            }
+            // debug logger
+            MemoryMXBean memBean = ManagementFactory.getMemoryMXBean();
+            MemoryUsage heapUsage = memBean.getHeapMemoryUsage();
+            ThreadMXBean threadMXBean = ManagementFactory.getThreadMXBean();
+            long cpuTime = threadMXBean.getCurrentThreadCpuTime() / 1_000_000; // convert to milliseconds
+            logger.debug("Memory usage: " + heapUsage.getUsed() / (1024 * 1024) + "MB");
+            logger.debug("CPU time: " + cpuTime + "ms");
+        } catch (org.json.simple.parser.ParseException | IOException ex) {
+            throw new RuntimeException(ex);
+        }
+        return horario;
+    }
+
+
+    /*public Horario CSVtoHorarioTeste() {
+        // process each recrd here
+//                String unidadeCurricular = recrd.get(1);
+//                String curso = recrd.get(0);
+//                String turno = recrd.get(2);
+//                String turma = recrd.get(3);
+//                String diaDaSemana = recrd.get(5);
+//                String horaInicio = recrd.get(6);
+//                String horaFim = recrd.get(7);
+//                String data = recrd.get(8);
+//                String sala = recrd.get(9);
+//                Integer inscritos = Integer.parseInt(recrd.get(4));
+
+        String unidadeCurricular = "Fundamentos de Arquitetura de Computadores";
+        String curso = "LETI, LEI, LEI-PL, LIGE, LIGE-PL";
+        String turno = "L0705TP23";
+        String turma = "ET-A9, ET-A8, ET-A7, ET-A12, ET-A11, ET-A10";
+        String diaDaSemana = "Sex";
+        String horaInicio = "13:00:00";
+        String horaFim = "14:30:00";
+        String data = "09/12/2022";
+        String sala = "C5.06";
+        Integer inscritos = Integer.parseInt("70");
+
+        UnidadeCurricular uc = criaUC(unidadeCurricular);
+        criaCursos(uc, curso);
+        Turno turnoObject = criaTurno(uc,turno, turma, inscritos);
+        criaAula(turnoObject, inscritos, diaDaSemana, horaInicio, horaFim, data, sala);
+        return horario;
+    }*/
 }
 

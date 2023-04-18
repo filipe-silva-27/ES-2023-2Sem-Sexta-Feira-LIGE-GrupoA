@@ -61,7 +61,8 @@ public class ConvertController extends ViewController{
      */
     public void convertJSONtoCSV(){
         if(isFileUploaded()){
-            //TODO chamar funcao de converter JSON para CSV
+            CSVFileReader csvReader = new CSVFileReader();
+            setHorario(csvReader.JSONtoHorario(getHorario().getFile()));
             logger.info("Conversão JSON para CSV");
         }else{
             JOptionPane.showMessageDialog(contentPane, "Por favor faça upload de um ficheiro primeiro!",
