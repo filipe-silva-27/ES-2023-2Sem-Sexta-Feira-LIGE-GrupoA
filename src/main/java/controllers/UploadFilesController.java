@@ -5,13 +5,10 @@ import models.Horario;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import utils.FileDownloader;
+import utils.ImportFileReader;
 
 import javax.swing.*;
 import javax.swing.filechooser.FileNameExtensionFilter;
-import java.lang.management.ManagementFactory;
-import java.lang.management.MemoryMXBean;
-import java.lang.management.MemoryUsage;
-import java.lang.management.ThreadMXBean;
 
 public class UploadFilesController extends ViewController{
 
@@ -26,21 +23,21 @@ public class UploadFilesController extends ViewController{
      * Função que trata do carregamento do ficheiro local
      */
     public void importLocalFile() {
-        //TODO só aceitar CSV para o converter CSV to JSON
-        //TODO só aceitar JSON para o converter JSON to CSV
-        // Abrir um seletor de ficheiros
         JFileChooser fileChooser = new JFileChooser();
         fileChooser.setFileFilter(new FileNameExtensionFilter("CSV and JSON Files", "csv", "json"));
         int result = fileChooser.showOpenDialog(frame);
         if (result == JFileChooser.APPROVE_OPTION) {
             // Obter o ficheiro selecionado
-            //TODO alterar
-            setHorario(new Horario(" "));
+            setHorario(new Horario("H1"));
             getHorario().setFile(fileChooser.getSelectedFile());
-            logger.debug(String.valueOf(getHorario().getFile()));
+            //TODO chamar a funcao correspondente, caso seja CSV ou JSON
             if(isFileUploaded()){
-                //TODO Carregar objeto horário
+                logger.debug(String.valueOf(getHorario().getFile()));
+                ImportFileReader importFileReader = new ImportFileReader();
+                setHorario(importFileReader.csvToHorario(getHorario().getFile()));
                 showMainMenuView();
+            }else{
+                showUploadFilesView();
             }
         }
     }
@@ -51,14 +48,17 @@ public class UploadFilesController extends ViewController{
     public void importRemoteFile()  {
         //TODO alterar
         setHorario(new Horario(" "));
-        String url = JOptionPane.showInputDialog(frame,
-                "Introduza o link do ficheiro");
         getHorario().setFile(FileDownloader.downloadRemoteFile());
-        if(isFileUploaded()) {
-            //TODO Carregar objeto horário
-            // Mostrar view de menu
+        //TODO chamar a funcao correspondente, caso seja CSV ou JSON
+        if(isFileUploaded()){
+            logger.debug(String.valueOf(getHorario().getFile()));
+            ImportFileReader importFileReader = new ImportFileReader();
+            setHorario(importFileReader.csvToHorario(getHorario().getFile()));
             showMainMenuView();
+        }else{
+            showUploadFilesView();
         }
+
     }
 
 }

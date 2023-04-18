@@ -4,6 +4,7 @@ import java.util.Objects;
 
 public class Aula implements Comparable<Aula>{
 
+    private UnidadeCurricular uc;
     private String turno;
     private String turma;
     private Integer numInscritos;
@@ -11,12 +12,17 @@ public class Aula implements Comparable<Aula>{
     private String sala;
     private Integer lotacao;
 
-    public Aula(String turno, String turma, Integer numInscritos,String sala, Integer lotacao) {
+    public Aula(UnidadeCurricular uc,String turno, String turma, Integer numInscritos,String sala, Integer lotacao) {
+        this.uc = uc;
         this.turno = turno;
         this.turma = turma;
         this.numInscritos = numInscritos;
         this.sala = sala;
         this.lotacao = lotacao;
+    }
+
+    public UnidadeCurricular getUc() {
+        return uc;
     }
 
     public DataAula getDataAula() {
@@ -27,6 +33,25 @@ public class Aula implements Comparable<Aula>{
         this.dataAula = dataAula;
     }
 
+    public String getTurno() {
+        return turno;
+    }
+
+    public String getTurma() {
+        return turma;
+    }
+
+    public Integer getNumInscritos() {
+        return numInscritos;
+    }
+
+    public String getSala() {
+        return sala;
+    }
+
+    public Integer getLotacao() {
+        return lotacao;
+    }
 
     @Override
     public int compareTo(Aula o) {

@@ -4,7 +4,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.File;
-import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -31,13 +30,26 @@ public class Horario {
         return unidadesCurriculares.add(uc);
     }
 
-    public UnidadeCurricular getUnidadeCurricularByNome(UnidadeCurricular o){
+    public UnidadeCurricular getUnidadeCurricularByNome(String nome){
+        for(UnidadeCurricular uc: unidadesCurriculares){
+            if(uc.getNomeUC().equals(nome)){
+                return uc;
+            }
+        }
+        return null;
+    }
+
+    public UnidadeCurricular getUnidadeCurricular(UnidadeCurricular o){
         for(UnidadeCurricular uc: unidadesCurriculares){
             if(uc.equals(o)){
                 return uc;
             }
         }
         return null;
+    }
+
+    public Set<UnidadeCurricular> getUnidadesCurriculares() {
+        return unidadesCurriculares;
     }
 
     public String getName() {

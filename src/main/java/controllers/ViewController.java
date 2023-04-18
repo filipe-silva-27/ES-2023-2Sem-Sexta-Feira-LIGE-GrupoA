@@ -41,13 +41,17 @@ public class ViewController {
         return getHorario().getFile() != null;
     }
 
+    public boolean isHorarioSet(){
+        return getHorario() != null;
+    }
+
     public App getApp() {
         return app;
     }
 
     //TODO - implementar
     public void exportSchedule(){
-        if(isFileUploaded()){
+        if(isHorarioSet()){
             File fileFrom = getHorario().getFile();
             JFileChooser fileChooser = new JFileChooser();
             int result = fileChooser.showSaveDialog(null);
@@ -83,7 +87,7 @@ public class ViewController {
     }
 
     public void showMainMenuView(){
-        if(isFileUploaded()){
+        if(isHorarioSet()){
             cardLayout.show(contentPane, App.MAIN_MENU);
         }else {
             cardLayout.show(contentPane, App.UPLOAD_MENU);
@@ -91,7 +95,7 @@ public class ViewController {
     }
 
     public void showShowScheduleView(){
-        if(isFileUploaded()){
+        if(isHorarioSet()){
             cardLayout.show(contentPane, App.SHOW_SCHEDULE_MENU);
         }else {
             cardLayout.show(contentPane, App.UPLOAD_MENU);
