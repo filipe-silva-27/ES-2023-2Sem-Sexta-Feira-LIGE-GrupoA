@@ -29,7 +29,7 @@ import static java.lang.System.*;
 
 public class CSVFileReader {
 
-    private Horario horario = new Horario("");
+    /*private Horario horario = new Horario("");
     private static final Logger logger = LoggerFactory.getLogger(CSVFileReader.class);
 
 
@@ -188,7 +188,7 @@ public class CSVFileReader {
         }
         return horario;
     }
-
+*/
 
     /*public Horario CSVtoHorarioTeste() {
         // process each recrd here
