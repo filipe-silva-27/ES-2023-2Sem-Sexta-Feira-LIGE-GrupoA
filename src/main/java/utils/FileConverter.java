@@ -1,19 +1,25 @@
 package utils;
 
-import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.dataformat.csv.CsvSchema;
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
-import com.opencsv.CSVReader;
-import com.opencsv.CSVWriter;
-import com.opencsv.exceptions.CsvException;
-
-import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
+
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.opencsv.CSVReader;
+import com.opencsv.exceptions.CsvException;
+
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.dataformat.csv.CsvSchema;
+import com.opencsv.CSVWriter;
+
+import java.io.File;
+import java.util.Iterator;
 
 /**
  * Classe utilitaria com metodos para converter ficheiros CSV para JSON e JSON para CSV.
@@ -54,6 +60,7 @@ public class FileConverter {
             // Escrever ficheiro JSON
             writer.write(json);
 
+            //return jsonFile;
         } catch (IOException | CsvException e) {
             e.printStackTrace();
         }

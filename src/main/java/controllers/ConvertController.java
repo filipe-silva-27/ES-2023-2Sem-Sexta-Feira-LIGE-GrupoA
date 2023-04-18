@@ -3,11 +3,9 @@ package controllers;
 import gui.App;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import utils.FileConverter;
+import utils.ImportFileReader;
 
 import javax.swing.*;
-
-import static java.lang.System.*;
 
 public class ConvertController extends ViewController{
 
@@ -27,7 +25,10 @@ public class ConvertController extends ViewController{
         if(isFileUploaded()){
             //TODO chamar funcao de converter CSV para JSON
             logger.info("Conversão CSV to JSON");
+            ImportFileReader csvReader = new ImportFileReader();
+            setHorario(csvReader.csvToHorario(getHorario().getFile()));
             //FileConverter.convertCSVTOJSON(getSchedule().getFile());
+            //logger.debug(getHorario().toString());
         }else{
             JOptionPane.showMessageDialog(contentPane, "Por favor faça upload de um ficheiro primeiro!",
                     "Error", JOptionPane.ERROR_MESSAGE);
@@ -37,10 +38,12 @@ public class ConvertController extends ViewController{
 
     /**
      * Função que faz a conversão de JSON para CSV
+     * @deprecated
      */
     public void convertJSONtoCSV(){
         if(isFileUploaded()){
-            //TODO chamar funcao de converter JSON para CSV
+            ImportFileReader csvReader = new ImportFileReader();
+            setHorario(csvReader.jsonToHorario(getHorario().getFile()));
             logger.info("Conversão JSON para CSV");
         }else{
             JOptionPane.showMessageDialog(contentPane, "Por favor faça upload de um ficheiro primeiro!",

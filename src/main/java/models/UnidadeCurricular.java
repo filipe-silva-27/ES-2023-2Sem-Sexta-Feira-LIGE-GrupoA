@@ -1,19 +1,56 @@
 package models;
 
-import java.util.List;
+import java.util.*;
+
 
 public class UnidadeCurricular {
 
-    private String nome;
-    private List<AulaTurno> aulas;
+    private String curso;
+    private String nomeUC;
+    private List<Aula> aulas;
 
-    public List<AulaTurno> getAulas() {
+    public UnidadeCurricular(String curso, String nomeUC) {
+        this.curso = curso;
+        this.nomeUC = nomeUC;
+        this.aulas = new ArrayList<>();
+    }
+
+    public String getCurso() {
+        return curso;
+    }
+
+    public String getNomeUC() {
+        return nomeUC;
+    }
+
+    public List<Aula> getAulas() {
         return aulas;
     }
 
-    public void addAula(AulaTurno cls) {
-        aulas.add(cls);
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        UnidadeCurricular that = (UnidadeCurricular) o;
+        return Objects.equals(curso, that.curso) && Objects.equals(nomeUC, that.nomeUC);
     }
 
+    @Override
+    public int hashCode() {
+        return Objects.hash(curso, nomeUC);
+    }
+
+    public boolean addAula(Aula aula){
+        return aulas.add(aula);
+    }
+
+    @Override
+    public String toString() {
+        return "UnidadeCurricular{" +
+                "curso='" + curso + '\'' +
+                ", nomeUC='" + nomeUC + '\'' +
+                ", aulas=" + aulas +
+                '}';
+    }
 
 }
