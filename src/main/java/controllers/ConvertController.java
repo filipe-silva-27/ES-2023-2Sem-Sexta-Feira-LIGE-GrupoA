@@ -3,7 +3,7 @@ package controllers;
 import gui.App;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import utils.CSVFileReader;
+import utils.ImportFileReader;
 
 import javax.swing.*;
 import java.lang.management.ManagementFactory;
@@ -23,23 +23,16 @@ public class ConvertController extends ViewController{
 
     /**
      * Função que faz a conversão de CSV para JSON
-     * @deprecated
      */
     public void convertCSVtoJSON(){
         //TODO chamar convert(uploadedFile); ~Torgo
         if(isFileUploaded()){
             //TODO chamar funcao de converter CSV para JSON
             logger.info("Conversão CSV to JSON");
-            CSVFileReader csvReader = new CSVFileReader();
+            ImportFileReader csvReader = new ImportFileReader();
             setHorario(csvReader.CSVtoHorario(getHorario().getFile()));
-            // debug logger
-            MemoryMXBean memBean = ManagementFactory.getMemoryMXBean();
-            MemoryUsage heapUsage = memBean.getHeapMemoryUsage();
-            ThreadMXBean threadMXBean = ManagementFactory.getThreadMXBean();
-            long cpuTime = threadMXBean.getCurrentThreadCpuTime() / 1_000_000; // convert to milliseconds
-            logger.debug("\n\n\nFinished setting Horario Object");
-            logger.debug("Memory usage: " + heapUsage.getUsed() / (1024 * 1024) + "MB");
-            logger.debug("CPU time: " + cpuTime + "ms");
+            //FileConverter.convertCSVTOJSON(getSchedule().getFile());
+            //logger.debug(getHorario().toString());
         }else{
             JOptionPane.showMessageDialog(contentPane, "Por favor faça upload de um ficheiro primeiro!",
                     "Error", JOptionPane.ERROR_MESSAGE);
@@ -53,7 +46,8 @@ public class ConvertController extends ViewController{
      */
     public void convertJSONtoCSV(){
         if(isFileUploaded()){
-            //TODO chamar funcao de converter JSON para CSV
+            ImportFileReader csvReader = new ImportFileReader();
+            //setHorario(csvReader.JSONtoHorario(getHorario().getFile()));
             logger.info("Conversão JSON para CSV");
         }else{
             JOptionPane.showMessageDialog(contentPane, "Por favor faça upload de um ficheiro primeiro!",
