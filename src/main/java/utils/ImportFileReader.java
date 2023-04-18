@@ -3,9 +3,6 @@ package utils;
 import com.opencsv.CSVReader;
 import com.opencsv.exceptions.CsvValidationException;
 import models.*;
-import org.json.simple.JSONArray;
-import org.json.simple.JSONObject;
-import org.json.simple.parser.JSONParser;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -33,6 +30,8 @@ public class ImportFileReader {
         try {
             DateTimeFormatter timeFormatter = DateTimeFormatter.ofPattern("HH:mm:ss");
             Date dataObject = new SimpleDateFormat("dd/MM/yyyy").parse(data);
+            horaInicio = horaInicio.length() == 7 ? "0" + horaInicio : horaInicio;
+            horaFim = horaFim.length() == 7 ? "0" + horaFim : horaFim;
             dataAula = new DataAula(
                     DiaSemana.fromName(diaDaSemana),
                     LocalTime.parse(horaInicio, timeFormatter),
@@ -45,9 +44,9 @@ public class ImportFileReader {
         return dataAula;
     }
 
-    public UnidadeCurricular criaUC(String curso, String unidadeCurricular) {
+    public UnidadeCurricular criaUC(String curso, String unidadeCurricular){
         UnidadeCurricular uc = new UnidadeCurricular(curso, unidadeCurricular);
-        if (!horario.addUnidadeCurricular(uc)) {
+        if(!horario.addUnidadeCurricular(uc)){
             uc = horario.getUnidadeCurricularByNome(uc);
         }
         return uc;
@@ -150,3 +149,4 @@ public class ImportFileReader {
         logger.debug("CPU time: " + cpuTime + "ms");
     }
 }
+
