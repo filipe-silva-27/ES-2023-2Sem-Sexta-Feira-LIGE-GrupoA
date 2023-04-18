@@ -1,6 +1,7 @@
 package gui;
 
 import controllers.*;
+import models.Schedule;
 import views.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -87,4 +88,6 @@ public class App {
         return mainPanel;
     }
 
+    public void setSchedule(Schedule schedule) {
+    }
 }

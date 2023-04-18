@@ -1,7 +1,8 @@
 package utils.uploader;
 
+import models.*;
 import org.apache.commons.io.FileUtils;
-
+import com.google.gson.Gson;
 import java.io.File;
 import java.io.IOException;
 import java.net.HttpURLConnection;
@@ -25,7 +26,7 @@ public class FileUploader {
      */
     public static void uploadFile(File file, String remoteUrl) throws IOException {
 
-        LOGGER.info("Iniciando upload do arquivo " + file.getName() + " para " + remoteUrl);
+        LOGGER.info("A iniciar upload do arquivo " + file.getName() + " para " + remoteUrl);
 
         String fileExtension = getFileExtension(file);
         if (!fileExtension.equalsIgnoreCase("csv") && !fileExtension.equalsIgnoreCase("json")) {
@@ -79,6 +80,64 @@ public class FileUploader {
     }
 
 
+
+    /**
+     * Convert a Horario object to a String in CSV or JSON format
+     *
+     * @param horario the Horario object to be converted
+     * @param format the desired output format, either "csv" or "json"
+     * @return a String containing the converted Horario object in the specified format
+     * @throws IllegalArgumentException if the specified format is not supported
+     */
+    public static String convertHorarioToFormat(Horario horario, String format) {
+        if ("csv".equalsIgnoreCase(format)) {
+            return horarioToCsv(horario);
+        } else if ("json".equalsIgnoreCase(format)) {
+            return horarioToJson(horario);
+        } else {
+            throw new IllegalArgumentException("Formato não suportado: " + format);
+        }
+    }
+
+    /**
+     * Convert a Horario object to a CSV formatted String
+     *
+     * @param horario the Horario object to be converted
+     * @return a CSV formatted String of the Horario object
+     */
+    private static String horarioToCsv(Horario horario) {
+        StringBuilder sb = new StringBuilder();
+        // Add header
+        sb.append("id,startTime,endTime,day,sala,lotacao,uc\n");
+        // Add data
+        for (UnidadeCurricular uc : horario.getUnidadesCurriculares()) {
+            for (Turno turno : uc.getTurnos()) {
+                for (Aula aula : turno.getAulas()) {
+                    sb.append(aula.getDataAula().getDiaSemana().getAbbr()).append(",");
+                    sb.append(aula.getDataAula().getHoraInicio()).append(",");
+                    sb.append(aula.getDataAula().getHoraFim()).append(",");
+                    sb.append(aula.getDataAula().getDiaSemana().getName()).append(",");
+                    sb.append(aula.getSala()).append(",");
+                    sb.append(aula.getLotacao()).append(",");
+                    sb.append(uc.getNome()).append("\n");
+                }
+            }
+        }
+        return sb.toString();
+    }
+
+
+    /**
+     * Convert a Horario object to a JSON formatted String
+     *
+     * @param horario the Horario object to be converted
+     * @return a JSON formatted String of the Horario object
+     */
+    private static String horarioToJson(Horario horario) {
+        Gson gson = new Gson();
+        return gson.toJson(horario);
+    }
+
     public static void main(String[] args) {
         File localFile = new File("path/to/file.csv");
         String remoteUrl = "https://example.com/upload";
@@ -90,3 +149,7 @@ public class FileUploader {
         }
     }
 }
+
+
+
+
