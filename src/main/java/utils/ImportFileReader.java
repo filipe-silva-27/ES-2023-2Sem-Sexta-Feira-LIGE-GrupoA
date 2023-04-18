@@ -30,6 +30,7 @@ public class ImportFileReader {
 
     private DataAula criaDataAula(String diaDaSemana, String horaInicio, String horaFim, String data) {
         DataAula dataAula = null;
+
         try {
             DateTimeFormatter timeFormatter = DateTimeFormatter.ofPattern("HH:mm:ss");
             Date dataObject = new SimpleDateFormat("dd/MM/yyyy").parse(data);
@@ -44,6 +45,7 @@ public class ImportFileReader {
         } catch (ParseException e) {
             logger.error("Erro na conversão da data da aula", e);
         }
+
         return dataAula;
     }
 
@@ -60,6 +62,7 @@ public class ImportFileReader {
         try (FileReader reader = new FileReader(fileCSV);
              CSVReader csvReader = new CSVReader(reader)) {
             String[] recrd;
+            csvReader.readNext(); // skip header
             while ((recrd = csvReader.readNext()) != null) {
 
                 //TODO tratar de quando x elemento é vazio e preencher com vazio
@@ -73,8 +76,11 @@ public class ImportFileReader {
                 String horaFim = recrd[7];
                 String data = recrd[8];
                 String sala = recrd[9];
+
                 Integer inscritos = Integer.parseInt(recrd[4]);
                 Integer lotacao = Integer.parseInt(recrd[10]);
+
+                if (unidadeCurricular.equals("") || horaInicio.equals("") || horaFim.equals("") || data.equals("") || diaDaSemana.equals("") ) continue;
 
                 UnidadeCurricular uc = criaUC(curso, unidadeCurricular);
                 Aula aula = new Aula(turno, turma, inscritos, sala, lotacao);
@@ -116,6 +122,14 @@ public class ImportFileReader {
                 String sala = (String) jsonDoc.get("Sala atribuÃ\u00ADda Ã  aula");
                 Integer lotacao = ((Long) jsonDoc.get("LotaÃ§Ã£o da sala")).intValue();
 
+                if (unidadeCurricular.equals("") || horaInicio.equals("") || horaFim.equals("") || data.equals("") || diaDaSemana.equals("") ) continue;
+
+                UnidadeCurricular uc = criaUC(curso, unidadeCurricular);
+                Aula aula = new Aula(turno, turma, inscritos, sala, lotacao);
+                uc.addAula(aula);
+                DataAula dataAula = criaDataAula(diaDaSemana, horaInicio, horaFim, data);
+                aula.setDataAula(dataAula);
+                uc.addAula(aula);
 
                 logger.debug("Curso: " + curso);
                 logger.debug("uc: " + unidadeCurricular);
@@ -127,13 +141,6 @@ public class ImportFileReader {
                 logger.debug("data: " + data);
                 logger.debug("sala: " + sala);
                 logger.debug("lotacao: " + lotacao);
-
-                UnidadeCurricular uc = criaUC(curso, unidadeCurricular);
-                Aula aula = new Aula(turno, turma, inscritos, sala, lotacao);
-                uc.addAula(aula);
-                DataAula dataAula = criaDataAula(diaDaSemana, horaInicio, horaFim, data);
-                aula.setDataAula(dataAula);
-                uc.addAula(aula);
             }
             // debug logger
             memoryDebug();
@@ -151,5 +158,9 @@ public class ImportFileReader {
         logger.debug("Memory usage: " + heapUsage.getUsed() / (1024 * 1024) + "MB");
         logger.debug("CPU time: " + cpuTime + "ms");
     }
+
+    /*SimpleDateFormat outputFormat = new SimpleDateFormat("dd/MM/yyyy");
+        String dateString = outputFormat.format(dateObject);
+S       System.out.println(dateString);*/
 }
 
