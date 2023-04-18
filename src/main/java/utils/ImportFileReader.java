@@ -127,7 +127,7 @@ public class ImportFileReader {
      */
     private void criaHorario (String unidadeCurricular, String curso, String turno, String turma, String diaDaSemana, String horaInicio,  String horaFim, String data,  String sala,  Integer inscritos, Integer lotacao) {
         UnidadeCurricular uc = criaUC(curso, unidadeCurricular);
-        Aula aula = new Aula(turno, turma, inscritos, sala, lotacao);
+        Aula aula = new Aula(uc,turno, turma, inscritos, sala, lotacao);
         DataAula dataAula = criaDataAula(diaDaSemana, horaInicio, horaFim, data);
         aula.setDataAula(dataAula);
         uc.addAula(aula);
