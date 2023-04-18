@@ -1,9 +1,9 @@
 package utils;
 
-import com.fasterxml.jackson.databind.util.StdDateFormat;
+import com.opencsv.CSVReader;
+import com.opencsv.exceptions.CsvValidationException;
+import controllers.ViewController;
 import models.*;
-import org.apache.commons.csv.CSVFormat;
-import org.apache.commons.csv.CSVParser;
 import org.apache.commons.csv.CSVRecord;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -11,6 +11,10 @@ import org.slf4j.LoggerFactory;
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
+import java.lang.management.ManagementFactory;
+import java.lang.management.MemoryMXBean;
+import java.lang.management.MemoryUsage;
+import java.lang.management.ThreadMXBean;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.format.DateTimeFormatter;
@@ -21,10 +25,11 @@ import java.util.Set;
 
 import static java.lang.System.*;
 
-public class CSVReader {
+public class CSVFileReader {
 
-    private Horario horario = new Horario("Horario");
-    private static final Logger logger = LoggerFactory.getLogger(CSVReader.class);
+    private Horario horario = new Horario("");
+    private static final Logger logger = LoggerFactory.getLogger(CSVFileReader.class);
+
 
     public Aula criaAula(Turno t, int lotacao, String diaDaSemana, String horaInicio, String horaFim, String data,
                          String sala) {
@@ -114,43 +119,45 @@ public class CSVReader {
 
 
     public Horario CSVtoHorario (File fileCSV) {
-        String pathToCsv = "C:\\Users\\Public\\horarioexemplo.csv";
         try (FileReader reader = new FileReader(fileCSV);
-             CSVParser csvParser = new CSVParser(reader, CSVFormat.DEFAULT.builder().setHeader().setSkipHeaderRecord(false).build())) {
-            for (CSVRecord recrd : csvParser) {
-                // process each recrd here
+            CSVReader csvReader = new CSVReader(reader)){
+            String[] headers = csvReader.readNext(); // ler o cabeçalhso
+            String[] recrd;
+            while ((recrd = csvReader.readNext()) != null) {
 
-                String unidadeCurricular = recrd.get(1);
-                String curso = recrd.get(0);
-                String turno = recrd.get(2);
-                String turma = recrd.get(3);
-                String diaDaSemana = recrd.get(5);
-                String horaInicio = recrd.get(6);
-                String horaFim = recrd.get(7);
-                String data = recrd.get(8);
-                String sala = recrd.get(9);
-                Integer inscritos = Integer.parseInt(recrd.get(4));
+                // processar cada registro aqui
+                String unidadeCurricular = recrd[1];
+                String curso = recrd[0];
+                String turno = recrd[2];
+                String turma = recrd[3];
+                String diaDaSemana = recrd[5];
+                String horaInicio = recrd[6];
+                String horaFim = recrd[7];
+                String data = recrd[8];
+                String sala = recrd[9];
+                Integer inscritos = Integer.parseInt(recrd[4]);
 
                 UnidadeCurricular uc = criaUC(unidadeCurricular);
                 criaCursos(uc, curso);
                 Turno turnoObject = criaTurno(uc,turno, turma, inscritos);
                 criaAula(turnoObject, inscritos, diaDaSemana, horaInicio, horaFim, data, sala);
 
-
             }
-        } catch (IOException e) {
+            // debug logger
+            MemoryMXBean memBean = ManagementFactory.getMemoryMXBean();
+            MemoryUsage heapUsage = memBean.getHeapMemoryUsage();
+            ThreadMXBean threadMXBean = ManagementFactory.getThreadMXBean();
+            long cpuTime = threadMXBean.getCurrentThreadCpuTime() / 1_000_000; // convert to milliseconds
+            logger.debug("Memory usage: " + heapUsage.getUsed() / (1024 * 1024) + "MB");
+            logger.debug("CPU time: " + cpuTime + "ms");
+            logger.info("CSV LINES READ:" + String.valueOf(csvReader.getLinesRead()));
+        } catch (IOException | CsvValidationException e) {
             e.printStackTrace();
         } catch (NumberFormatException e) {
             err.println("Invalid integer value in CSV file.");
             e.printStackTrace();
         }
         return horario;
-    }
-
-    public static void main(String[] args) {
-        CSVReader csvReader = new CSVReader();
-        Horario horario = csvReader.CSVtoHorarioTeste();
-        logger.info(horario.toString());
     }
 
 }

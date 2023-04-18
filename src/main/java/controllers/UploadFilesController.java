@@ -8,6 +8,10 @@ import utils.FileDownloader;
 
 import javax.swing.*;
 import javax.swing.filechooser.FileNameExtensionFilter;
+import java.lang.management.ManagementFactory;
+import java.lang.management.MemoryMXBean;
+import java.lang.management.MemoryUsage;
+import java.lang.management.ThreadMXBean;
 
 public class UploadFilesController extends ViewController{
 
@@ -35,7 +39,7 @@ public class UploadFilesController extends ViewController{
             getHorario().setFile(fileChooser.getSelectedFile());
             logger.debug(String.valueOf(getHorario().getFile()));
             if(isFileUploaded()){
-                //TODO Mostrar view de menu
+                //TODO Carregar objeto horário
                 showMainMenuView();
             }
         }
@@ -47,8 +51,11 @@ public class UploadFilesController extends ViewController{
     public void importRemoteFile()  {
         //TODO alterar
         setHorario(new Horario(" "));
+        String url = JOptionPane.showInputDialog(frame,
+                "Introduza o link do ficheiro");
         getHorario().setFile(FileDownloader.downloadRemoteFile());
         if(isFileUploaded()) {
+            //TODO Carregar objeto horário
             // Mostrar view de menu
             showMainMenuView();
         }
