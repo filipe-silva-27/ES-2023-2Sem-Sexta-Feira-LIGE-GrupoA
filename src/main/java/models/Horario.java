@@ -4,13 +4,13 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.File;
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Set;
 
 /**
  * Classe Horario que é o modelo utilizado pela GUI e outras funcionalidades
- * para representar o horário que contém as aulas, turnos, turmas, salas, etc.
- * @since 16/04/2023
+ * @since 18/04/2023
  */
 public class Horario {
     private String name;    // Nome do horário
@@ -27,26 +27,17 @@ public class Horario {
         this.file = null;
     }
 
-    public UnidadeCurricular getUnidadeCurricularPorNome(String nome) {
-        for (UnidadeCurricular uc : unidadesCurriculares) {
-            if (uc.getNome().equals(nome)) {
-                return uc;
-            }
-        }
-        return null;
-    }
-
-
     public boolean addUnidadeCurricular(UnidadeCurricular uc){
         return unidadesCurriculares.add(uc);
     }
 
-    public Set<UnidadeCurricular> getUnidadesCurriculares() {
-        return unidadesCurriculares;
-    }
-
-    public void setUnidadesCurriculares(Set<UnidadeCurricular> unidadesCurriculares) {
-        this.unidadesCurriculares = unidadesCurriculares;
+    public UnidadeCurricular getUnidadeCurricularByNome(UnidadeCurricular o){
+        for(UnidadeCurricular uc: unidadesCurriculares){
+            if(uc.equals(o)){
+                return uc;
+            }
+        }
+        return null;
     }
 
     public String getName() {
