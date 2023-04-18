@@ -4,6 +4,7 @@ import gui.App;
 import models.Horario;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import utils.CSVFileReader;
 import utils.FileDownloader;
 
 import javax.swing.*;
@@ -35,12 +36,25 @@ public class UploadFilesController extends ViewController{
         if (result == JFileChooser.APPROVE_OPTION) {
             // Obter o ficheiro selecionado
             //TODO alterar
-            setHorario(new Horario(" "));
+            setHorario(new Horario("H1"));
             getHorario().setFile(fileChooser.getSelectedFile());
-            logger.debug(String.valueOf(getHorario().getFile()));
             if(isFileUploaded()){
-                //TODO Carregar objeto horário
+                logger.debug(String.valueOf(getHorario().getFile()));
+                //TODO chamar funcao de converter CSV para JSON
+                logger.info("Conversão CSV to JSON");
+                CSVFileReader csvReader = new CSVFileReader();
+                setHorario(csvReader.CSVtoHorario(getHorario().getFile()));
+                // debug logger
+                MemoryMXBean memBean = ManagementFactory.getMemoryMXBean();
+                MemoryUsage heapUsage = memBean.getHeapMemoryUsage();
+                ThreadMXBean threadMXBean = ManagementFactory.getThreadMXBean();
+                long cpuTime = threadMXBean.getCurrentThreadCpuTime() / 1_000_000; // convert to milliseconds
+                logger.debug("\n\n\nFinished setting Horario Object");
+                logger.debug("Memory usage: " + heapUsage.getUsed() / (1024 * 1024) + "MB");
+                logger.debug("CPU time: " + cpuTime + "ms");
                 showMainMenuView();
+            }else{
+                showUploadFilesView();
             }
         }
     }
@@ -51,14 +65,26 @@ public class UploadFilesController extends ViewController{
     public void importRemoteFile()  {
         //TODO alterar
         setHorario(new Horario(" "));
-        String url = JOptionPane.showInputDialog(frame,
-                "Introduza o link do ficheiro");
         getHorario().setFile(FileDownloader.downloadRemoteFile());
-        if(isFileUploaded()) {
-            //TODO Carregar objeto horário
-            // Mostrar view de menu
+        if(isFileUploaded()){
+            logger.debug(String.valueOf(getHorario().getFile()));
+            //TODO chamar funcao de converter CSV para JSON
+            logger.info("Conversão CSV to JSON");
+            CSVFileReader csvReader = new CSVFileReader();
+            setHorario(csvReader.CSVtoHorario(getHorario().getFile()));
+            // debug logger
+            MemoryMXBean memBean = ManagementFactory.getMemoryMXBean();
+            MemoryUsage heapUsage = memBean.getHeapMemoryUsage();
+            ThreadMXBean threadMXBean = ManagementFactory.getThreadMXBean();
+            long cpuTime = threadMXBean.getCurrentThreadCpuTime() / 1_000_000; // convert to milliseconds
+            logger.debug("\n\n\nFinished setting Horario Object");
+            logger.debug("Memory usage: " + heapUsage.getUsed() / (1024 * 1024) + "MB");
+            logger.debug("CPU time: " + cpuTime + "ms");
             showMainMenuView();
+        }else{
+            showUploadFilesView();
         }
+
     }
 
 }

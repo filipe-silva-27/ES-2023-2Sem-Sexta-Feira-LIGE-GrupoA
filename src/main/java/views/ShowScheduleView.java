@@ -1,10 +1,19 @@
 package views;
 
+import controllers.ConvertController;
+import controllers.ShowScheduleController;
+import controllers.UploadFilesController;
 import controllers.ViewController;
+import models.Aula;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import javax.swing.*;
+import java.util.Collections;
+import java.util.Set;
 
 public class ShowScheduleView extends View{
+    private static final Logger logger = LoggerFactory.getLogger(ShowScheduleView.class);
 
     public ShowScheduleView(ViewController viewController) {
         super(viewController);
@@ -14,27 +23,8 @@ public class ShowScheduleView extends View{
     public void initFrame() {
         //TODO implementar a visualização do horário
 
-        String[] columnNames = {"Horário", "Segunda", "Terça", "Quarta", "Quinta", "Sexta"};
-
-        Object[][] data = {
-                {"08:00 - 09:00", "", "", "", "", ""},
-                {"09:00 - 10:00", "", "", "", "", ""},
-                {"10:00 - 11:00", "", "", "", "", ""},
-                {"11:00 - 12:00", "", "", "", "", ""},
-                {"12:00 - 13:00", "", "", "", "", ""},
-                {"13:00 - 14:00", "", "", "", "", ""},
-                {"14:00 - 15:00", "", "", "", "", ""},
-                {"15:00 - 16:00", "", "", "", "", ""},
-                {"16:00 - 17:00", "", "", "", "", ""},
-                {"17:00 - 18:00", "", "", "", "", ""},
-                {"18:00 - 19:00", "", "", "", "", ""},
-                {"19:00 - 20:00", "", "", "", "", ""},
-                {"20:00 - 21:00", "", "", "", "", ""},
-                {"21:00 - 22:00", "", "", "", "", ""}
-        };
-
-        JTable jTable = new JTable(data, columnNames);
-        JScrollPane jScrollPane = new JScrollPane(jTable);
+        JButton showAulas = new JButton("Ver aulas");
+        showAulas.addActionListener(e -> ((ShowScheduleController) viewController).getAulas());
 
         JButton backBtn = new JButton("Voltar");
         backBtn.addActionListener(e -> viewController.showMainMenuView());
@@ -43,11 +33,9 @@ public class ShowScheduleView extends View{
         JButton exportBtn = new JButton("Exportar");
         exportBtn.addActionListener(e -> viewController.exportSchedule());
 
-        //add botao para exportar
-        add(jScrollPane);
+        add(showAulas);
         add(exportBtn);
         add(backBtn);
-
     }
 
 
