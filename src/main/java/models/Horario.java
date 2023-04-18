@@ -48,6 +48,10 @@ public class Horario {
         return null;
     }
 
+    public Set<UnidadeCurricular> getUnidadesCurriculares() {
+        return unidadesCurriculares;
+    }
+
     public String getName() {
         return name;
     }

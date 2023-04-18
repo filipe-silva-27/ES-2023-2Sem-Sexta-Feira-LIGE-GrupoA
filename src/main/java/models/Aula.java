@@ -27,6 +27,25 @@ public class Aula implements Comparable<Aula>{
         this.dataAula = dataAula;
     }
 
+    public String getTurno() {
+        return turno;
+    }
+
+    public String getTurma() {
+        return turma;
+    }
+
+    public Integer getNumInscritos() {
+        return numInscritos;
+    }
+
+    public String getSala() {
+        return sala;
+    }
+
+    public Integer getLotacao() {
+        return lotacao;
+    }
 
     @Override
     public int compareTo(Aula o) {
