@@ -30,6 +30,8 @@ public class ImportFileReader {
         try {
             DateTimeFormatter timeFormatter = DateTimeFormatter.ofPattern("HH:mm:ss");
             Date dataObject = new SimpleDateFormat("dd/MM/yyyy").parse(data);
+            horaInicio = horaInicio.length() == 7 ? "0" + horaInicio : horaInicio;
+            horaFim = horaFim.length() == 7 ? "0" + horaFim : horaFim;
             dataAula = new DataAula(
                     DiaSemana.fromName(diaDaSemana),
                     LocalTime.parse(horaInicio, timeFormatter),
@@ -41,6 +43,7 @@ public class ImportFileReader {
         }
         return dataAula;
     }
+
 
     public UnidadeCurricular criaUC(String curso, String unidadeCurricular){
         UnidadeCurricular uc = new UnidadeCurricular(curso, unidadeCurricular);
