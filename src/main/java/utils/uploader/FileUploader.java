@@ -1,12 +1,26 @@
 package utils.uploader;
 
+import com.google.gson.GsonBuilder;
+import com.opencsv.CSVReader;
+import com.opencsv.CSVWriter;
 import models.*;
 import org.apache.commons.io.FileUtils;
 import com.google.gson.Gson;
+import utils.ImportFileReader;
+
+import javax.swing.*;
 import java.io.File;
+import java.io.FileReader;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.text.SimpleDateFormat;
+import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -85,60 +99,96 @@ public class FileUploader {
      * Convert a Horario object to a String in CSV or JSON format
      *
      * @param horario the Horario object to be converted
-     * @param format the desired output format, either "csv" or "json"
+     * @param writer the FileWriter object to write the converted Horario object
      * @return a String containing the converted Horario object in the specified format
      * @throws IllegalArgumentException if the specified format is not supported
      */
-    public static String convertHorarioToFormat(Horario horario, String format) {
-        if ("csv".equalsIgnoreCase(format)) {
-            return horarioToCsv(horario);
-        } else if ("json".equalsIgnoreCase(format)) {
-            return horarioToJson(horario);
+    public static void convertHorarioToFormat(Horario horario, FileWriter writer) throws IOException {
+        if ("csv".equalsIgnoreCase(getFileExtension(horario.getFile()))) {
+            horarioToCsv(horario, writer);
+        } else if ("json".equalsIgnoreCase(getFileExtension(horario.getFile()))) {
+            horarioToJson(horario, writer);
         } else {
-            throw new IllegalArgumentException("Formato não suportado: " + format);
+            throw new IllegalArgumentException("Formato não suportado: " + getFileExtension(horario.getFile()));
         }
     }
 
     /**
-     * Convert a Horario object to a CSV formatted String
+     * Convert a Horario object to a String in JSON format
      *
      * @param horario the Horario object to be converted
-     * @return a CSV formatted String of the Horario object
+     * @param outputFile the FileWriter object to write the converted Horario object
+     * @return a String containing the converted Horario object in the specified format
      */
-    private static String horarioToCsv(Horario horario) {
-        StringBuilder sb = new StringBuilder();
-        // Add header
-        sb.append("id,startTime,endTime,day,sala,lotacao,uc\n");
-        // Add data
-        for (UnidadeCurricular uc : horario.getUnidadesCurriculares()) {
-            for (Turno turno : uc.getTurnos()) {
-                for (Aula aula : turno.getAulas()) {
-                    sb.append(aula.getDataAula().getDiaSemana().getAbbr()).append(",");
-                    sb.append(aula.getDataAula().getHoraInicio()).append(",");
-                    sb.append(aula.getDataAula().getHoraFim()).append(",");
-                    sb.append(aula.getDataAula().getDiaSemana().getName()).append(",");
-                    sb.append(aula.getSala()).append(",");
-                    sb.append(aula.getLotacao()).append(",");
-                    sb.append(uc.getNome()).append("\n");
+    private static void horarioToCsv(Horario horario, FileWriter outputFile) {
+
+        try {
+
+            // create CSVWriter object filewriter object as parameter
+            CSVWriter writer = new CSVWriter(outputFile, ',',
+                    CSVWriter.NO_QUOTE_CHARACTER,
+                    CSVWriter.DEFAULT_ESCAPE_CHARACTER,
+                    CSVWriter.DEFAULT_LINE_END);
+
+            LOGGER.info("Writing CSV file...");
+
+            // adding header to csv
+            String[] header = { "Curso" ,"Unidade Curricular","Turno","Turma","Inscritos no turno","Dia da semana","Hora inÃ\u00ADcio da aula","Hora fim da aula","Data da aula","Sala atribuÃ\u00ADda Ã  aula","LotaÃ§Ã£o da sala"};
+            writer.writeNext(header);
+
+            // add data to csv
+            for (UnidadeCurricular uc : horario.getUnidadesCurriculares()) {
+                for (Aula aula : uc.getAulas()) {
+                    SimpleDateFormat outputFormat = new SimpleDateFormat("dd/MM/yyyy");
+                    String dateString = outputFormat.format(aula.getDataAula().getData());
+                    DateTimeFormatter timeFormatter = DateTimeFormatter.ofPattern("HH:mm:ss");
+                    String horaInicio = aula.getDataAula().getHoraInicio().format(timeFormatter);
+                    String horaFim = aula.getDataAula().getHoraFim().format(timeFormatter);
+
+                    String[] row = { uc.getCurso() , uc.getNomeUC(), aula.getTurno(), aula.getTurma() , aula.getNumInscritos().toString(),
+                            aula.getDataAula().getDiaSemana().getName(), horaInicio, horaFim, dateString, aula.getSala(), aula.getLotacao().toString()} ;
+                    writer.writeNext(row);
                 }
             }
+            // closing writer connection
+            writer.close();
+            LOGGER.info("CSV file written successfully.");
         }
-        return sb.toString();
+        catch (IOException e) {
+            LOGGER.severe("Error writing CSV file: " + e.getMessage());
+            e.printStackTrace();
+
+        }
     }
 
 
     /**
      * Convert a Horario object to a JSON formatted String
      *
-     * @param horario the Horario object to be converted
-     * @return a JSON formatted String of the Horario object
+     *   the Horario object to be converted
+     *  a JSON formatted String of the Horario object
      */
     private static String horarioToJson(Horario horario) {
         Gson gson = new Gson();
         return gson.toJson(horario);
     }
 
-    public static void main(String[] args) {
+    private static Map<String, Object> createJsonDoc(String[] headers, String[] row) {
+        Map<String, Object> jsonDoc = new LinkedHashMap<>();
+        for (int j = 0; j < row.length; j++) {
+            try {
+                // Procurar por valores do tipo integer
+                int intValue = Integer.parseInt(row[j]);
+                jsonDoc.put(headers[j], intValue);
+            } catch (NumberFormatException e) {
+                // Se não encontrar valores do tipo integer, regista como string
+                jsonDoc.put(headers[j], row[j]);
+            }
+        }
+        return jsonDoc;
+    }
+
+    /*public static void main(String[] args) {
         File localFile = new File("path/to/file.csv");
         String remoteUrl = "https://example.com/upload";
         try {
@@ -147,6 +197,20 @@ public class FileUploader {
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }*/
+
+    public static void main(String[] args) {
+            File fileFrom = new File("C:\\Users\\Public\\horarioMiniExemplo.json");
+
+            Horario horario = new ImportFileReader().csvToHorario(fileFrom);
+            horario.setFile(fileFrom);
+            File fileTo = new File("C:\\Users\\Filipe\\Desktop\\horarioMiniExemplo.json");
+            try (FileWriter writer = new FileWriter(fileTo)) {
+                FileUploader.convertHorarioToFormat(horario, writer);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        //}
     }
 }
 

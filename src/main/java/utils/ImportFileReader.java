@@ -68,9 +68,32 @@ public class ImportFileReader {
         if(!horario.addUnidadeCurricular(uc)){
             uc = horario.getUnidadeCurricular(uc);
         }
+        logger.debug("UCs: " + horario.getUnidadesCurriculares());
         return uc;
     }
 
+
+    /**
+     * Método que recebe parametros com valores do ficheiro e cria os objetos necessários para criar um horário
+     * @param unidadeCurricular nome da unidade curricular
+     * @param curso             curso da unidade curricular
+     * @param turno             turno da aula
+     * @param turma             turma da aula
+     * @param diaDaSemana       dia da semana da aula
+     * @param horaInicio        hora de inicio da aula
+     * @param horaFim           hora de fim da aula
+     * @param data              data da aula
+     * @param sala              sala da aula
+     * @param inscritos         número de inscritos na aula
+     * @param lotacao           lotação da aula
+     */
+    private void criaHorario (String unidadeCurricular, String curso, String turno, String turma, String diaDaSemana, String horaInicio,  String horaFim, String data,  String sala,  Integer inscritos, Integer lotacao) {
+        UnidadeCurricular uc = criaUC(curso, unidadeCurricular);
+        Aula aula = new Aula(uc,turno, turma, inscritos, sala, lotacao);
+        DataAula dataAula = criaDataAula(diaDaSemana, horaInicio, horaFim, data);
+        aula.setDataAula(dataAula);
+        uc.addAula(aula);
+    }
 
     /**
      * Método que lê um ficheiro JSON e cria um horário preenchendo os campos com as informações do ficheiro
@@ -102,6 +125,8 @@ public class ImportFileReader {
                     criaHorario(unidadeCurricular, curso, turno,
                             turma, diaDaSemana, horaInicio,
                             horaFim, data, sala, inscritos, lotacao);
+
+
                 }catch (Exception e){
                     logger.error(String.valueOf(e));
                 }
@@ -114,28 +139,6 @@ public class ImportFileReader {
             logger.error("Error reading CSV file: " + e.getMessage());
         }
         return horario;
-    }
-
-    /**
-     * Método que recebe parametros com valores do ficheiro e cria os objetos necessários para criar um horário
-     * @param unidadeCurricular nome da unidade curricular
-     * @param curso             curso da unidade curricular
-     * @param turno             turno da aula
-     * @param turma             turma da aula
-     * @param diaDaSemana       dia da semana da aula
-     * @param horaInicio        hora de inicio da aula
-     * @param horaFim           hora de fim da aula
-     * @param data              data da aula
-     * @param sala              sala da aula
-     * @param inscritos         número de inscritos na aula
-     * @param lotacao           lotação da aula
-     */
-    private void criaHorario (String unidadeCurricular, String curso, String turno, String turma, String diaDaSemana, String horaInicio,  String horaFim, String data,  String sala,  Integer inscritos, Integer lotacao) {
-        UnidadeCurricular uc = criaUC(curso, unidadeCurricular);
-        Aula aula = new Aula(uc,turno, turma, inscritos, sala, lotacao);
-        DataAula dataAula = criaDataAula(diaDaSemana, horaInicio, horaFim, data);
-        aula.setDataAula(dataAula);
-        uc.addAula(aula);
     }
 
 
@@ -166,7 +169,7 @@ public class ImportFileReader {
                 String sala = (String) jsonDoc.get("Sala atribuÃ\u00ADda Ã  aula");
                 Integer lotacao = ((Long) jsonDoc.get("LotaÃ§Ã£o da sala")).intValue();
 
-                if (unidadeCurricular.equals("") || horaInicio.equals("") || horaFim.equals("") || data.equals("") || diaDaSemana.equals("") ) continue;
+                //if (unidadeCurricular.equals("") || horaInicio.equals("") || horaFim.equals("") || data.equals("") || diaDaSemana.equals("") ) continue;
 
                 criaHorario(unidadeCurricular, curso, turno, turma, diaDaSemana, horaInicio, horaFim, data, sala, inscritos, lotacao);
 
@@ -201,8 +204,6 @@ public class ImportFileReader {
         logger.debug("CPU time: " + cpuTime + "ms");
     }
 
-    /*SimpleDateFormat outputFormat = new SimpleDateFormat("dd/MM/yyyy");
-        String dateString = outputFormat.format(dateObject);
-S       System.out.println(dateString);*/
+
 }
 
