@@ -2,10 +2,14 @@ package views;
 
 import controllers.ShowScheduleController;
 import controllers.ViewController;
+import models.Aula;
 
 import javax.swing.*;
+import java.awt.*;
+import java.util.List;
 
-public class ShowScheduleView extends View{
+public class ShowScheduleView extends View {
+
 
     public ShowScheduleView(ViewController viewController) {
         super(viewController);
@@ -16,7 +20,11 @@ public class ShowScheduleView extends View{
 
         JButton verAulas = new JButton("Ver aulas");
 
-        verAulas.addActionListener(e -> ((ShowScheduleController) viewController).getAulas());
+        verAulas.addActionListener(e -> {
+            // Get the list of events from the controller
+            List<Aula> aulas = ((ShowScheduleController) viewController).getAulas();
+            CalendarView calendarView = new CalendarView(aulas);
+        });
 
         JButton backBtn = new JButton("Voltar");
         backBtn.addActionListener(e -> viewController.showMainMenuView());
@@ -28,6 +36,6 @@ public class ShowScheduleView extends View{
         add(verAulas);
         add(exportBtn);
         add(backBtn);
-    }
 
+    }
 }
