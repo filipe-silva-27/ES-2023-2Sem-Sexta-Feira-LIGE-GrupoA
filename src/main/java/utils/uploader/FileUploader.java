@@ -168,10 +168,53 @@ public class FileUploader {
      *   the Horario object to be converted
      *  a JSON formatted String of the Horario object
      */
-    private static String horarioToJson(Horario horario) {
-        Gson gson = new Gson();
-        return gson.toJson(horario);
+
+    private static void horarioToJson(Horario horario, FileWriter outputFile) throws IOException {
+        Logger logger = Logger.getLogger("HorarioToJson");
+
+        String[] header = { "Curso" ,"Unidade Curricular","Turno","Turma","Inscritos no turno","Dia da semana","Hora inÃ\u00ADcio da aula","Hora fim da aula","Data da aula","Sala atribuÃ\u00ADda Ã  aula","LotaÃ§Ã£o da sala"};
+
+        List<Map<String, Object>> jsonData = new ArrayList<>();
+        LOGGER.info("UCs: " + horario.getUnidadesCurriculares());
+        for (UnidadeCurricular uc : horario.getUnidadesCurriculares()) {
+
+                for (Aula aula : uc.getAulas()) {
+                    LOGGER.info("Aula: " + aula.getTurno());
+                    SimpleDateFormat outputFormat = new SimpleDateFormat("dd/MM/yyyy");
+                    String dateString = outputFormat.format(aula.getDataAula().getData());
+                    DateTimeFormatter timeFormatter = DateTimeFormatter.ofPattern("HH:mm:ss");
+                    String horaInicio = aula.getDataAula().getHoraInicio().format(timeFormatter);
+                    String horaFim = aula.getDataAula().getHoraFim().format(timeFormatter);
+
+                    String[] row = {uc.getCurso(), uc.getNomeUC(), aula.getTurno(), aula.getTurma(), aula.getNumInscritos().toString(),
+                            aula.getDataAula().getDiaSemana().getName(), horaInicio, horaFim, dateString, aula.getSala(), aula.getLotacao().toString()};
+
+                    Map<String, Object> jsonRow = createJsonDoc(header, row);
+                    LOGGER.info("\n\n JSON data: \n" + jsonRow);
+                    jsonData.add(jsonRow);
+
+                }
+        }
+            LOGGER.info("Writing JSON file...");
+
+            Gson gson = new GsonBuilder().setPrettyPrinting().create();
+            String json = gson.toJson(jsonData);
+
+
+        try {
+            outputFile.write(json);
+        } catch (IOException e) {
+            logger.log(Level.SEVERE, "Failed to write JSON to file", e);
+            throw e;
+        } finally {
+            try {
+                outputFile.close();
+            } catch (IOException e) {
+                logger.log(Level.WARNING, "Failed to close file", e);
+            }
+        }
     }
+
 
     private static Map<String, Object> createJsonDoc(String[] headers, String[] row) {
         Map<String, Object> jsonDoc = new LinkedHashMap<>();
