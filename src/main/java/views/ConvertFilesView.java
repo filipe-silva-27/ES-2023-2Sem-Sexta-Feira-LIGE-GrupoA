@@ -13,6 +13,7 @@ public class ConvertFilesView extends View{
 
     @Override
     public void initFrame() {
+        this.removeAll();
 
         JButton convertToJSONBtn = new JButton("Converter CSV para JSON");
         JButton convertToCSVBtn = new JButton("Converter JSON para CSV");

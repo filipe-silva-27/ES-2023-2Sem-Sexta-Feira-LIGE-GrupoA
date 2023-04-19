@@ -14,6 +14,8 @@ public class ShowScheduleView extends View{
     @Override
     public void initFrame() {
 
+        this.removeAll();
+
         JButton verAulas = new JButton("Ver aulas");
 
         verAulas.addActionListener(e -> ((ShowScheduleController) viewController).getAulas());
