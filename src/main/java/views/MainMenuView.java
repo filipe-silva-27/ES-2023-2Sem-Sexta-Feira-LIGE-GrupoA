@@ -1,7 +1,6 @@
 package views;
 
 import controllers.ViewController;
-import gui.App;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

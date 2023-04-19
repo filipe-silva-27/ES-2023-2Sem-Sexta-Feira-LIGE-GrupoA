@@ -29,7 +29,4 @@ public enum DiaSemana {
         return name;
     }
 
-    private void setName(String name) {
-        this.name = name;
-    }
 }

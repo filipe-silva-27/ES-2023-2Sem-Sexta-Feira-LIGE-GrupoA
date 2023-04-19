@@ -3,13 +3,15 @@ package controllers;
 import gui.App;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
 import utils.FileConverter;
 import utils.ImportFileReader;
 
 import javax.swing.*;
 import java.io.File;
 
-public class ConvertController extends ViewController{
+
+public class ConvertController extends ViewController {
 
     private static final Logger logger = LoggerFactory.getLogger(ConvertController.class);
 
@@ -17,6 +19,7 @@ public class ConvertController extends ViewController{
         super(app);
         logger.info("- inicializado com sucesso.");
     }
+
 
 
     /**
@@ -61,4 +64,5 @@ public class ConvertController extends ViewController{
         }
 
     }
+
 }

@@ -70,8 +70,8 @@ public class ViewController {
         return horario;
     }
 
-    public void setHorario(Horario horario) {
-        this.horario = horario;
+    public static void setHorario(Horario horario) {
+        ViewController.horario = horario;
     }
 
     /**

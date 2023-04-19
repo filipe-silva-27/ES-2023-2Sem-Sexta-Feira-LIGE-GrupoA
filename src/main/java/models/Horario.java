@@ -1,8 +1,5 @@
 package models;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import java.io.File;
 import java.util.HashSet;
 import java.util.Set;
@@ -15,8 +12,6 @@ public class Horario {
     private String name;    // Nome do horário
     private File file;      // Ficheiro associado ao horário para importação e exportação
     private Set<UnidadeCurricular> unidadesCurriculares = new HashSet<>();   // Set de unidades curriculares
-    private static final Logger logger = LoggerFactory.getLogger(Horario.class);
-
     /**
      * Método construtor do horário
      * @param name Nome do horário
@@ -70,10 +65,10 @@ public class Horario {
 
     @Override
     public String toString() {
-        String ucs = "";
+        StringBuilder bld = new StringBuilder();
         for (UnidadeCurricular uc : unidadesCurriculares) {
-            ucs += uc.toString() + "\n";
+            bld.append(uc.toString()).append("\n");
         }
-        return ucs;
+        return bld.toString();
     }
 }

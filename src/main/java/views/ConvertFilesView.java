@@ -1,6 +1,5 @@
 package views;
 
-import controllers.ConvertController;
 import controllers.ViewController;
 
 import javax.swing.*;
@@ -13,13 +12,16 @@ public class ConvertFilesView extends View{
 
     @Override
     public void initFrame() {
-        //TODO implementar criação do horário
 
         JButton convertToJSONBtn = new JButton("Converter CSV para JSON");
         JButton convertToCSVBtn = new JButton("Converter JSON para CSV");
 
-        convertToJSONBtn.addActionListener(e -> ((ConvertController) viewController).convertCSVtoJSON());
-        convertToCSVBtn.addActionListener(e -> ((ConvertController) viewController).convertJSONtoCSV());
+        //TODO - a "conversão" corresponde à exportação do objeto Horário
+
+        //TODO - Botão converter para JSON só é mostrado caso a extensao do ficheiro seja CSV
+        //convertToJSONBtn.addActionListener(e -> ((ConvertController) viewController).convertCSVtoJSON());
+        //TODO - Botão converter para CSV só é mostrado caso a extensao do ficheiro seja JSON
+        // convertToCSVBtn.addActionListener(e -> ((ConvertController) viewController).convertJSONtoCSV());
 
         add(convertToJSONBtn);
         add(convertToCSVBtn);
