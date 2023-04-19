@@ -50,7 +50,6 @@ public class ViewController {
         return app;
     }
 
-    //TODO - implementar
     public void exportSchedule(){
         if(isHorarioSet()){
             JFileChooser fileChooser = new JFileChooser();
@@ -66,6 +65,7 @@ public class ViewController {
         }
     }
 
+
     public Horario getHorario() {
         return horario;
     }
@@ -79,30 +79,37 @@ public class ViewController {
      */
 
     public void showConvertView(){
+        app.getConvertFilesView().initFrame();
         cardLayout.show(contentPane, App.CONVERT_MENU);
     }
 
     public void showCreateScheduleView(){
+        app.getCreateScheduleView().initFrame();
         cardLayout.show(contentPane, App.CREATE_SCHEDULE_MENU);
     }
 
     public void showMainMenuView(){
         if(isHorarioSet()){
+            app.getMainMenuView().initFrame();
             cardLayout.show(contentPane, App.MAIN_MENU);
         }else {
+            app.getUploadFilesView().initFrame();
             cardLayout.show(contentPane, App.UPLOAD_MENU);
         }
     }
 
     public void showShowScheduleView(){
         if(isHorarioSet()){
+            app.getShowScheduleView().initFrame();
             cardLayout.show(contentPane, App.SHOW_SCHEDULE_MENU);
         }else {
+            app.getUploadFilesView().initFrame();
             cardLayout.show(contentPane, App.UPLOAD_MENU);
         }
     }
 
     public void showUploadFilesView(){
+        app.getUploadFilesView().initFrame();
         cardLayout.show(contentPane, App.UPLOAD_MENU);
     }
 

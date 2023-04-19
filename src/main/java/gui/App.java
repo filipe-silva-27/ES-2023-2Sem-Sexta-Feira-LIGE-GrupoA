@@ -26,6 +26,14 @@ public class App {
     public static final String CONVERT_MENU = "convertView";
     public static final String CREATE_SCHEDULE_MENU ="createScheduleView";
 
+    private MainMenuView mainMenuView;
+    private UploadFilesView uploadFilesView;
+    private ShowScheduleView showScheduleView;
+    private CreateScheduleView createScheduleView;
+    private ConvertFilesView convertFilesView;
+
+
+
     /**
      * Método construtor
      */
@@ -47,6 +55,7 @@ public class App {
         frame.setVisible(true);
 
         // Mostrar o menu de upload de ficheiros/horario
+        getUploadFilesView().initFrame();
         cardLayout.show(mainPanel, UPLOAD_MENU);
         logger.info("GUI inicializada com sucesso!");
     }
@@ -57,19 +66,19 @@ public class App {
     private void initViews(){
         logger.info("Inicializando as views...");
         // Inicializar as views
-        MainMenuView mainMenuView = new MainMenuView(new MainMenuController(this));
-        UploadFilesView uploadFilesView = new UploadFilesView(new UploadFilesController(this));
-        CreateScheduleView createScheduleView = new CreateScheduleView(new CreateScheduleController(this));
-        ShowScheduleView showScheduleView = new ShowScheduleView( new ShowScheduleController(this));
-        ConvertFilesView convertFilesView = new ConvertFilesView(new ConvertController(this));
+        mainMenuView = new MainMenuView(new MainMenuController(this));
+        uploadFilesView = new UploadFilesView(new UploadFilesController(this));
+        createScheduleView = new CreateScheduleView(new CreateScheduleController(this));
+        showScheduleView = new ShowScheduleView( new ShowScheduleController(this));
+        convertFilesView = new ConvertFilesView(new ConvertController(this));
 
         // Adicionar as views ao CardLayout
-        mainPanel.add(mainMenuView, MAIN_MENU);
-        mainPanel.add(uploadFilesView, UPLOAD_MENU);
-        mainPanel.add(createScheduleView, CREATE_SCHEDULE_MENU);
-        mainPanel.add(showScheduleView, SHOW_SCHEDULE_MENU);
-        mainPanel.add(convertFilesView, CONVERT_MENU);
-        logger.info("Views inicializadas");
+        mainPanel.add(getMainMenuView(), MAIN_MENU);
+        mainPanel.add(getUploadFilesView(), UPLOAD_MENU);
+        mainPanel.add(getCreateScheduleView(), CREATE_SCHEDULE_MENU);
+        mainPanel.add(getShowScheduleView(), SHOW_SCHEDULE_MENU);
+        mainPanel.add(getConvertFilesView(), CONVERT_MENU);
+        logger.info("Views adicionadas com sucesso ao panel!");
     }
 
     public static void main(String[] args) {
@@ -87,4 +96,26 @@ public class App {
         return mainPanel;
     }
 
+    /**
+     * Views
+     */
+    public MainMenuView getMainMenuView() {
+        return mainMenuView;
+    }
+
+    public UploadFilesView getUploadFilesView() {
+        return uploadFilesView;
+    }
+
+    public ShowScheduleView getShowScheduleView() {
+        return showScheduleView;
+    }
+
+    public CreateScheduleView getCreateScheduleView() {
+        return createScheduleView;
+    }
+
+    public ConvertFilesView getConvertFilesView() {
+        return convertFilesView;
+    }
 }
