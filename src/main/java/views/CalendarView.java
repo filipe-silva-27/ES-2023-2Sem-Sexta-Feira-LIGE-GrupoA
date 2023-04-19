@@ -1,69 +1,133 @@
 package views;
 
-import java.awt.BorderLayout;
-import java.awt.Color;
+import java.awt.*;
 import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.time.LocalTime;
+import java.time.ZoneId;
+import java.time.format.DateTimeFormatter;
+import java.util.Date;
 import java.util.List;
 
-import javax.swing.JFrame;
-import javax.swing.JLabel;
-import javax.swing.JPanel;
-import javax.swing.JScrollPane;
-import javax.swing.JTable;
-import javax.swing.SwingConstants;
+import javax.swing.*;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableCellRenderer;
 
+import controllers.ShowScheduleController;
 import models.Aula;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class CalendarView extends JFrame {
     private List<Aula> aulas;
+    private LocalDate startDate;
+    private JLabel weekLabel = new JLabel();
+    private JTable calendarTable;
+    // Set row headers for the times of the day
+    private String[] timeIntervals = {"", "8:00-9:30", "9:30-11:00", "11:00-12:30", "12:30-13:00", "13:00-14:30",
+            "14:30-16:00", "16:00-17:30", "17:30-19:00"};
+    private static final Logger logger = LoggerFactory.getLogger(CalendarView.class);
+
 
     public CalendarView(List<Aula> aulas) {
         this.aulas = aulas;
+        this.startDate = this.aulas.get(0).
+                getDataAula().getData().
+                toInstant().atZone(ZoneId.systemDefault()).toLocalDate().with(DayOfWeek.MONDAY);
         init();
     }
 
-    private void init() {
-        // Create a table to display the calendar
-        DefaultTableModel model = new DefaultTableModel(25, 8) {
-            @Override
-            public boolean isCellEditable(int row, int column) {
-                return false;
+    private void updateTable() {
+        // Clear the table
+        DefaultTableModel model = (DefaultTableModel) calendarTable.getModel();
+        model.setRowCount(0);
+        model.setColumnCount(0);
+
+        // Set column headers for the days of the week with dates
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MM/dd");
+        String[] daysOfWeek = {"", startDate.format(formatter), startDate.plusDays(1).format(formatter),
+                startDate.plusDays(2).format(formatter), startDate.plusDays(3).format(formatter),
+                startDate.plusDays(4).format(formatter), startDate.plusDays(5).format(formatter),
+                startDate.plusDays(6).format(formatter)};
+        for (int i = 0; i < 7; i++) {
+            model.addColumn(daysOfWeek[i]);
+        }
+
+
+        for (int i = 1; i < 9; i++) {
+            model.addRow(new Object[]{timeIntervals[i]});
+        }
+
+        // Add the classes as events to the calendar for the current week
+        LocalDate endDate = startDate.plusDays(7);
+        weekLabel.setText("Week of " + startDate + " - " + endDate.minusDays(1).format(formatter));
+        for (Aula aula : aulas) {
+            Date date = aula.getDataAula().getData();
+            LocalDate aulaDate = date.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+            if (aulaDate.isAfter(startDate) && aulaDate.isBefore(endDate)) {
+                LocalTime startHour = aula.getDataAula().getHoraInicio();
+                LocalTime endHour = aula.getDataAula().getHoraFim();
+                String time = String.valueOf(startHour+"-"+endHour);
+                String eventName = aula.getUc().getNomeUC();
+                int startRow = getRowIndex(time);
+                if (startRow == -1) continue;
+                logger.debug(aula.toString());
+
+                Object currentValue = model.getValueAt(startRow - 1, aula.getDataAula().getDiaSemana().ordinal() + 1);
+                if (currentValue == null) {
+                    model.setValueAt("<html>" + eventName + "</html>",
+                            startRow - 1, aula.getDataAula().getDiaSemana().ordinal() + 1);
+                } else {
+                    model.setValueAt("<html>" + currentValue + "<br>" + eventName + "</html>", startRow - 1,
+                            aula.getDataAula().getDiaSemana().ordinal() + 1);
+                }
+
+
             }
-        };
-        JTable calendarTable = new JTable(model);
+        }
+    }
+
+    private int getRowIndex(String time) {
+        for(int i=0; i<timeIntervals.length; i++){
+            if (timeIntervals[i].equals(time)) {
+                return i;
+            }
+        }
+        return -1;
+    }
+
+    private void init() {
+
+        // Create a table to display the calendar
+        DefaultTableModel model = new DefaultTableModel();
+        calendarTable = new JTable(model);
         calendarTable.setRowHeight(60);
 
-        // Set column headers for the days of the week
-        String[] daysOfWeek = {"", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"};
-        for (int i = 0; i < 8; i++) {
-            model.setValueAt(daysOfWeek[i], 0, i);
-        }
+        updateTable();
 
-// Set row headers for the times of the day
-        String[] timeIntervals = {"", "8:00-9:30", "9:30-11:00", "11:00-12:30", "12:30-13:00", "13:00-14:30", "14:30-16:00", "16:00-17:30", "17:30-19:00"};
-        for (int i = 1; i < 9; i++) {
-            model.setValueAt(timeIntervals[i], i, 0);
-        }
+        // Add the table to a JPanel
+        JPanel panel = new JPanel(new BorderLayout());
 
-// Add the classes as events to the calendar
-        for (Aula aula : aulas) {
-            LocalTime startHour = aula.getDataAula().getHoraInicio();
-            LocalTime endHour = aula.getDataAula().getHoraFim();
-            String eventName = aula.getUc().getNomeUC();
+        // Add a label and buttons for the current week
+        JPanel weekPanel = new JPanel(new BorderLayout());
+        weekPanel.add(weekLabel, BorderLayout.WEST);
+        panel.add(weekPanel, BorderLayout.NORTH);
 
-            int startRow = getRowIndex(startHour);
-            int endRow = getRowIndex(endHour);
-
-            for (int i = startRow; i < endRow; i++) {
-                //int dayOfWeek = aula.getDataAula().getDiaSemana().getValue();
-                model.setValueAt(eventName, i, aula.getDataAula().getDiaSemana().ordinal()+1);
-            }
-        }
+        JButton prevButton = new JButton("Previous");
+        prevButton.addActionListener(e -> {
+            startDate = startDate.minusDays(7);
+            updateTable();
+        });
+        JButton nextButton = new JButton("Next");
+        nextButton.addActionListener(e -> {
+            startDate = startDate.plusDays(7);
+            updateTable();
+        });
+        JPanel buttonPanel = new JPanel(new FlowLayout());
+        buttonPanel.add(prevButton);
+        buttonPanel.add(nextButton);
+        panel.add(buttonPanel, BorderLayout.EAST);
 
         // Customize the look and feel of the table
         TableCellRenderer centerRenderer = new DefaultTableCellRenderer();
@@ -75,9 +139,6 @@ public class CalendarView extends JFrame {
         calendarTable.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
         calendarTable.getColumnModel().getColumn(0).setPreferredWidth(50);
 
-        // Add the table to a JPanel
-        JPanel panel = new JPanel();
-        panel.setLayout(new BorderLayout());
         panel.add(calendarTable.getTableHeader(), BorderLayout.PAGE_START);
         panel.add(calendarTable, BorderLayout.CENTER);
 
@@ -88,28 +149,5 @@ public class CalendarView extends JFrame {
         this.setVisible(true);
     }
 
-    // Method to get the row index for a given time
-    private int getRowIndex(LocalTime time) {
-        int hour = time.getHour();
-        int minute = time.getMinute();
-        if (hour == 8 && minute == 0) {
-            return 1;
-        } else if (hour == 9 && minute == 30) {
-            return 2;
-        } else if (hour == 11 && minute == 0) {
-            return 3;
-        } else if (hour == 12 && minute == 30) {
-            return 4;
-        } else if (hour == 13 && minute == 0) {
-            return 5;
-        } else if (hour == 14 && minute == 30) {
-            return 6;
-        } else if (hour == 16 && minute == 0) {
-            return 7;
-        } else if (hour == 17 && minute == 30) {
-            return 8;
-        } else {
-            throw new IllegalArgumentException("Invalid time interval");
-        }
-    }
+
 }
