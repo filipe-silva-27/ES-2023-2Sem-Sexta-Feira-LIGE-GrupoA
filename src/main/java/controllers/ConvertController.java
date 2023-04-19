@@ -4,11 +4,12 @@ import gui.App;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import utils.FileConverter;
-import utils.ImportFileReader;
+import utils.uploader.FileUploader;
 
 import javax.swing.*;
 import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
 
 
 public class ConvertController extends ViewController {
@@ -28,15 +29,16 @@ public class ConvertController extends ViewController {
     public void convertCSVtoJSON(){
         if(isFileUploaded()){
             logger.info("Conversão CSV to JSON");
-            ImportFileReader csvReader = new ImportFileReader();
-            setHorario(csvReader.csvToHorario(getHorario().getFile()));
             JFileChooser fileChooser = new JFileChooser();
             int result = fileChooser.showSaveDialog(null);
             if (result == JFileChooser.APPROVE_OPTION) {
                 File fileTo = fileChooser.getSelectedFile();
-                FileConverter.convertCSVTOJSON(getHorario().getFile(), fileTo);
+                try (FileWriter writer = new FileWriter(fileTo)) {
+                    FileUploader.horarioToJson(getHorario(), writer);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
             }
-            //logger.debug(getHorario().toString());
         }else{
             JOptionPane.showMessageDialog(contentPane, "Por favor faça upload de um ficheiro primeiro!",
                     "Error", JOptionPane.ERROR_MESSAGE);
@@ -50,13 +52,16 @@ public class ConvertController extends ViewController {
      */
     public void convertJSONtoCSV(){
         if(isFileUploaded()){
-            ImportFileReader csvReader = new ImportFileReader();
-            setHorario(csvReader.csvToHorario(getHorario().getFile()));
+            logger.info("Conversão CSV to JSON");
             JFileChooser fileChooser = new JFileChooser();
             int result = fileChooser.showSaveDialog(null);
             if (result == JFileChooser.APPROVE_OPTION) {
                 File fileTo = fileChooser.getSelectedFile();
-                FileConverter.convertCSVTOJSON(getHorario().getFile(), fileTo);
+                try (FileWriter writer = new FileWriter(fileTo)) {
+                    FileUploader.horarioToCsv(getHorario(), writer);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
             }
         }else{
             JOptionPane.showMessageDialog(contentPane, "Por favor faça upload de um ficheiro primeiro!",

@@ -144,6 +144,7 @@ public class ImportFileReader {
 
             // debug logger
             memoryDebug();
+            fileConvertedDebug();
         } catch (IOException | CsvValidationException e) {
             logger.error("Error reading CSV file: {}", e.getMessage());
         }
@@ -187,9 +188,11 @@ public class ImportFileReader {
             }
             // debug logger
             memoryDebug();
+            fileConvertedDebug();
         } catch (org.json.simple.parser.ParseException | IOException ex) {
             logger.error("Error reading JSON file: {}" , ex.getMessage());
         }
+
         return horario;
     }
 
@@ -205,6 +208,9 @@ public class ImportFileReader {
         logger.debug("CPU time: {}ms", cpuTime);
     }
 
-
+    private void fileConvertedDebug() {
+        logger.debug("File " + horario.getFile() + "| ucs: " + horario.getUnidadesCurriculares().size() + "| aulas: ");
+        horario.getUnidadesCurriculares().forEach(uc-> logger.debug("UC tem " + uc.getAulas().size() + " aulas"));
+    }
 }
 
