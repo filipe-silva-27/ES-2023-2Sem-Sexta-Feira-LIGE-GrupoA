@@ -63,6 +63,18 @@ public class Horario {
         this.file = selectedFile;
     }
 
+    /**
+     * Retorna a extensão de um arquivo.
+     *
+     * @param file o ficheiro para obter a extensão do ficheiro
+     * @return a extensão do arquivo, ou null se o arquivo não tiver extensão
+     */
+    public String getFileExtension() {
+        String fileName = file.getName();
+        int dotIndex = fileName.lastIndexOf(".");
+        return (dotIndex == -1) ? null : fileName.substring(dotIndex + 1);
+    }
+
     @Override
     public String toString() {
         StringBuilder bld = new StringBuilder();
