@@ -2,6 +2,7 @@ package controllers;
 
 import gui.App;
 import models.Horario;
+import utils.uploader.FileUploader;
 
 import javax.swing.*;
 import java.awt.*;
@@ -52,13 +53,12 @@ public class ViewController {
     //TODO - implementar
     public void exportSchedule(){
         if(isHorarioSet()){
-            File fileFrom = getHorario().getFile();
             JFileChooser fileChooser = new JFileChooser();
             int result = fileChooser.showSaveDialog(null);
             if (result == JFileChooser.APPROVE_OPTION) {
                 File fileTo = fileChooser.getSelectedFile();
                 try (FileWriter writer = new FileWriter(fileTo)) {
-                    // TODO: Code to write export data to the file
+                    FileUploader.convertHorarioToFormat(getHorario(), writer);
                 } catch (IOException e) {
                     e.printStackTrace();
                 }

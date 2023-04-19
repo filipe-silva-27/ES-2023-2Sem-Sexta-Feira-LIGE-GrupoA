@@ -68,6 +68,7 @@ public class ImportFileReader {
         if(!horario.addUnidadeCurricular(uc)){
             uc = horario.getUnidadeCurricular(uc);
         }
+        logger.debug("UCs: " + horario.getUnidadesCurriculares());
         return uc;
     }
 
@@ -126,6 +127,28 @@ public class ImportFileReader {
     }
 
     /**
+     * Método que recebe parametros com valores do ficheiro e cria os objetos necessários para criar um horário
+     * @param unidadeCurricular nome da unidade curricular
+     * @param curso             curso da unidade curricular
+     * @param turno             turno da aula
+     * @param turma             turma da aula
+     * @param diaDaSemana       dia da semana da aula
+     * @param horaInicio        hora de inicio da aula
+     * @param horaFim           hora de fim da aula
+     * @param data              data da aula
+     * @param sala              sala da aula
+     * @param inscritos         número de inscritos na aula
+     * @param lotacao           lotação da aula
+     */
+    private void criaHorario (String unidadeCurricular, String curso, String turno, String turma, String diaDaSemana, String horaInicio,  String horaFim, String data,  String sala,  Integer inscritos, Integer lotacao) {
+        UnidadeCurricular uc = criaUC(curso, unidadeCurricular);
+        Aula aula = new Aula(uc,turno, turma, inscritos, sala, lotacao);
+        DataAula dataAula = criaDataAula(diaDaSemana, horaInicio, horaFim, data);
+        aula.setDataAula(dataAula);
+        uc.addAula(aula);
+    }
+
+    /**
      * Método que lê um ficheiro JSON e cria um horário preenchendo os campos com as informações do ficheiro
      * @param fileCSV ficheiro CSV a ser lido
      * @return horário preenchido com as informações do ficheiro
@@ -136,7 +159,34 @@ public class ImportFileReader {
             String[] recrd;
             csvReader.readNext(); // skip header
             while ((recrd = csvReader.readNext()) != null) {
-                processRecord(recrd);
+
+                try{
+                    String unidadeCurricular = recrd[1];
+                    String curso = recrd[0];
+                    String turno = recrd[2];
+                    String turma = recrd[3];
+                    String diaDaSemana = recrd[5];
+                    String horaInicio = recrd[6];
+                    String horaFim = recrd[7];
+                    String data = recrd[8];
+                    String sala = recrd[9];
+
+                    Integer inscritos = Integer.parseInt(recrd[4]);
+                    Integer lotacao = Integer.parseInt(recrd[10]);
+
+                    if (unidadeCurricular.equals("") || horaInicio.equals("") || horaFim.equals("") || data.equals("") || diaDaSemana.equals("") ) continue;
+
+                    criaHorario(unidadeCurricular, curso, turno,
+                            turma, diaDaSemana, horaInicio,
+                            horaFim, data, sala, inscritos, lotacao);
+
+
+                }catch (Exception e){
+                    logger.error(String.valueOf(e));
+                }
+
+                //processRecord(recrd);
+
             }
             logger.info("Lines read: {}",csvReader.getLinesRead());
 
@@ -147,8 +197,6 @@ public class ImportFileReader {
         }
         return horario;
     }
-
-
 
 
     /**
@@ -178,6 +226,7 @@ public class ImportFileReader {
                 String sala = (String) jsonDoc.get("Sala atribuÃ\u00ADda Ã  aula");
                 Integer lotacao = ((Long) jsonDoc.get("LotaÃ§Ã£o da sala")).intValue();
 
+
                 if (unidadeCurricular.equals("") || horaInicio.equals("") || horaFim.equals("")
                         || data.equals("") || diaDaSemana.equals("") ) continue;
 
@@ -203,6 +252,7 @@ public class ImportFileReader {
         logger.debug("Memory usage: {}MB", heapUsage.getUsed() / (1024 * 1024));
         logger.debug("CPU time: {}ms", cpuTime);
     }
+
 
 }
 
