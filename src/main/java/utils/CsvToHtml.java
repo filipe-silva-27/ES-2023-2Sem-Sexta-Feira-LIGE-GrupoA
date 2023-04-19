@@ -7,6 +7,9 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.util.List;
 
+/**
+ * @deprecated
+ */
 public class CsvToHtml {
     public static void main(String[] args) throws Exception {
         String csvFilePath = "C:\\Users\\casa\\Desktop\\horario-exemplo.csv";

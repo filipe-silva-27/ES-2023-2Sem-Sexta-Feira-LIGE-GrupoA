@@ -2,13 +2,10 @@ package views;
 
 import controllers.ShowScheduleController;
 import controllers.ViewController;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import javax.swing.*;
 
 public class ShowScheduleView extends View{
-    private static final Logger logger = LoggerFactory.getLogger(ShowScheduleView.class);
 
     public ShowScheduleView(ViewController viewController) {
         super(viewController);
@@ -16,7 +13,7 @@ public class ShowScheduleView extends View{
 
     @Override
     public void initFrame() {
-        //TODO implementar a visualização do horário
+
         JButton verAulas = new JButton("Ver aulas");
 
         verAulas.addActionListener(e -> ((ShowScheduleController) viewController).getAulas());

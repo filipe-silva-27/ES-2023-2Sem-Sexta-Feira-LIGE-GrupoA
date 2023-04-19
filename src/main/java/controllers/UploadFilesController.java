@@ -32,11 +32,13 @@ public class UploadFilesController extends ViewController{
             getHorario().setFile(fileChooser.getSelectedFile());
             //TODO chamar a funcao correspondente, caso seja CSV ou JSON
             if(isFileUploaded()){
-                logger.debug(String.valueOf(getHorario().getFile()));
+                logger.debug("{}", getHorario().getFile());
                 ImportFileReader importFileReader = new ImportFileReader();
                 setHorario(importFileReader.csvToHorario(getHorario().getFile()));
                 showMainMenuView();
             }else{
+                JOptionPane.showMessageDialog(null, "Por favor escolha um ficheiro válido!",
+                        "Erro", JOptionPane.ERROR_MESSAGE);
                 showUploadFilesView();
             }
         }
@@ -51,11 +53,13 @@ public class UploadFilesController extends ViewController{
         getHorario().setFile(FileDownloader.downloadRemoteFile());
         //TODO chamar a funcao correspondente, caso seja CSV ou JSON
         if(isFileUploaded()){
-            logger.debug(String.valueOf(getHorario().getFile()));
+            logger.debug("{}", getHorario().getFile());
             ImportFileReader importFileReader = new ImportFileReader();
             setHorario(importFileReader.csvToHorario(getHorario().getFile()));
             showMainMenuView();
         }else{
+            JOptionPane.showMessageDialog(null, "Por favor escolha um ficheiro válido!",
+                    "Erro", JOptionPane.ERROR_MESSAGE);
             showUploadFilesView();
         }
 

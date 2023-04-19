@@ -23,6 +23,7 @@ import java.util.Iterator;
 
 /**
  * Classe utilitaria com metodos para converter ficheiros CSV para JSON e JSON para CSV.
+ * @deprecated
  */
 public class FileConverter {
 
