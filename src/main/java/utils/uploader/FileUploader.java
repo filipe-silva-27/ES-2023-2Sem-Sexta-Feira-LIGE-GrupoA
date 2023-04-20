@@ -3,107 +3,116 @@ package utils.uploader;
 import com.google.gson.GsonBuilder;
 import com.opencsv.CSVWriter;
 import com.opencsv.ICSVWriter;
+import io.github.cdimascio.dotenv.Dotenv;
 import models.*;
-import org.apache.commons.io.FileUtils;
 import com.google.gson.Gson;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import utils.ImportFileReader;
 
+import javax.swing.*;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.net.HttpURLConnection;
-import java.net.URL;
+import java.io.StringWriter;
 import java.text.SimpleDateFormat;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+
 
 import static org.apache.logging.log4j.core.util.FileUtils.getFileExtension;
 
 public class FileUploader {
+    
+    private static final Logger logger = LoggerFactory.getLogger(FileUploader.class);
+    private static Dotenv dotenv = Dotenv.load();
+    private static String GITHUB_ACCESS_TOKEN = dotenv.get("GITHUB_ACCESS_TOKEN");
 
-    private static final Logger LOGGER = Logger.getLogger(FileUploader.class.getName());
-    private FileUploader(){
+    private FileUploader() {
         throw new IllegalStateException("Classe de funções de utilidade!");
     }
-
-    /**
-     * Faz upload de um ficheiro CSV ou JSON para um URL remoto
-     *
-     * @param file o ficheiro local a ser enviado
-     * @param remoteUrl o URL remoto onde o ficheiro deve ser enviado
-     * @throws IOException caso ocorra um erro durante o processo de upload ou de leitura do ficheiro
-     */
-    public static void uploadFile(File file, String remoteUrl) throws IOException {
-
-        LOGGER.info("A iniciar upload do arquivo " + file.getName() + " para " + remoteUrl);
-
-        String fileExtension = getFileExtension(file);
-        if (!fileExtension.equalsIgnoreCase("csv") && !fileExtension.equalsIgnoreCase("json")) {
-            String errorMsg = "O arquivo selecionado não é um arquivo CSV ou JSON.";
-            LOGGER.warning(errorMsg);
-            throw new IllegalArgumentException(errorMsg);
-        }
-
-        URL url = new URL(remoteUrl);
-        HttpURLConnection conn = (HttpURLConnection) url.openConnection();
-        conn.setDoOutput(true);
-        conn.setRequestMethod("POST");
-        conn.setRequestProperty("Content-Type", "text/" + fileExtension);
-
-        //byte[] fileBytes = FileUtils.readFileToByteArray(file);
-        byte[] fileBytes;
-        try {
-            fileBytes = FileUtils.readFileToByteArray(file);
-        } catch (IOException e) {
-            LOGGER.log(Level.SEVERE, "Erro ao ler o arquivo: " + e.getMessage(), e);
-            throw new IOException("Erro ao ler o arquivo: " + e.getMessage(), e);
-        }
-
-        try {
-            conn.getOutputStream().write(fileBytes);
-        } catch (IOException e) {
-            LOGGER.log(Level.SEVERE, "Erro ao enviar o arquivo: " + e.getMessage(), e);
-            throw new IOException("Erro ao enviar o arquivo: " + e.getMessage(), e);
-        }
-
-        if (conn.getResponseCode() != HttpURLConnection.HTTP_OK) {
-            String errorMsg = "Falha ao enviar o arquivo: " + conn.getResponseCode() + " " + conn.getResponseMessage();
-            LOGGER.warning(errorMsg);
-            throw new RuntimeException(errorMsg);
-        }
-
-        LOGGER.info("Arquivo " + file.getName() + " enviado com sucesso para " + remoteUrl);
-    }
-
 
     /**
      * Convert a Horario object to a String in CSV or JSON format
      *
      * @param horario the Horario object to be converted
-     * @param writer the FileWriter object to write the converted Horario object
      * @throws IllegalArgumentException if the specified format is not supported
      */
-    public static void convertHorarioToFormat(Horario horario, FileWriter writer) throws IOException {
-        if ("csv".equalsIgnoreCase(getFileExtension(horario.getFile()))) {
-            horarioToCsv(horario, writer);
-        } else if ("json".equalsIgnoreCase(getFileExtension(horario.getFile()))) {
-            horarioToJson(horario, writer);
+    public static String convertHorarioToFormat(Horario horario) {
+        String content;
+        if ("json".equalsIgnoreCase(getFileExtension(horario.getFile()))) {
+            content = horarioToCsv(horario);
+        } else if ("csv".equalsIgnoreCase(getFileExtension(horario.getFile()))) {
+            content = horarioToJson(horario);
         } else {
             throw new IllegalArgumentException("Formato não suportado: " + getFileExtension(horario.getFile()));
         }
+        return content;
     }
+
+    public static String exportToGist(String fileName, String content) throws IOException{
+        logger.info("Starting upload to GIST...");
+        // check if the access token is set
+        if (GITHUB_ACCESS_TOKEN == null) {
+            JOptionPane.showMessageDialog(null, "Não foi configurado o access token do GitHub!",
+                    "Error", JOptionPane.ERROR_MESSAGE);
+            throw new IllegalArgumentException("GITHUB_ACCESS_TOKEN environment variable not set");
+        }
+        return GistUploader.uploadToGist(fileName, content, GITHUB_ACCESS_TOKEN);
+    }
+
+    /**
+     * Convert a Horario object to a String in CSV format
+     *
+     * @param horario the Horario object to be converted
+     * @return the CSV data as a String
+     */
+    public static String horarioToCsv(Horario horario) {
+        StringWriter stringWriter = new StringWriter();
+        try (CSVWriter writer = new CSVWriter(stringWriter, ',',
+                ICSVWriter.NO_QUOTE_CHARACTER,
+                ICSVWriter.DEFAULT_ESCAPE_CHARACTER,
+                ICSVWriter.DEFAULT_LINE_END)) {
+
+            logger.info("Writing CSV file...");
+
+            // adding header to csv
+            String[] header = { "Curso" ,"Unidade Curricular","Turno","Turma","Inscritos no turno","Dia da semana","Hora inÃ\u00ADcio da aula","Hora fim da aula","Data da aula","Sala atribuÃ\u00ADda Ã  aula","LotaÃ§Ã£o da sala"};
+            writer.writeNext(header);
+
+            // add data to csv
+            for (UnidadeCurricular uc : horario.getUnidadesCurriculares()) {
+                for (Aula aula : uc.getAulas()) {
+                    SimpleDateFormat outputFormat = new SimpleDateFormat("dd/MM/yyyy");
+                    String dateString = outputFormat.format(aula.getDataAula().getData());
+                    DateTimeFormatter timeFormatter = DateTimeFormatter.ofPattern("HH:mm:ss");
+                    String horaInicio = aula.getDataAula().getHoraInicio().format(timeFormatter);
+                    String horaFim = aula.getDataAula().getHoraFim().format(timeFormatter);
+
+                    String[] row = { uc.getCurso() , uc.getNomeUC(), aula.getTurno(), aula.getTurma() , aula.getNumInscritos().toString(),
+                            aula.getDataAula().getDiaSemana().getName(), horaInicio, horaFim, dateString, aula.getSala(), aula.getLotacao().toString()} ;
+                    writer.writeNext(row);
+                }
+            }
+            logger.info("CSV file written successfully.");
+        }
+        catch (IOException e) {
+            logger.error("Error writing CSV file: " + e.getMessage());
+            e.printStackTrace();
+        }
+        return stringWriter.toString();
+    }
+
 
     /**
      * Convert a Horario object to a String in JSON format
      *
      * @param horario the Horario object to be converted
      * @param outputFile the FileWriter object to write the converted Horario object
-     */
+
     public static void horarioToCsv(Horario horario, FileWriter outputFile) {
 
         try {
@@ -143,8 +152,7 @@ public class FileUploader {
             e.printStackTrace();
 
         }
-    }
-
+    }*/
 
     /**
      * Convert a Horario object to a JSON formatted String
@@ -152,7 +160,7 @@ public class FileUploader {
      *  a JSON formatted String of the Horario object
      */
 
-    public static void horarioToJson(Horario horario, FileWriter outputFile) throws IOException {
+    /*public static void horarioToJson(Horario horario, FileWriter outputFile) throws IOException {
         Logger logger = Logger.getLogger("HorarioToJson");
 
         String[] header = { "Curso" ,"Unidade Curricular","Turno","Turma","Inscritos no turno","Dia da semana","Hora inÃ\u00ADcio da aula","Hora fim da aula","Data da aula","Sala atribuÃ\u00ADda Ã  aula","LotaÃ§Ã£o da sala"};
@@ -161,27 +169,27 @@ public class FileUploader {
         LOGGER.info("UCs: " + horario.getUnidadesCurriculares());
         for (UnidadeCurricular uc : horario.getUnidadesCurriculares()) {
 
-                for (Aula aula : uc.getAulas()) {
-                    LOGGER.info("Aula: " + aula.getTurno());
-                    SimpleDateFormat outputFormat = new SimpleDateFormat("dd/MM/yyyy");
-                    String dateString = outputFormat.format(aula.getDataAula().getData());
-                    DateTimeFormatter timeFormatter = DateTimeFormatter.ofPattern("HH:mm:ss");
-                    String horaInicio = aula.getDataAula().getHoraInicio().format(timeFormatter);
-                    String horaFim = aula.getDataAula().getHoraFim().format(timeFormatter);
+            for (Aula aula : uc.getAulas()) {
+                LOGGER.info("Aula: " + aula.getTurno());
+                SimpleDateFormat outputFormat = new SimpleDateFormat("dd/MM/yyyy");
+                String dateString = outputFormat.format(aula.getDataAula().getData());
+                DateTimeFormatter timeFormatter = DateTimeFormatter.ofPattern("HH:mm:ss");
+                String horaInicio = aula.getDataAula().getHoraInicio().format(timeFormatter);
+                String horaFim = aula.getDataAula().getHoraFim().format(timeFormatter);
 
-                    String[] row = {uc.getCurso(), uc.getNomeUC(), aula.getTurno(), aula.getTurma(), aula.getNumInscritos().toString(),
-                            aula.getDataAula().getDiaSemana().getName(), horaInicio, horaFim, dateString, aula.getSala(), aula.getLotacao().toString()};
+                String[] row = {uc.getCurso(), uc.getNomeUC(), aula.getTurno(), aula.getTurma(), aula.getNumInscritos().toString(),
+                        aula.getDataAula().getDiaSemana().getName(), horaInicio, horaFim, dateString, aula.getSala(), aula.getLotacao().toString()};
 
-                    Map<String, Object> jsonRow = createJsonDoc(header, row);
-                    LOGGER.info("\n\n JSON data: \n" + jsonRow);
-                    jsonData.add(jsonRow);
+                Map<String, Object> jsonRow = createJsonDoc(header, row);
+                LOGGER.info("\n\n JSON data: \n" + jsonRow);
+                jsonData.add(jsonRow);
 
-                }
+            }
         }
-            LOGGER.info("Writing JSON file...");
+        LOGGER.info("Writing JSON file...");
 
-            Gson gson = new GsonBuilder().setPrettyPrinting().create();
-            String json = gson.toJson(jsonData);
+        Gson gson = new GsonBuilder().setPrettyPrinting().create();
+        String json = gson.toJson(jsonData);
 
 
         try {
@@ -196,7 +204,61 @@ public class FileUploader {
                 logger.log(Level.WARNING, "Failed to close file", e);
             }
         }
+    }*/
+
+
+    /**
+     * Convert a Horario object to a JSON formatted String
+     *   the Horario object to be converted
+     *  a JSON formatted String of the Horario object
+     */
+
+    public static String horarioToJson(Horario horario) {
+
+        String[] header = { "Curso" ,"Unidade Curricular","Turno","Turma","Inscritos no turno","Dia da semana","Hora inÃ\u00ADcio da aula","Hora fim da aula","Data da aula","Sala atribuÃ\u00ADda Ã  aula","LotaÃ§Ã£o da sala"};
+
+        List<Map<String, Object>> jsonData = new ArrayList<>();
+        //LOGGER.info("UCs: " + horario.getUnidadesCurriculares());
+        for (UnidadeCurricular uc : horario.getUnidadesCurriculares()) {
+
+            for (Aula aula : uc.getAulas()) {
+
+                SimpleDateFormat outputFormat = new SimpleDateFormat("dd/MM/yyyy");
+                String dateString = outputFormat.format(aula.getDataAula().getData());
+                DateTimeFormatter timeFormatter = DateTimeFormatter.ofPattern("HH:mm:ss");
+                String horaInicio = aula.getDataAula().getHoraInicio().format(timeFormatter);
+                String horaFim = aula.getDataAula().getHoraFim().format(timeFormatter);
+
+                String[] row = {uc.getCurso(), uc.getNomeUC(), aula.getTurno(), aula.getTurma(), aula.getNumInscritos().toString(),
+                        aula.getDataAula().getDiaSemana().getName(), horaInicio, horaFim, dateString, aula.getSala(), aula.getLotacao().toString()};
+
+                Map<String, Object> jsonRow = createJsonDoc(header, row);
+                //LOGGER.info("\n\n JSON data: \n" + jsonRow);
+                jsonData.add(jsonRow);
+
+            }
+        }
+        logger.info("Writing JSON file...");
+
+        Gson gson = new GsonBuilder().setPrettyPrinting().create();
+        String json = gson.toJson(jsonData);
+        logger.info("Created JSON String");
+        return json;
+/*
+        try {
+            outputFile.write(json);
+        } catch (IOException e) {
+            logger.log(Level.SEVERE, "Failed to write JSON to file", e);
+            throw e;
+        } finally {
+            try {
+                outputFile.close();
+            } catch (IOException e) {
+                logger.log(Level.WARNING, "Failed to close file", e);
+            }
+        }*/
     }
+
 
 
     private static Map<String, Object> createJsonDoc(String[] headers, String[] row) {
@@ -221,7 +283,7 @@ public class FileUploader {
         horario.setFile(fileFrom);
         File fileTo = new File("C:\\Users\\Filipe\\Desktop\\horarioMiniExemplo.json");
         try (FileWriter writer = new FileWriter(fileTo)) {
-            FileUploader.convertHorarioToFormat(horario, writer);
+            FileUploader.convertHorarioToFormat(horario);
         } catch (IOException e) {
             e.printStackTrace();
         }

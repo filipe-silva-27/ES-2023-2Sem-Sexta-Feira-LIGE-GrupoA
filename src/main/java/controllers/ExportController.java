@@ -1,0 +1,66 @@
+package controllers;
+
+import gui.App;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import utils.uploader.FileUploader;
+
+import javax.swing.*;
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
+
+public class ExportController extends ViewController {
+
+    private static final Logger logger = LoggerFactory.getLogger(ExportController.class);
+
+    public ExportController(final App app) {
+        super(app);
+        logger.info("- inicializado com sucesso.");
+    }
+
+    public void exportToLocal() {
+        if(!isContentSet()){
+            JOptionPane.showMessageDialog(null, "Não existe contéudo para exportar!",
+                    "Error", JOptionPane.ERROR_MESSAGE);
+        }
+        String content = getContent();
+        if(isHorarioSet()){
+            JFileChooser fileChooser = new JFileChooser();
+            int result = fileChooser.showSaveDialog(null);
+            if (result == JFileChooser.APPROVE_OPTION) {
+                File fileTo = fileChooser.getSelectedFile();
+                try (FileWriter writer = new FileWriter(fileTo)) {
+                    writer.write(content);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+    }
+
+    public void exportToRemote() {
+        if(!isContentSet()){
+            JOptionPane.showMessageDialog(null, "Não existe contéudo para exportar!",
+                    "Error", JOptionPane.ERROR_MESSAGE);
+        }
+        String content = getContent();
+        String fileName = JOptionPane.showInputDialog(null,
+                "Introduza o nome do ficheiro (com a extensão):");
+        if(fileName == null){
+            JOptionPane.showMessageDialog(null, "Nome do ficheiro não pode ficar vazio!",
+                    "Error", JOptionPane.ERROR_MESSAGE);
+            throw new IllegalArgumentException("Nome do ficheiro vazio!");
+        }
+        try {
+            String url = FileUploader.exportToGist(fileName, content);
+            JOptionPane.showMessageDialog(null, "Sucesso no upload no link: " + url,
+                    "Sucesso!", JOptionPane.INFORMATION_MESSAGE);
+        }catch (IOException e){
+            logger.error("Failed to upload to Gist: {}", e.getMessage());
+            JOptionPane.showMessageDialog(null, "Erro no upload para o GitHub GIST",
+                    "Error", JOptionPane.ERROR_MESSAGE);
+        }
+    }
+
+}

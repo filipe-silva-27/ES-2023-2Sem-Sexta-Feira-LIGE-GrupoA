@@ -22,6 +22,8 @@ public class ViewController {
 
     protected final JFrame frame;
     protected final JPanel contentPane;
+    //fazer string content
+    private static String content;
     private static Horario horario = null;
 
     /**
@@ -32,6 +34,18 @@ public class ViewController {
         this.contentPane = app.getMainPanel();
         this.frame = app.getFrame();
         this.app = app;
+    }
+
+    public static String getContent() {
+        return content;
+    }
+
+    public boolean isContentSet(){
+        return content!=null;
+    }
+
+    public static void setContent(final String content) {
+        ViewController.content = content;
     }
 
     /**
@@ -49,22 +63,6 @@ public class ViewController {
     public App getApp() {
         return app;
     }
-
-    public void exportSchedule(){
-        if(isHorarioSet()){
-            JFileChooser fileChooser = new JFileChooser();
-            int result = fileChooser.showSaveDialog(null);
-            if (result == JFileChooser.APPROVE_OPTION) {
-                File fileTo = fileChooser.getSelectedFile();
-                try (FileWriter writer = new FileWriter(fileTo)) {
-                    FileUploader.convertHorarioToFormat(getHorario(), writer);
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            }
-        }
-    }
-
 
     public Horario getHorario() {
         return horario;
@@ -111,6 +109,12 @@ public class ViewController {
     public void showUploadFilesView(){
         app.getUploadFilesView().initFrame();
         cardLayout.show(contentPane, App.UPLOAD_MENU);
+    }
+
+    //show ExportFilesView
+    public void showExportFilesView(){
+        app.getExportFilesView().initFrame();
+        cardLayout.show(contentPane, App.EXPORT_MENU);
     }
 
 
