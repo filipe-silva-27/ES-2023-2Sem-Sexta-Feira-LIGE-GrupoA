@@ -1,57 +1,56 @@
 package models;
 
-import java.util.Set;
+import java.util.*;
 
 
-/**
- * Modelo para representar as Unidades Curriculares,
- * é a classe que englobará todos os outros modelos.
- */
 public class UnidadeCurricular {
 
-    private String nome;
-    private Set<Curso> cursos; //  cursos que contém esta UC
-    private Set<Turno> turnos; //  turnos que contém esta UC
+    private String curso;
+    private String nomeUC;
+    private List<Aula> aulas;
 
-    /**
-     * Método construtor da Unidade Curricular
-     * @param nome Nome da Unidade Curricular
-     * @param cursos cursos que contém esta UC
-     * @param turnos turnos que contém esta UC
-     */
-    public UnidadeCurricular(String nome, Set<Curso> cursos, Set<Turno> turnos) {
-        this.nome = nome;
-        this.cursos = cursos;
-        this.turnos = turnos;
+    public UnidadeCurricular(String curso, String nomeUC) {
+        this.curso = curso;
+        this.nomeUC = nomeUC;
+        this.aulas = new ArrayList<>();
     }
 
-    public String getNome() {
-        return nome;
+    public String getCurso() {
+        return curso;
     }
 
-    public void setNome(final String nome) {
-        this.nome = nome;
+    public String getNomeUC() {
+        return nomeUC;
     }
 
-    public Set<Curso> getCursos() {
-        return cursos;
+    public List<Aula> getAulas() {
+        return aulas;
     }
 
-    public void setCursos(final Set<Curso> cursos) {
-        this.cursos = cursos;
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        UnidadeCurricular that = (UnidadeCurricular) o;
+        return Objects.equals(curso, that.curso) && Objects.equals(nomeUC, that.nomeUC);
     }
 
-    public Set<Turno> getTurnos() {
-        return turnos;
+    @Override
+    public int hashCode() {
+        return Objects.hash(curso, nomeUC);
     }
 
-    public void setTurnos(final Set<Turno> turnos) {
-        this.turnos = turnos;
+    public boolean addAula(Aula aula){
+        return aulas.add(aula);
     }
 
     @Override
     public String toString() {
-        return "UnidadeCurricular{" + "nome=" + nome + ", cursos=" + cursos + ", turnos=" + turnos + '}';
+        return "UnidadeCurricular{" +
+                "curso='" + curso + '\'' +
+                ", nomeUC='" + nomeUC + '\'' +
+                ", aulas=" + aulas +
+                '}';
     }
 
 }

@@ -3,13 +3,13 @@ package controllers;
 import gui.App;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import utils.FileConverter;
+
+import utils.uploader.FileUploader;
 
 import javax.swing.*;
 
-import static java.lang.System.*;
 
-public class ConvertController extends ViewController{
+public class ConvertController extends ViewController {
 
     private static final Logger logger = LoggerFactory.getLogger(ConvertController.class);
 
@@ -18,16 +18,20 @@ public class ConvertController extends ViewController{
         logger.info("- inicializado com sucesso.");
     }
 
-
     /**
      * Função que faz a conversão de CSV para JSON
      */
-    public void convertCSVtoJSON(){
-        //TODO chamar convert(uploadedFile); ~Torgo
-        if(isFileUploaded()){
-            //TODO chamar funcao de converter CSV para JSON
-            logger.info("Conversão CSV to JSON");
-            //FileConverter.convertCSVTOJSON(getSchedule().getFile());
+    public void convertFile(){
+        if(isHorarioSet()){
+            try{
+                String content = FileUploader.convertHorarioToFormat(getHorario());
+                setContent(content);
+                showExportFilesView();
+            }catch (IllegalArgumentException e){
+                JOptionPane.showMessageDialog(contentPane, "O ficheiro não tem um formato válido",
+                        "Error", JOptionPane.ERROR_MESSAGE);
+            }
+
         }else{
             JOptionPane.showMessageDialog(contentPane, "Por favor faça upload de um ficheiro primeiro!",
                     "Error", JOptionPane.ERROR_MESSAGE);
@@ -35,17 +39,4 @@ public class ConvertController extends ViewController{
 
     }
 
-    /**
-     * Função que faz a conversão de JSON para CSV
-     */
-    public void convertJSONtoCSV(){
-        if(isFileUploaded()){
-            //TODO chamar funcao de converter JSON para CSV
-            logger.info("Conversão JSON para CSV");
-        }else{
-            JOptionPane.showMessageDialog(contentPane, "Por favor faça upload de um ficheiro primeiro!",
-                    "Error", JOptionPane.ERROR_MESSAGE);
-        }
-
-    }
 }

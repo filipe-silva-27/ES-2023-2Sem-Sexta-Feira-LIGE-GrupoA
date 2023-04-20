@@ -3,12 +3,10 @@ package controllers;
 import gui.App;
 import models.Horario;
 
+
 import javax.swing.*;
 import java.awt.*;
-import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
-import javax.swing.JFileChooser;
+
 
 /**
  * Classe ViewController que é o controlador das views todas que
@@ -21,6 +19,8 @@ public class ViewController {
 
     protected final JFrame frame;
     protected final JPanel contentPane;
+    //fazer string content
+    private static String content;
     private static Horario horario = null;
 
     /**
@@ -33,6 +33,18 @@ public class ViewController {
         this.app = app;
     }
 
+    public static String getContent() {
+        return content;
+    }
+
+    public boolean isContentSet(){
+        return content!=null;
+    }
+
+    public static void setContent(final String content) {
+        ViewController.content = content;
+    }
+
     /**
      * Método que verifica se o ficheiro/horário foi uploaded
      * @return boolean - se o ficheiro foi uploaded ou não
@@ -41,33 +53,20 @@ public class ViewController {
         return getHorario().getFile() != null;
     }
 
-    public App getApp() {
-        return app;
+    public boolean isHorarioSet(){
+        return getHorario() != null;
     }
 
-    //TODO - implementar
-    public void exportSchedule(){
-        if(isFileUploaded()){
-            File fileFrom = getHorario().getFile();
-            JFileChooser fileChooser = new JFileChooser();
-            int result = fileChooser.showSaveDialog(null);
-            if (result == JFileChooser.APPROVE_OPTION) {
-                File fileTo = fileChooser.getSelectedFile();
-                try (FileWriter writer = new FileWriter(fileTo)) {
-                    // TODO: Code to write export data to the file
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            }
-        }
+    public App getApp() {
+        return app;
     }
 
     public Horario getHorario() {
         return horario;
     }
 
-    public void setHorario(Horario horario) {
-        this.horario = horario;
+    public static void setHorario(Horario horario) {
+        ViewController.horario = horario;
     }
 
     /**
@@ -75,31 +74,44 @@ public class ViewController {
      */
 
     public void showConvertView(){
+        app.getConvertFilesView().initFrame();
         cardLayout.show(contentPane, App.CONVERT_MENU);
     }
 
     public void showCreateScheduleView(){
+        app.getCreateScheduleView().initFrame();
         cardLayout.show(contentPane, App.CREATE_SCHEDULE_MENU);
     }
 
     public void showMainMenuView(){
-        if(isFileUploaded()){
+        if(isHorarioSet()){
+            app.getMainMenuView().initFrame();
             cardLayout.show(contentPane, App.MAIN_MENU);
         }else {
+            app.getUploadFilesView().initFrame();
             cardLayout.show(contentPane, App.UPLOAD_MENU);
         }
     }
 
     public void showShowScheduleView(){
-        if(isFileUploaded()){
+        if(isHorarioSet()){
+            app.getShowScheduleView().initFrame();
             cardLayout.show(contentPane, App.SHOW_SCHEDULE_MENU);
         }else {
+            app.getUploadFilesView().initFrame();
             cardLayout.show(contentPane, App.UPLOAD_MENU);
         }
     }
 
     public void showUploadFilesView(){
+        app.getUploadFilesView().initFrame();
         cardLayout.show(contentPane, App.UPLOAD_MENU);
+    }
+
+    //show ExportFilesView
+    public void showExportFilesView(){
+        app.getExportFilesView().initFrame();
+        cardLayout.show(contentPane, App.EXPORT_MENU);
     }
 
 

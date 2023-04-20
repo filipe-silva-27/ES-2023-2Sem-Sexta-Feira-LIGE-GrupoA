@@ -1,10 +1,15 @@
 package views;
 
+import controllers.ShowScheduleController;
 import controllers.ViewController;
+import models.Aula;
 
 import javax.swing.*;
+import java.awt.*;
+import java.util.List;
 
-public class ShowScheduleView extends View{
+public class ShowScheduleView extends View {
+
 
     public ShowScheduleView(ViewController viewController) {
         super(viewController);
@@ -12,44 +17,27 @@ public class ShowScheduleView extends View{
 
     @Override
     public void initFrame() {
-        //TODO implementar a visualização do horário
 
-        String[] columnNames = {"Horário", "Segunda", "Terça", "Quarta", "Quinta", "Sexta"};
+        this.removeAll();
 
-        Object[][] data = {
-                {"08:00 - 09:00", "", "", "", "", ""},
-                {"09:00 - 10:00", "", "", "", "", ""},
-                {"10:00 - 11:00", "", "", "", "", ""},
-                {"11:00 - 12:00", "", "", "", "", ""},
-                {"12:00 - 13:00", "", "", "", "", ""},
-                {"13:00 - 14:00", "", "", "", "", ""},
-                {"14:00 - 15:00", "", "", "", "", ""},
-                {"15:00 - 16:00", "", "", "", "", ""},
-                {"16:00 - 17:00", "", "", "", "", ""},
-                {"17:00 - 18:00", "", "", "", "", ""},
-                {"18:00 - 19:00", "", "", "", "", ""},
-                {"19:00 - 20:00", "", "", "", "", ""},
-                {"20:00 - 21:00", "", "", "", "", ""},
-                {"21:00 - 22:00", "", "", "", "", ""}
-        };
+        JButton verAulas = new JButton("Ver aulas");
 
-        JTable jTable = new JTable(data, columnNames);
-        JScrollPane jScrollPane = new JScrollPane(jTable);
+        verAulas.addActionListener(e -> {
+            // Get the list of events from the controller
+            List<Aula> aulas = ((ShowScheduleController) viewController).getAulas();
+            CalendarView calendarView = new CalendarView(aulas);
+        });
 
         JButton backBtn = new JButton("Voltar");
         backBtn.addActionListener(e -> viewController.showMainMenuView());
 
         //botao para exportar
         JButton exportBtn = new JButton("Exportar");
-        exportBtn.addActionListener(e -> viewController.exportSchedule());
+        exportBtn.addActionListener(e -> viewController.showExportFilesView());
 
-        //add botao para exportar
-        add(jScrollPane);
+        add(verAulas);
         add(exportBtn);
         add(backBtn);
 
     }
-
-
-
 }

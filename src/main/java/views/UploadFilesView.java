@@ -13,6 +13,7 @@ public class UploadFilesView extends View {
 
     @Override
     public void initFrame() {
+        this.removeAll();
         // Cria os botões e adiciona-os ao painel
         JButton localBtn = new JButton("Ficheiro local");
         JButton remoteBtn = new JButton("Ficheiro online");

@@ -1,39 +1,50 @@
 package models;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import java.io.File;
+import java.util.HashSet;
 import java.util.Set;
 
 /**
  * Classe Horario que é o modelo utilizado pela GUI e outras funcionalidades
- * para representar o horário que contém as aulas, turnos, turmas, salas, etc.
- * @since 16/04/2023
+ * @since 18/04/2023
  */
 public class Horario {
     private String name;    // Nome do horário
     private File file;      // Ficheiro associado ao horário para importação e exportação
-    private Set<UnidadeCurricular> unidadesCurriculares;   // Set de unidades curriculares
-    private static final Logger logger = LoggerFactory.getLogger(Horario.class);
-
+    private Set<UnidadeCurricular> unidadesCurriculares = new HashSet<>();   // Set de unidades curriculares
     /**
      * Método construtor do horário
      * @param name Nome do horário
-     * @param unidadesCurriculares Set de unidades curriculares associadas ao horário
      */
-    public Horario(String name, Set<UnidadeCurricular> unidadesCurriculares) {
+    public Horario(String name) {
         this.name = name;
-        this.unidadesCurriculares = unidadesCurriculares;
         this.file = null;
+    }
+
+    public boolean addUnidadeCurricular(UnidadeCurricular uc){
+        return unidadesCurriculares.add(uc);
+    }
+
+    public UnidadeCurricular getUnidadeCurricularByNome(String nome){
+        for(UnidadeCurricular uc: unidadesCurriculares){
+            if(uc.getNomeUC().equals(nome)){
+                return uc;
+            }
+        }
+        return null;
+    }
+
+    public UnidadeCurricular getUnidadeCurricular(UnidadeCurricular o){
+        for(UnidadeCurricular uc: unidadesCurriculares){
+            if(uc.equals(o)){
+                return uc;
+            }
+        }
+        return null;
     }
 
     public Set<UnidadeCurricular> getUnidadesCurriculares() {
         return unidadesCurriculares;
-    }
-
-    public void setUnidadesCurriculares(Set<UnidadeCurricular> unidadesCurriculares) {
-        this.unidadesCurriculares = unidadesCurriculares;
     }
 
     public String getName() {
@@ -50,5 +61,26 @@ public class Horario {
 
     public void setFile(File selectedFile) {
         this.file = selectedFile;
+    }
+
+    /**
+     * Retorna a extensão de um arquivo.
+     *
+     * @param file o ficheiro para obter a extensão do ficheiro
+     * @return a extensão do arquivo, ou null se o arquivo não tiver extensão
+     */
+    public String getFileExtension() {
+        String fileName = file.getName();
+        int dotIndex = fileName.lastIndexOf(".");
+        return (dotIndex == -1) ? null : fileName.substring(dotIndex + 1);
+    }
+
+    @Override
+    public String toString() {
+        StringBuilder bld = new StringBuilder();
+        for (UnidadeCurricular uc : unidadesCurriculares) {
+            bld.append(uc.toString()).append("\n");
+        }
+        return bld.toString();
     }
 }

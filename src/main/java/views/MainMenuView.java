@@ -1,7 +1,6 @@
 package views;
 
 import controllers.ViewController;
-import gui.App;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -18,6 +17,8 @@ public class MainMenuView extends View {
 
     @Override
     public void initFrame() {
+        this.removeAll();
+
         logger.info("Inicializando a frame da view MainMenuView");
         JButton criarBtn = new JButton("Criar Horário");
         JButton viewBtn = new JButton("Visualizar Horário");
