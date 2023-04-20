@@ -21,48 +21,20 @@ public class ConvertController extends ViewController {
         logger.info("- inicializado com sucesso.");
     }
 
-
-
     /**
      * Função que faz a conversão de CSV para JSON
      */
-    public void convertCSVtoJSON(){
-        if(isFileUploaded()){
-            logger.info("Conversão CSV to JSON");
-            JFileChooser fileChooser = new JFileChooser();
-            int result = fileChooser.showSaveDialog(null);
-            if (result == JFileChooser.APPROVE_OPTION) {
-                File fileTo = fileChooser.getSelectedFile();
-                try (FileWriter writer = new FileWriter(fileTo)) {
-                    FileUploader.horarioToJson(getHorario(), writer);
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
+    public void convertFile(){
+        if(isHorarioSet()){
+            try{
+                String content = FileUploader.convertHorarioToFormat(getHorario());
+                setContent(content);
+                showExportFilesView();
+            }catch (IllegalArgumentException e){
+                JOptionPane.showMessageDialog(contentPane, "O ficheiro não tem um formato válido",
+                        "Error", JOptionPane.ERROR_MESSAGE);
             }
-        }else{
-            JOptionPane.showMessageDialog(contentPane, "Por favor faça upload de um ficheiro primeiro!",
-                    "Error", JOptionPane.ERROR_MESSAGE);
-        }
 
-    }
-
-    /**
-     * Função que faz a conversão de JSON para CSV
-     *
-     */
-    public void convertJSONtoCSV(){
-        if(isFileUploaded()){
-            logger.info("Conversão CSV to JSON");
-            JFileChooser fileChooser = new JFileChooser();
-            int result = fileChooser.showSaveDialog(null);
-            if (result == JFileChooser.APPROVE_OPTION) {
-                File fileTo = fileChooser.getSelectedFile();
-                try (FileWriter writer = new FileWriter(fileTo)) {
-                    FileUploader.horarioToCsv(getHorario(), writer);
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            }
         }else{
             JOptionPane.showMessageDialog(contentPane, "Por favor faça upload de um ficheiro primeiro!",
                     "Error", JOptionPane.ERROR_MESSAGE);

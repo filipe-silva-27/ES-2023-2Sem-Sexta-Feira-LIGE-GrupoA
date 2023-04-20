@@ -68,7 +68,7 @@ public class ImportFileReader {
         if(!horario.addUnidadeCurricular(uc)){
             uc = horario.getUnidadeCurricular(uc);
         }
-        logger.debug("UCs: " + horario.getUnidadesCurriculares());
+        //logger.debug("UCs: " + horario.getUnidadesCurriculares());
         return uc;
     }
 
@@ -144,7 +144,7 @@ public class ImportFileReader {
 
             // debug logger
             memoryDebug();
-            fileConvertedDebug();
+            //fileConvertedDebug();
         } catch (IOException | CsvValidationException e) {
             logger.error("Error reading CSV file: {}", e.getMessage());
         }
@@ -167,7 +167,7 @@ public class ImportFileReader {
 
                 JSONObject jsonDoc = (JSONObject) doc;
 
-                String curso = (String) jsonDoc.get("﻿Curso");
+                String curso = (String) jsonDoc.get("Curso");
                 String unidadeCurricular = (String) jsonDoc.get("Unidade Curricular");
                 String turno = (String) jsonDoc.get("Turno");
                 String turma = (String) jsonDoc.get("Turma");
@@ -180,6 +180,7 @@ public class ImportFileReader {
                 Integer lotacao = ((Long) jsonDoc.get("LotaÃ§Ã£o da sala")).intValue();
 
 
+
                 if (unidadeCurricular.equals("") || horaInicio.equals("") || horaFim.equals("")
                         || data.equals("") || diaDaSemana.equals("") ) continue;
 
@@ -188,7 +189,7 @@ public class ImportFileReader {
             }
             // debug logger
             memoryDebug();
-            fileConvertedDebug();
+            //fileConvertedDebug();
         } catch (org.json.simple.parser.ParseException | IOException ex) {
             logger.error("Error reading JSON file: {}" , ex.getMessage());
         }

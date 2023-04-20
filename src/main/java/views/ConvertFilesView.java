@@ -18,8 +18,8 @@ public class ConvertFilesView extends View{
         JButton convertToJSONBtn = new JButton("Converter CSV para JSON");
         JButton convertToCSVBtn = new JButton("Converter JSON para CSV");
 
-        convertToJSONBtn.addActionListener(e -> ((ConvertController) viewController).convertCSVtoJSON());
-        convertToCSVBtn.addActionListener(e -> ((ConvertController) viewController).convertJSONtoCSV());
+        convertToJSONBtn.addActionListener(e -> ((ConvertController) viewController).convertFile());
+        convertToCSVBtn.addActionListener(e -> ((ConvertController) viewController).convertFile());
 
         add(convertToJSONBtn);
         add(convertToCSVBtn);
