@@ -12,6 +12,8 @@ import java.io.IOException;
 
 public class ExportController extends ViewController {
 
+    private static final String ERROR_MSG = "Erro";
+
     private static final Logger logger = LoggerFactory.getLogger(ExportController.class);
 
     public ExportController(final App app) {
@@ -22,7 +24,7 @@ public class ExportController extends ViewController {
     public void exportToLocal() {
         if(!isContentSet()){
             JOptionPane.showMessageDialog(null, "Não existe contéudo para exportar!",
-                    "Error", JOptionPane.ERROR_MESSAGE);
+                    ERROR_MSG, JOptionPane.ERROR_MESSAGE);
         }
         String content = getContent();
         if(isHorarioSet()){
@@ -42,14 +44,14 @@ public class ExportController extends ViewController {
     public void exportToRemote() {
         if(!isContentSet()){
             JOptionPane.showMessageDialog(null, "Não existe contéudo para exportar!",
-                    "Error", JOptionPane.ERROR_MESSAGE);
+                    ERROR_MSG, JOptionPane.ERROR_MESSAGE);
         }
         String content = getContent();
         String fileName = JOptionPane.showInputDialog(null,
                 "Introduza o nome do ficheiro (com a extensão):");
         if(fileName == null){
             JOptionPane.showMessageDialog(null, "Nome do ficheiro não pode ficar vazio!",
-                    "Error", JOptionPane.ERROR_MESSAGE);
+                    ERROR_MSG, JOptionPane.ERROR_MESSAGE);
             throw new IllegalArgumentException("Nome do ficheiro vazio!");
         }
         try {
@@ -59,7 +61,7 @@ public class ExportController extends ViewController {
         }catch (IOException e){
             logger.error("Failed to upload to Gist: {}", e.getMessage());
             JOptionPane.showMessageDialog(null, "Erro no upload para o GitHub GIST",
-                    "Error", JOptionPane.ERROR_MESSAGE);
+                    ERROR_MSG, JOptionPane.ERROR_MESSAGE);
         }
     }
 
