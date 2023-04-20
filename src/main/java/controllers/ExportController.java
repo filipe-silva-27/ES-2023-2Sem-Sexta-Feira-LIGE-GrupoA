@@ -6,6 +6,9 @@ import org.slf4j.LoggerFactory;
 import utils.uploader.FileUploader;
 
 import javax.swing.*;
+import java.awt.*;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -71,6 +74,13 @@ public class ExportController extends ViewController {
         try {
             String url = FileUploader.exportToGist(fileName, content);
             JLabel linkLabel = new JLabel("<html><a href=\"" + url + "</a></html>");
+            linkLabel.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+            linkLabel.addMouseListener(new MouseAdapter() {
+                @Override
+                public void mouseClicked(MouseEvent e) {
+                    super.mouseClicked(e);
+                }
+            });
             JOptionPane.showMessageDialog(null, "Sucesso no upload no link: " + url,
                     "Sucesso!", JOptionPane.INFORMATION_MESSAGE);
         }catch (IOException e){
