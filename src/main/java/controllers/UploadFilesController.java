@@ -47,7 +47,6 @@ public class UploadFilesController extends ViewController{
         File fromFile = FileDownloader.downloadRemoteFile();
         importFile(fromFile);
     }
-
     /**
      * Método que realiza a importação de um arquivo.
      * @param fromFile - arquivo de origem a ser importado

@@ -158,6 +158,7 @@ public class ViewController {
     }
 
 
-
-
+    public CardLayout getCardLayout() {
+        return cardLayout;
+    }
 }
