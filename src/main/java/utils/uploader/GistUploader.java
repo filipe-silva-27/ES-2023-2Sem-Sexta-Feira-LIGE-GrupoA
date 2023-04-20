@@ -9,6 +9,8 @@ import java.io.IOException;
 import java.util.*;
 
 public class GistUploader {
+
+    private GistUploader() {}
     private static final String GIST_DESCRIPTION = "Gist created by my Java application";
     private static final boolean GIST_PUBLIC = true;
     private static final Logger LOGGER = LoggerFactory.getLogger(GistUploader.class);
