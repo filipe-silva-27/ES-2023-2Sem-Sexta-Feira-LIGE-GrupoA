@@ -1,5 +1,6 @@
 package views;
 
+import controllers.ConvertController;
 import controllers.ViewController;
 
 import javax.swing.*;
@@ -12,24 +13,24 @@ public class ConvertFilesView extends View{
 
     @Override
     public void initFrame() {
+        this.removeAll();
 
         JButton convertToJSONBtn = new JButton("Converter CSV para JSON");
         JButton convertToCSVBtn = new JButton("Converter JSON para CSV");
 
-        //TODO - a "conversão" corresponde à exportação do objeto Horário
-
-        //TODO - Botão converter para JSON só é mostrado caso a extensao do ficheiro seja CSV
-        //convertToJSONBtn.addActionListener(e -> ((ConvertController) viewController).convertCSVtoJSON());
-        //TODO - Botão converter para CSV só é mostrado caso a extensao do ficheiro seja JSON
-        // convertToCSVBtn.addActionListener(e -> ((ConvertController) viewController).convertJSONtoCSV());
+        convertToJSONBtn.addActionListener(e -> ((ConvertController) viewController).convertFile());
+        convertToCSVBtn.addActionListener(e -> ((ConvertController) viewController).convertFile());
 
         add(convertToJSONBtn);
         add(convertToCSVBtn);
 
-        //botao para exportar
-        JButton exportBtn = new JButton("Exportar");
-        exportBtn.addActionListener(e -> viewController.exportSchedule());
-        add(exportBtn);
+        if (viewController.getHorario().getFileExtension().equals("csv")) {
+            convertToJSONBtn.setVisible(true);
+            convertToCSVBtn.setVisible(false);
+        } else if (viewController.getHorario().getFileExtension().equals("json")) {
+            convertToJSONBtn.setVisible(false);
+            convertToCSVBtn.setVisible(true);
+        }
 
         //buscar controller da Main Menu atraves da app do viewController
         JButton backBtn = new JButton("Voltar");

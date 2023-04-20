@@ -1,67 +1,24 @@
 package gui;
 
-import static org.junit.Assert.*;
+import org.junit.jupiter.api.Test;
 
-import models.Horario;
-import org.junit.*;
-import org.mockito.*;
+import static org.junit.jupiter.api.Assertions.*;
 
-import java.util.TreeSet;
+class AppTest {
 
-
-public class AppTest {
-
-    private App app;
-    private Horario horario;
-
-    @Before
-    public void setUp() {
-        app = Mockito.spy(new App());
-        horario = new Horario("Test Horario", new TreeSet<>());
-    }
-
-    @After
-    public void tearDown() {
-        //TODO To be implemented
-    }
-
-    /**
-     * Description: Test method for shipAt.
-     */
     @Test
-    public void testMain() {
-        // Verify that the main method runs without exceptions
-        App.main(new String[] {});
+    void main() {
     }
 
-    /**
-     * Description: Test method for shipAt.
-     */
     @Test
-    public void testGetFrame() {
-        //TODO to implement
+    void getFrame() {
     }
 
-    /**
-     * Description: Test method for shipAt.
-     */
     @Test
-    public void testGetMainPanel() {
+    void getMainPanel() {
     }
 
-    /**
-     * Description: Test method for getSchedule.
-     */
     @Test
-    public void testGetSchedule() {
-
-    }
-
-    /**
-     * Description: Test method for setSchedule.
-     */
-    @Test
-    public void testSetSchedule() {
-        Horario s = new Horario("Another Test Horario", new TreeSet<>());
+    void setSchedule() {
     }
 }

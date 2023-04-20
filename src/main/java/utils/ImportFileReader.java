@@ -68,6 +68,7 @@ public class ImportFileReader {
         if(!horario.addUnidadeCurricular(uc)){
             uc = horario.getUnidadeCurricular(uc);
         }
+        //logger.debug("UCs: " + horario.getUnidadesCurriculares());
         return uc;
     }
 
@@ -125,6 +126,7 @@ public class ImportFileReader {
         }
     }
 
+
     /**
      * Método que lê um ficheiro JSON e cria um horário preenchendo os campos com as informações do ficheiro
      * @param fileCSV ficheiro CSV a ser lido
@@ -142,13 +144,12 @@ public class ImportFileReader {
 
             // debug logger
             memoryDebug();
+            //fileConvertedDebug();
         } catch (IOException | CsvValidationException e) {
             logger.error("Error reading CSV file: {}", e.getMessage());
         }
         return horario;
     }
-
-
 
 
     /**
@@ -166,7 +167,7 @@ public class ImportFileReader {
 
                 JSONObject jsonDoc = (JSONObject) doc;
 
-                String curso = (String) jsonDoc.get("﻿Curso");
+                String curso = (String) jsonDoc.get("Curso");
                 String unidadeCurricular = (String) jsonDoc.get("Unidade Curricular");
                 String turno = (String) jsonDoc.get("Turno");
                 String turma = (String) jsonDoc.get("Turma");
@@ -178,6 +179,8 @@ public class ImportFileReader {
                 String sala = (String) jsonDoc.get("Sala atribuÃ\u00ADda Ã  aula");
                 Integer lotacao = ((Long) jsonDoc.get("LotaÃ§Ã£o da sala")).intValue();
 
+
+
                 if (unidadeCurricular.equals("") || horaInicio.equals("") || horaFim.equals("")
                         || data.equals("") || diaDaSemana.equals("") ) continue;
 
@@ -186,9 +189,11 @@ public class ImportFileReader {
             }
             // debug logger
             memoryDebug();
+            //fileConvertedDebug();
         } catch (org.json.simple.parser.ParseException | IOException ex) {
             logger.error("Error reading JSON file: {}" , ex.getMessage());
         }
+
         return horario;
     }
 
@@ -204,5 +209,9 @@ public class ImportFileReader {
         logger.debug("CPU time: {}ms", cpuTime);
     }
 
+    private void fileConvertedDebug() {
+        logger.debug("File " + horario.getFile() + "| ucs: " + horario.getUnidadesCurriculares().size() + "| aulas: ");
+        horario.getUnidadesCurriculares().forEach(uc-> logger.debug("UC tem " + uc.getAulas().size() + " aulas"));
+    }
 }
 

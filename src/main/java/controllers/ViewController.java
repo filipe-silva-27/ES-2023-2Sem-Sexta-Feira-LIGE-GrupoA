@@ -2,6 +2,7 @@ package controllers;
 
 import gui.App;
 import models.Horario;
+import utils.uploader.FileUploader;
 
 import javax.swing.*;
 import java.awt.*;
@@ -21,6 +22,8 @@ public class ViewController {
 
     protected final JFrame frame;
     protected final JPanel contentPane;
+    //fazer string content
+    private static String content;
     private static Horario horario = null;
 
     /**
@@ -31,6 +34,18 @@ public class ViewController {
         this.contentPane = app.getMainPanel();
         this.frame = app.getFrame();
         this.app = app;
+    }
+
+    public static String getContent() {
+        return content;
+    }
+
+    public boolean isContentSet(){
+        return content!=null;
+    }
+
+    public static void setContent(final String content) {
+        ViewController.content = content;
     }
 
     /**
@@ -49,23 +64,6 @@ public class ViewController {
         return app;
     }
 
-    //TODO - implementar
-    public void exportSchedule(){
-        if(isHorarioSet()){
-            File fileFrom = getHorario().getFile();
-            JFileChooser fileChooser = new JFileChooser();
-            int result = fileChooser.showSaveDialog(null);
-            if (result == JFileChooser.APPROVE_OPTION) {
-                File fileTo = fileChooser.getSelectedFile();
-                try (FileWriter writer = new FileWriter(fileTo)) {
-                    // TODO: Code to write export data to the file
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            }
-        }
-    }
-
     public Horario getHorario() {
         return horario;
     }
@@ -79,31 +77,44 @@ public class ViewController {
      */
 
     public void showConvertView(){
+        app.getConvertFilesView().initFrame();
         cardLayout.show(contentPane, App.CONVERT_MENU);
     }
 
     public void showCreateScheduleView(){
+        app.getCreateScheduleView().initFrame();
         cardLayout.show(contentPane, App.CREATE_SCHEDULE_MENU);
     }
 
     public void showMainMenuView(){
         if(isHorarioSet()){
+            app.getMainMenuView().initFrame();
             cardLayout.show(contentPane, App.MAIN_MENU);
         }else {
+            app.getUploadFilesView().initFrame();
             cardLayout.show(contentPane, App.UPLOAD_MENU);
         }
     }
 
     public void showShowScheduleView(){
         if(isHorarioSet()){
+            app.getShowScheduleView().initFrame();
             cardLayout.show(contentPane, App.SHOW_SCHEDULE_MENU);
         }else {
+            app.getUploadFilesView().initFrame();
             cardLayout.show(contentPane, App.UPLOAD_MENU);
         }
     }
 
     public void showUploadFilesView(){
+        app.getUploadFilesView().initFrame();
         cardLayout.show(contentPane, App.UPLOAD_MENU);
+    }
+
+    //show ExportFilesView
+    public void showExportFilesView(){
+        app.getExportFilesView().initFrame();
+        cardLayout.show(contentPane, App.EXPORT_MENU);
     }
 
 
