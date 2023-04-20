@@ -29,7 +29,7 @@ public class FileUploader {
     
     private static final Logger logger = LoggerFactory.getLogger(FileUploader.class);
     private static Dotenv dotenv = Dotenv.load();
-    private static String GITHUB_ACCESS_TOKEN = dotenv.get("GITHUB_ACCESS_TOKEN");
+    private static String githubAccessToken = dotenv.get("GITHUB_ACCESS_TOKEN");
 
     private FileUploader() {
         throw new IllegalStateException("Classe de funções de utilidade!");
@@ -56,12 +56,12 @@ public class FileUploader {
     public static String exportToGist(String fileName, String content) throws IOException{
         logger.info("Starting upload to GIST...");
         // check if the access token is set
-        if (GITHUB_ACCESS_TOKEN == null) {
+        if (githubAccessToken == null) {
             JOptionPane.showMessageDialog(null, "Não foi configurado o access token do GitHub!",
                     "Error", JOptionPane.ERROR_MESSAGE);
             throw new IllegalArgumentException("GITHUB_ACCESS_TOKEN environment variable not set");
         }
-        return GistUploader.uploadToGist(fileName, content, GITHUB_ACCESS_TOKEN);
+        return GistUploader.uploadToGist(fileName, content, githubAccessToken);
     }
 
     /**
