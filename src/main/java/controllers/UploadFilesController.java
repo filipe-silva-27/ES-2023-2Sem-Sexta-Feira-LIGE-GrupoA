@@ -51,7 +51,7 @@ public class UploadFilesController extends ViewController{
      * Método que realiza a importação de um arquivo.
      * @param fromFile - arquivo de origem a ser importado
      */
-    private void importFile(final File fromFile) {
+    void importFile(final File fromFile) {
         if (fromFile == null) {
             showErrorAndUploadView("Por favor escolha um ficheiro válido!");
         } else {
