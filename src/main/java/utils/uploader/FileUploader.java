@@ -80,7 +80,8 @@ public class FileUploader {
             logger.info("Writing CSV file...");
 
             // adding header to csv
-            String[] header = { "Curso" ,"Unidade Curricular","Turno","Turma","Inscritos no turno","Dia da semana","Hora inÃ\u00ADcio da aula","Hora fim da aula","Data da aula","Sala atribuÃ\u00ADda Ã  aula","LotaÃ§Ã£o da sala"};
+            String[] header = { "Curso" ,"Unidade Curricular","Turno","Turma","Inscritos no turno","Dia da semana",
+                    "Hora início da aula","Hora fim da aula","Data da aula","Sala atribuída à aula","Lotação da sala"};
             writer.writeNext(header);
 
             // add data to csv
@@ -215,8 +216,8 @@ public class FileUploader {
 
     public static String horarioToJson(Horario horario) {
 
-        String[] header = { "Curso" ,"Unidade Curricular","Turno","Turma","Inscritos no turno","Dia da semana","Hora inÃ\u00ADcio da aula","Hora fim da aula","Data da aula","Sala atribuÃ\u00ADda Ã  aula","LotaÃ§Ã£o da sala"};
-
+        String[] header = { "Curso" ,"Unidade Curricular","Turno","Turma","Inscritos no turno","Dia da semana",
+                "Hora início da aula","Hora fim da aula","Data da aula","Sala atribuída à aula","Lotação da sala"};
         List<Map<String, Object>> jsonData = new ArrayList<>();
         //LOGGER.info("UCs: " + horario.getUnidadesCurriculares());
         for (UnidadeCurricular uc : horario.getUnidadesCurriculares()) {

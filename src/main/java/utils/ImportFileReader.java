@@ -1,6 +1,8 @@
 package utils;
 
+import com.opencsv.CSVParserBuilder;
 import com.opencsv.CSVReader;
+import com.opencsv.CSVReaderBuilder;
 import com.opencsv.exceptions.CsvValidationException;
 import models.*;
 import org.json.simple.JSONArray;
@@ -134,13 +136,15 @@ public class ImportFileReader {
      */
     public Horario csvToHorario(File fileCSV) {
         try (FileReader reader = new FileReader(fileCSV);
-             CSVReader csvReader = new CSVReader(reader)) {
+             CSVReader csvReader = new CSVReaderBuilder(reader)
+                     .withSkipLines(1)
+                     .withCSVParser(new CSVParserBuilder().withSeparator(';').build())
+                     .build()) {
             String[] recrd;
-            csvReader.readNext(); // skip header
             while ((recrd = csvReader.readNext()) != null) {
                 processRecord(recrd);
             }
-            logger.info("Lines read: {}",csvReader.getLinesRead());
+            logger.info("Lines read: {}", csvReader.getLinesRead());
 
             // debug logger
             memoryDebug();
@@ -173,11 +177,11 @@ public class ImportFileReader {
                 String turma = (String) jsonDoc.get("Turma");
                 Integer inscritos = ((Long) jsonDoc.get("Inscritos no turno")).intValue();
                 String diaDaSemana = (String) jsonDoc.get("Dia da semana");
-                String horaInicio = (String) jsonDoc.get("Hora inÃ\u00ADcio da aula");
+                String horaInicio = (String) jsonDoc.get("Hora início da aula");
                 String horaFim = (String) jsonDoc.get("Hora fim da aula");
                 String data = (String) jsonDoc.get("Data da aula");
-                String sala = (String) jsonDoc.get("Sala atribuÃ\u00ADda Ã  aula");
-                Integer lotacao = ((Long) jsonDoc.get("LotaÃ§Ã£o da sala")).intValue();
+                String sala = (String) jsonDoc.get("Sala atribuído à aula");
+                Integer lotacao = ((Long) jsonDoc.get("Lotação da sala")).intValue();
 
 
 
