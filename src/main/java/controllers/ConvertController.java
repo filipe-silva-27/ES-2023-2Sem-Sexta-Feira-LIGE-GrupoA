@@ -7,9 +7,6 @@ import org.slf4j.LoggerFactory;
 import utils.uploader.FileUploader;
 
 import javax.swing.*;
-import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
 
 
 public class ConvertController extends ViewController {
