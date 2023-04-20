@@ -168,11 +168,12 @@ public class CalendarView extends JFrame {
         panel.add(calendarTable, BorderLayout.CENTER);
 
         calendarTable.addMouseListener(new MouseAdapter() {
+            @Override
             public void mouseClicked(MouseEvent e) {
                 int row =calendarTable.getSelectedRow();
                 int column = calendarTable.getSelectedColumn();
                 Object value = calendarTable.getValueAt(row, column);
-                if (value != null && value instanceof Aula) {
+                if (value instanceof Aula) {
                     Aula aula = (Aula) value;
                     // Show the details dialog for the selected Aula object
                     JOptionPane.showMessageDialog(null, aula,
