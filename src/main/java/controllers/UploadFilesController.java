@@ -40,7 +40,7 @@ public class UploadFilesController extends ViewController{
         importFile(fromFile);
     }
 
-    private void importFile(final File fromFile) {
+    void importFile(final File fromFile) {
         if (fromFile == null) {
             showErrorAndUploadView("Por favor escolha um ficheiro válido!");
         } else {

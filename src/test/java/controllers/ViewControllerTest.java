@@ -2,37 +2,83 @@ package controllers;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Test;
+
+import gui.App;
+import models.Horario;
+
+import java.io.File;
+
 class ViewControllerTest {
 
-    @org.junit.jupiter.api.Test
-    void isFileUploaded() {
+    private App app;
+    private ViewController viewController;
+
+    @BeforeEach
+    void setUp() {
+        app = new App();
+        viewController = new ViewController(app);
     }
 
-    @org.junit.jupiter.api.Test
-    void getApp() {
+    @Test
+    @DisplayName("Test getContent method")
+    void testGetContent() {
+        String expected = "Hello World";
+        ViewController.setContent(expected);
+        String actual = ViewController.getContent();
+        assertEquals(expected, actual);
     }
 
-    @org.junit.jupiter.api.Test
-    void exportSchedule() {
+    @Test
+    @DisplayName("Test isContentSet method")
+    void testIsContentSet() {
+        ViewController.setContent("Hello World");
+        assertTrue(viewController.isContentSet());
     }
 
-    @org.junit.jupiter.api.Test
-    void showConvertView() {
+    @Test
+    @DisplayName("Test isFileUploaded method")
+    void testIsFileUploaded() {
+        Horario horario = new Horario("horarioTest");
+        horario.setFile(new File("test.txt"));
+        ViewController.setHorario(horario);
+        assertTrue(viewController.isFileUploaded());
     }
 
-    @org.junit.jupiter.api.Test
-    void showCreateScheduleView() {
+    @Test
+    @DisplayName("Test isHorarioSet method")
+    void testIsHorarioSet() {
+        Horario horario = new Horario("horarioTest");
+        ViewController.setHorario(horario);
+        assertTrue(viewController.isHorarioSet());
     }
 
-    @org.junit.jupiter.api.Test
-    void showMainMenuView() {
+    @Test
+    @DisplayName("Test getApp method")
+    void testGetApp() {
+        assertEquals(app, viewController.getApp());
     }
 
-    @org.junit.jupiter.api.Test
-    void showShowScheduleView() {
+    @Test
+    @DisplayName("Test getHorario method")
+    void testGetHorario() {
+        Horario horario = new Horario("horarioTest");
+        ViewController.setHorario(horario);
+        assertEquals(horario, viewController.getHorario());
     }
 
-    @org.junit.jupiter.api.Test
-    void showUploadFilesView() {
+    @Test
+    @DisplayName("Test setHorario method")
+    void testSetHorario() {
+        Horario expected = new Horario("horarioTest");
+        ViewController.setHorario(expected);
+        Horario actual = viewController.getHorario();
+        assertEquals(expected, actual);
     }
+
+    // add more tests for the other methods as needed
+
+
 }
