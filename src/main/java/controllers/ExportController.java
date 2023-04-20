@@ -70,6 +70,7 @@ public class ExportController extends ViewController {
         }
         try {
             String url = FileUploader.exportToGist(fileName, content);
+            JLabel linkLabel = new JLabel("<html><a href=\"" + url + "</a></html>");
             JOptionPane.showMessageDialog(null, "Sucesso no upload no link: " + url,
                     "Sucesso!", JOptionPane.INFORMATION_MESSAGE);
         }catch (IOException e){
