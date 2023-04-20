@@ -1,6 +1,5 @@
 package gui;
 
-import com.formdev.flatlaf.FlatLightLaf;
 import controllers.*;
 import views.*;
 import org.slf4j.Logger;
@@ -49,13 +48,6 @@ public class App {
         mainPanel.setLayout(cardLayout);
 
         initViews();
-
-        try {
-            UIManager.setLookAndFeel( new FlatLightLaf() );
-            FlatLightLaf.setup();
-        } catch( Exception ex ) {
-            logger.error("Falha na inicialização do tema do Swing. Utilizando o tema default." );
-        }
 
         // Configurar a frame
         frame.getContentPane().add(mainPanel, BorderLayout.CENTER);
