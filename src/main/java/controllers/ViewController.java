@@ -2,14 +2,11 @@ package controllers;
 
 import gui.App;
 import models.Horario;
-import utils.uploader.FileUploader;
+
 
 import javax.swing.*;
 import java.awt.*;
-import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
-import javax.swing.JFileChooser;
+
 
 /**
  * Classe ViewController que é o controlador das views todas que
