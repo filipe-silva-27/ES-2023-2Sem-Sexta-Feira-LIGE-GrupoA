@@ -1,6 +1,11 @@
 package utils.saveCSVLocal;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 public class MainTest {
+
+    private static final Logger logger = LoggerFactory.getLogger(MainTest.class);
 
     /**
      * The entry point for the CSV file downloader application.
@@ -22,7 +27,7 @@ public class MainTest {
             downloader.setFilePath(System.getProperty("user.home") + "/Documents/my_data.csv");
         }
         else {
-            System.err.println("Unsupported operating system: " + downloader.getOsName());
+            logger.error("Unsupported operating system: " + downloader.getOsName());
             System.exit(1);
         }
 
