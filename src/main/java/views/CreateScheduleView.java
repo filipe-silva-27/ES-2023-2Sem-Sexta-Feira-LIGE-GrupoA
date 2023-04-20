@@ -9,10 +9,18 @@ import javax.swing.*;
  */
 public class CreateScheduleView extends View{
 
+    /**
+     * Construtor da classe CreateScheduleView.
+     *
+     * @param viewController O controlador da view.
+     */
     public CreateScheduleView(ViewController viewController){
         super(viewController);
     }
 
+    /**
+     * Inicializa o frame da view.
+     */
     @Override
     public void initFrame() {
         this.removeAll();

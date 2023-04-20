@@ -7,13 +7,23 @@ import models.Aula;
 import javax.swing.*;
 import java.util.List;
 
+/**
+ * Classe que representa a view de visualização do horário.
+ */
 public class ShowScheduleView extends View {
 
 
+    /**
+     * Construtor da classe ShowScheduleView.
+     * @param viewController O controlador da view.
+     */
     public ShowScheduleView(ViewController viewController) {
         super(viewController);
     }
 
+    /**
+     * Inicializa o frame da view.
+     */
     @Override
     public void initFrame() {
 
