@@ -29,9 +29,6 @@ public class ShowScheduleController extends ViewController{
             }
         }
         Collections.sort(aulaList);
-//        for(Aula a : aulaList){
-//            logger.debug("UC: {} |  {}", a.getUc().getNomeUC(), a.getDataAula());
-//        }
         logger.info("Aulas size: {}", aulaList.size());
         return aulaList;
     }
