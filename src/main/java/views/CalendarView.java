@@ -19,12 +19,12 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 public class CalendarView extends JFrame {
-    private List<Aula> aulas;
+    private transient List<Aula> aulas;
     private LocalDate startDate;
     private JLabel weekLabel = new JLabel();
     private JTable calendarTable;
     private JPanel panel;
-    private final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MM/dd");
+    private final transient DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MM/dd");
     public static final int NUM_INTERVALS = 28;
     private static final Logger logger = LoggerFactory.getLogger(CalendarView.class);
 

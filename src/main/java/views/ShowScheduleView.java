@@ -5,7 +5,6 @@ import controllers.ViewController;
 import models.Aula;
 
 import javax.swing.*;
-import java.awt.*;
 import java.util.List;
 
 public class ShowScheduleView extends View {
@@ -25,7 +24,7 @@ public class ShowScheduleView extends View {
         verAulas.addActionListener(e -> {
             // Get the list of events from the controller
             List<Aula> aulas = ((ShowScheduleController) viewController).getAulas();
-            CalendarView calendarView = new CalendarView(aulas);
+            new CalendarView(aulas);
         });
 
         JButton backBtn = new JButton("Voltar");

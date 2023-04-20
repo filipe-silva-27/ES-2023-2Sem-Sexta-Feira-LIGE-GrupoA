@@ -25,6 +25,7 @@ public class ViewController {
 
     /**
      * Construtor do controlador
+     * @param app A instância da classe App
      */
     protected ViewController(App app) {
         this.cardLayout = (CardLayout) app.getMainPanel().getLayout();
@@ -33,38 +34,66 @@ public class ViewController {
         this.app = app;
     }
 
+    /**
+     * Obtém o conteúdo atual
+     * @return O conteúdo atual
+     */
     public static String getContent() {
         return content;
     }
 
+    /**
+     * Verifica se o conteúdo está definido
+     * @return true se o conteúdo está definido, false caso contrário
+     */
     public boolean isContentSet(){
         return content!=null;
     }
 
+    /**
+     * Define o conteúdo
+     * @param content O conteúdo a ser definido
+     */
     public static void setContent(final String content) {
         ViewController.content = content;
     }
 
     /**
-     * Método que verifica se o ficheiro/horário foi uploaded
-     * @return boolean - se o ficheiro foi uploaded ou não
+     * Verifica se um arquivo foi carregado
+     * @return true se um arquivo foi carregado, false caso contrário
      */
     public boolean isFileUploaded(){
         return getHorario().getFile() != null;
     }
 
+    /**
+     * Verifica se um horário foi definido
+     * @return true se um horário foi definido, false caso contrário
+     */
     public boolean isHorarioSet(){
         return getHorario() != null;
     }
 
+    /**
+     * Obtém a instância da classe App
+     * @return A instância da classe App
+     */
     public App getApp() {
         return app;
     }
 
+    /**
+     * Obtém o horário atual
+     * @return O horário atual
+     */
     public Horario getHorario() {
         return horario;
     }
 
+    /**
+     * Define o horário
+     * @param horario O horário a ser definido
+     */
     public static void setHorario(Horario horario) {
         ViewController.horario = horario;
     }
@@ -78,11 +107,17 @@ public class ViewController {
         cardLayout.show(contentPane, App.CONVERT_MENU);
     }
 
+    /**
+     * Mostra a view de criação de horário
+     */
     public void showCreateScheduleView(){
         app.getCreateScheduleView().initFrame();
         cardLayout.show(contentPane, App.CREATE_SCHEDULE_MENU);
     }
 
+    /**
+     * Mostra a view do menu principal
+     */
     public void showMainMenuView(){
         if(isHorarioSet()){
             app.getMainMenuView().initFrame();
@@ -93,6 +128,9 @@ public class ViewController {
         }
     }
 
+    /**
+     * Mostra a view de exibição do horário
+     */
     public void showShowScheduleView(){
         if(isHorarioSet()){
             app.getShowScheduleView().initFrame();
@@ -103,12 +141,17 @@ public class ViewController {
         }
     }
 
+    /**
+     * Exibe a tela de upload de ficheiros.
+     */
     public void showUploadFilesView(){
         app.getUploadFilesView().initFrame();
         cardLayout.show(contentPane, App.UPLOAD_MENU);
     }
 
-    //show ExportFilesView
+    /**
+     * Exibe a tela de exportação de ficheiros.
+     */
     public void showExportFilesView(){
         app.getExportFilesView().initFrame();
         cardLayout.show(contentPane, App.EXPORT_MENU);

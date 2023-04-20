@@ -10,17 +10,28 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 
+/**
+ * Esta classe é um controlador para exportar conteúdo.
+ * Estende a classe ViewController.
+ */
 public class ExportController extends ViewController {
 
     private static final String ERROR_MSG = "Erro";
 
     private static final Logger logger = LoggerFactory.getLogger(ExportController.class);
 
+    /**
+     * Construtor da classe ExportController.
+     * @param app O objeto principal da aplicação.
+     */
     public ExportController(final App app) {
         super(app);
         logger.info("- inicializado com sucesso.");
     }
 
+    /**
+     * Exporta o conteúdo para armazenamento local.
+     */
     public void exportToLocal() {
         if(!isContentSet()){
             JOptionPane.showMessageDialog(null, "Não existe contéudo para exportar!",
@@ -41,6 +52,9 @@ public class ExportController extends ViewController {
         }
     }
 
+    /**
+     * Exporta o conteúdo para um servidor remoto.
+     */
     public void exportToRemote() {
         if(!isContentSet()){
             JOptionPane.showMessageDialog(null, "Não existe contéudo para exportar!",

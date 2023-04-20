@@ -8,11 +8,18 @@ import utils.uploader.FileUploader;
 
 import javax.swing.*;
 
-
+/**
+ * Esta classe é um controlador para a conversão de ficheiros CSV para o formato JSON.
+ * Estende a classe ViewController.
+ */
 public class ConvertController extends ViewController {
 
     private static final Logger logger = LoggerFactory.getLogger(ConvertController.class);
 
+    /**
+     * Construtor da classe ConvertController.
+     * @param app O objeto principal da aplicação.
+     */
     public ConvertController(App app) {
         super(app);
         logger.info("- inicializado com sucesso.");
