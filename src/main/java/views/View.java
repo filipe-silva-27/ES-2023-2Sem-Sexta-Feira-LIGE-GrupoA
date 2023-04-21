@@ -1,5 +1,6 @@
 package views;
 
+
 import controllers.ViewController;
 
 import javax.swing.*;
@@ -9,7 +10,7 @@ import javax.swing.*;
  */
 public abstract class View extends JPanel {
 
-    protected final transient ViewController viewController;
+    protected transient ViewController viewController;
 
     /**
      * Construtor da view que inicializa a frame (pintar os componentes)
@@ -19,8 +20,17 @@ public abstract class View extends JPanel {
         this.viewController = viewController;
     }
 
+    /**
+     * Inicializa o frame da view.
+     */
     public abstract void initFrame();
 
 
-
+    /**
+     * Define o controlador da view.
+     * @param viewController O controlador das views.
+     */
+    public void setController(ViewController viewController) {
+        this.viewController=viewController;
+    }
 }

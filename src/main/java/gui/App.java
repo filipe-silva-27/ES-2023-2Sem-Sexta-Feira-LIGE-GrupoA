@@ -9,7 +9,11 @@ import java.awt.CardLayout;
 import javax.swing.*;
 
 /**
- * Classe que e´ a app principal que interage com o utilizador - GUI
+ * Classe que é a aplicação principal que interage com o utilizador - GUI.
+ * Esta classe cria uma interface gráfica do usuário (GUI) para a aplicação
+ * Calendar App, que permite ao usuário interagir com várias funcionalidades,
+ * como upload de arquivos, visualização de horários, criação de horários,
+ * conversão de arquivos e exportação de arquivos.
  */
 public class App {
 
@@ -18,7 +22,8 @@ public class App {
     private static final Logger logger = LoggerFactory.getLogger(App.class);
 
     /**
-     * Variáveis estáticas
+     * Variáveis estáticas que representam os nomes dos painéis no CardLayout.
+     * Esses nomes são usados para trocar entre as diferentes telas da aplicação.
      */
     public static final String MAIN_MENU ="mainMenuView";
     public static final String UPLOAD_MENU ="uploadFilesView";
@@ -36,7 +41,7 @@ public class App {
 
 
     /**
-     * Método construtor
+     * Método construtor que inicializa a GUI da aplicação.
      */
     public App() {
         logger.info("Inicializando a GUI...");
@@ -62,7 +67,8 @@ public class App {
     }
 
     /**
-     * Função que inicializa as views e adiciona ao painel
+     * Função que inicializa as views e adiciona ao painel.
+     * Cada view é inicializada com seu respectivo controller e adicionada ao CardLayout.
      */
     private void initViews(){
         logger.info("Inicializando as views...");
@@ -89,39 +95,65 @@ public class App {
     }
 
     /**
-     * Elementos GUI
+     * Obtém a referência para a JFrame da aplicação.
+     * @return A JFrame da aplicação.
      */
     public JFrame getFrame() {
         return frame;
     }
 
+    /**
+     * Obtém a referência para o painel principal da aplicação.
+     * @return O JPanel do painel principal da aplicação.
+     */
     public JPanel getMainPanel() {
         return mainPanel;
     }
 
     /**
-     * Views
+     * Obtém a referência para a view do menu principal.
+     * @return A MainMenuView do menu principal.
      */
     public MainMenuView getMainMenuView() {
         return mainMenuView;
     }
 
+    /**
+     * Obtém a referência para a view de upload de arquivos.
+     * @return A UploadFilesView da view de upload de arquivos.
+     */
     public UploadFilesView getUploadFilesView() {
         return uploadFilesView;
     }
 
+    /**
+     * Obtém a referência para a view de exibição de horário.
+     * @return A ShowScheduleView da view de exibição de horário.
+     */
     public ShowScheduleView getShowScheduleView() {
         return showScheduleView;
     }
 
+    /**
+     * Obtém a referência para a view de criação de horário.
+     * @return A CreateScheduleView da view de criação de horário.
+     */
     public CreateScheduleView getCreateScheduleView() {
         return createScheduleView;
     }
 
+    /**
+     * Obtém a referência para a view de conversão de arquivos.
+     * @return A ConvertFilesView da view de conversão de arquivos.
+     */
     public ConvertFilesView getConvertFilesView() {
         return convertFilesView;
     }
 
+    /**
+     * Obtém a referência para a view de exportação de arquivos.
+     * @return A ExportFilesView da view de exportação de arquivos.
+     */
     public View getExportFilesView() { return exportFilesView;
     }
 }

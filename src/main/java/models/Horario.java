@@ -5,8 +5,8 @@ import java.util.HashSet;
 import java.util.Set;
 
 /**
- * Classe Horario que é o modelo utilizado pela GUI e outras funcionalidades
- * @since 18/04/2023
+ * Classe que representa um horário, contendo o nome do horário, o arquivo associado para importação/exportação,
+ * e um conjunto de unidades curriculares.
  */
 public class Horario {
     private String name;    // Nome do horário
@@ -21,10 +21,22 @@ public class Horario {
         this.file = null;
     }
 
+    /**
+     * Adiciona uma unidade curricular ao horário.
+     *
+     * @param uc Unidade curricular a ser adicionada.
+     * @return true se a unidade curricular foi adicionada com sucesso, false caso contrário.
+     */
     public boolean addUnidadeCurricular(UnidadeCurricular uc){
         return unidadesCurriculares.add(uc);
     }
 
+    /**
+     * Obtém uma unidade curricular pelo nome.
+     *
+     * @param nome Nome da unidade curricular a ser buscada.
+     * @return A unidade curricular correspondente, ou null se não encontrada.
+     */
     public UnidadeCurricular getUnidadeCurricularByNome(String nome){
         for(UnidadeCurricular uc: unidadesCurriculares){
             if(uc.getNomeUC().equals(nome)){
@@ -34,6 +46,12 @@ public class Horario {
         return null;
     }
 
+    /**
+     * Obtém uma unidade curricular por objeto.
+     *
+     * @param o Unidade curricular a ser buscada.
+     * @return A unidade curricular correspondente, ou null se não encontrada.
+     */
     public UnidadeCurricular getUnidadeCurricular(UnidadeCurricular o){
         for(UnidadeCurricular uc: unidadesCurriculares){
             if(uc.equals(o)){
@@ -43,30 +61,48 @@ public class Horario {
         return null;
     }
 
+    /**
+     * Obtém o conjunto de unidades curriculares do horário.
+     * @return O conjunto de unidades curriculares.
+     */
     public Set<UnidadeCurricular> getUnidadesCurriculares() {
         return unidadesCurriculares;
     }
 
+    /**
+     * Obtém o nome do horário.
+     * @return O nome do horário.
+     */
     public String getName() {
         return name;
     }
 
+    /**
+     * Define o nome do horário.
+     * @param name O nome do horário.
+     */
     public void setName(String name) {
         this.name = name;
     }
 
+    /**
+     * Obtém o arquivo associado ao horário.
+     * @return O arquivo associado ao horário.
+     */
     public File getFile() {
         return file;
     }
 
+    /**
+     * Define o arquivo associado ao horário.
+     * @param selectedFile O arquivo associado ao horário.
+     */
     public void setFile(File selectedFile) {
         this.file = selectedFile;
     }
 
     /**
      * Retorna a extensão de um arquivo.
-     *
-     * @param file o ficheiro para obter a extensão do ficheiro
      * @return a extensão do arquivo, ou null se o arquivo não tiver extensão
      */
     public String getFileExtension() {
@@ -75,6 +111,13 @@ public class Horario {
         return (dotIndex == -1) ? null : fileName.substring(dotIndex + 1);
     }
 
+    /**
+     * Retorna uma representação em formato de String do objeto Horario.
+     * Cada UnidadeCurricular associada ao horário é convertida numa String
+     * usando o método toString() da classe UnidadeCurricular, e separada por uma nova linha.
+     *
+     * @return Uma String representando o objeto Horario.
+     */
     @Override
     public String toString() {
         StringBuilder bld = new StringBuilder();

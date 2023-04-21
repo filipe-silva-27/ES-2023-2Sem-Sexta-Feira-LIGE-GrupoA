@@ -19,16 +19,19 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 public class CalendarView extends JFrame {
-    private List<Aula> aulas;
+    private transient List<Aula> aulas;
     private LocalDate startDate;
     private JLabel weekLabel = new JLabel();
     private JTable calendarTable;
     private JPanel panel;
-    private final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MM/dd");
+    private final transient DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MM/dd");
     public static final int NUM_INTERVALS = 28;
     private static final Logger logger = LoggerFactory.getLogger(CalendarView.class);
 
-
+    /**
+     * Construtor da classe CalendarView.
+     * @param aulas Lista de aulas.
+     */
     public CalendarView(List<Aula> aulas) {
         this.aulas = aulas;
         this.startDate = this.aulas.get(0).
@@ -38,6 +41,10 @@ public class CalendarView extends JFrame {
         initFrame();
     }
 
+    /**
+     * Inicializa o modelo da tabela.
+     * @return O modelo da tabela.
+     */
     private DefaultTableModel initTable(){
         // Clear the table
         DefaultTableModel model = (DefaultTableModel) calendarTable.getModel();
@@ -65,6 +72,9 @@ public class CalendarView extends JFrame {
         return model;
     }
 
+    /**
+     * Atualiza a tabela com as aulas na semana atual.
+     */
     private void updateTable() {
         DefaultTableModel model = initTable();
 
@@ -101,6 +111,12 @@ public class CalendarView extends JFrame {
 
     }
 
+    /**
+     * Obtém o índice da linha na tabela com base no horário.
+     *
+     * @param time O horário para o qual se deseja obter o índice da linha.
+     * @return O índice da linha correspondente ao horário, ou -1 se o horário estiver fora dos limites da tabela.
+     */
     private int getRowIndex(LocalTime time) {
         // Get the starting time of the first row (8:00 AM)
         LocalTime startTime = LocalTime.of(8, 0);
@@ -115,7 +131,9 @@ public class CalendarView extends JFrame {
         return (blocks >= 0 && blocks < NUM_INTERVALS) ? (int)blocks : -1;
     }
 
-
+    /**
+     * Método para configurar os botões de navegação (Previous e Next) e adicioná-los ao painel.
+     */
     private void setButtons(){
         // Add a label and buttons for the current week
         JPanel weekPanel = new JPanel(new BorderLayout());
@@ -138,7 +156,9 @@ public class CalendarView extends JFrame {
         panel.add(buttonPanel, BorderLayout.EAST);
     }
 
-
+    /**
+     * Método para inicializar a estrutura do JFrame e criar a tabela para exibir o calendário.
+     */
     private void initFrame() {
 
         // Create a table to display the calendar
@@ -188,14 +208,26 @@ public class CalendarView extends JFrame {
 
         // Add the JPanel to a JFrame
         this.getContentPane().add(new JScrollPane(panel));
-        this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.setSize(800, 600);
         this.setVisible(true);
     }
 
-
+    /**
+     * Renderer personalizado para células de tabela que exibe informações de uma aula.
+     */
     public static class AulaTableCellRenderer extends DefaultTableCellRenderer {
 
+        /**
+         * Sobrescrita do método getTableCellRendererComponent para personalizar a aparência das células de tabela.
+         *
+         * @param table A tabela onde as células estão sendo renderizadas.
+         * @param value O valor do objeto sendo exibido na célula.
+         * @param isSelected Indica se a célula está selecionada.
+         * @param hasFocus Indica se a célula possui o foco.
+         * @param row O número da linha da célula na tabela.
+         * @param column O número da coluna da célula na tabela.
+         * @return O componente de renderização da célula.
+         */
         @Override
         public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column) {
             JLabel label = (JLabel) super.getTableCellRendererComponent(table, "", isSelected, hasFocus, row, column);

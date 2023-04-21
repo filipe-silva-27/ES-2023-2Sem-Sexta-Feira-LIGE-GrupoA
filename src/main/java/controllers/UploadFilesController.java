@@ -10,10 +10,18 @@ import javax.swing.*;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import java.io.File;
 
+/**
+ * Esta classe é um controlador para upload de ficheiros.
+ * Estende a classe ViewController.
+ */
 public class UploadFilesController extends ViewController{
 
     private static final Logger logger = LoggerFactory.getLogger(UploadFilesController.class);
 
+    /**
+     * Construtor do controlador de upload de arquivos.
+     * @param app - instância da classe principal da aplicação
+     */
     public UploadFilesController(App app) {
         super(app);
         logger.info("- inicializado com sucesso.");
@@ -39,8 +47,11 @@ public class UploadFilesController extends ViewController{
         File fromFile = FileDownloader.downloadRemoteFile();
         importFile(fromFile);
     }
-
-    private void importFile(final File fromFile) {
+    /**
+     * Método que realiza a importação de um arquivo.
+     * @param fromFile - arquivo de origem a ser importado
+     */
+    void importFile(final File fromFile) {
         if (fromFile == null) {
             showErrorAndUploadView("Por favor escolha um ficheiro válido!");
         } else {
@@ -61,6 +72,10 @@ public class UploadFilesController extends ViewController{
         }
     }
 
+    /**
+     * Método que exibe uma mensagem de erro e volta à view de upload de arquivos.
+     * @param message - mensagem de erro a ser exibida
+     */
     private void showErrorAndUploadView(String message) {
         JOptionPane.showMessageDialog(null, message, "Erro", JOptionPane.ERROR_MESSAGE);
         showUploadFilesView();

@@ -8,18 +8,27 @@ import org.slf4j.LoggerFactory;
 
 import java.util.*;
 
+/**
+ * Esta classe é um controlador para exibir o horário de aulas.
+ * Estende a classe ViewController.
+ */
 public class ShowScheduleController extends ViewController{
 
     private static final Logger logger = LoggerFactory.getLogger(ShowScheduleController.class);
 
     /**
-     * @param app - Aplicação que será comum a todos os controladores
+     * Construtor da classe ShowScheduleController.
+     * @param app A aplicação principal que será compartilhada por todos os controladores.
      */
     public ShowScheduleController(App app) {
         super(app);
         logger.info("- inicializado com sucesso.");
     }
 
+    /**
+     * Obtém a lista de aulas do horário de aulas atual.
+     * @return A lista de aulas ordenada.
+     */
     public List<Aula> getAulas() {
         List<Aula> aulaList = new ArrayList<>();
         if (isHorarioSet()) {
@@ -32,7 +41,5 @@ public class ShowScheduleController extends ViewController{
         logger.info("Aulas size: {}", aulaList.size());
         return aulaList;
     }
-
-
 
 }

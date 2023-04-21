@@ -1,16 +1,100 @@
 package controllers;
 
+import gui.App;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.mockito.Mock;
+import org.mockito.MockitoAnnotations;
+import utils.ImportFileReader;
+
+import javax.swing.*;
+import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 
 import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.Mockito.*;
 
 class UploadFilesControllerTest {
 
-    @Test
-    void importLocalFile() {
+    private UploadFilesController uploadFilesController;
+
+    @Mock
+    private App app;
+
+    @BeforeEach
+    void setUp() {
+        MockitoAnnotations.openMocks(this);
+        uploadFilesController = new UploadFilesController(app);
     }
 
     @Test
-    void importRemoteFile() {
+    @DisplayName("Test import local file with csv format")
+    void testImportLocalFileWithCsvFormat() throws IOException {
+        // Setup
+        JFileChooser fileChooser = mock(JFileChooser.class);
+        when(fileChooser.showOpenDialog(null)).thenReturn(JFileChooser.APPROVE_OPTION);
+        Path tempFile = Files.createTempFile("temp", ".csv");
+        File fromFile = tempFile.toFile();
+        fromFile.deleteOnExit();
+
+        // Exercise
+        uploadFilesController.importFile(fromFile);
+
+        // Verify
+        assertEquals(fromFile, uploadFilesController.getHorario().getFile());
+        uploadFilesController.showMainMenuView();
+        verifyNoMoreInteractions(app);
+    }
+
+    @Test
+    @DisplayName("Test import local file with json format")
+    void testImportLocalFileWithJsonFormat() throws IOException {
+        // Setup
+        JFileChooser fileChooser = mock(JFileChooser.class);
+        when(fileChooser.showOpenDialog(null)).thenReturn(JFileChooser.APPROVE_OPTION);
+        Path tempFile = Files.createTempFile("temp", ".json");
+        File fromFile = tempFile.toFile();
+        fromFile.deleteOnExit();
+
+        // Exercise
+        uploadFilesController.importFile(fromFile);
+
+        // Verify
+        assertEquals(fromFile, uploadFilesController.getHorario().getFile());
+        uploadFilesController.showMainMenuView();
+        verifyNoMoreInteractions(app);
+    }
+
+    @Test
+    @DisplayName("Test import local file with invalid format")
+    void testImportLocalFileWithInvalidFormat() throws IOException {
+        // Setup
+        JFileChooser fileChooser = mock(JFileChooser.class);
+        when(fileChooser.showOpenDialog(null)).thenReturn(JFileChooser.APPROVE_OPTION);
+        Path tempFile = Files.createTempFile("temp", ".txt");
+        File fromFile = tempFile.toFile();
+        fromFile.deleteOnExit();
+
+        // Exercise
+        uploadFilesController.importFile(fromFile);
+
+        // Verify
+        uploadFilesController.showUploadFilesView();
+        verifyNoMoreInteractions(app);
+    }
+
+    @Test
+    @DisplayName("Test import local file with null file")
+    void testImportLocalFileWithNullFile() {
+        // Exercise
+        uploadFilesController.importFile(null);
+
+        // Verify
+        uploadFilesController.showUploadFilesView();
+        verifyNoMoreInteractions(app);
     }
 }

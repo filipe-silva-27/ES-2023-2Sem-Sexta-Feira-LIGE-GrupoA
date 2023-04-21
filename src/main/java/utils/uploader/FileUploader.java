@@ -50,6 +50,14 @@ public class FileUploader {
         return content;
     }
 
+    /**
+     * Exporta um arquivo para um Gist do GitHub.
+     *
+     * @param fileName  O nome do arquivo a ser enviado para o Gist.
+     * @param content   O conteúdo do arquivo a ser enviado para o Gist.
+     * @return O URL do Gist criado.
+     * @throws IOException Se ocorrer um erro durante o processo de exportação para o Gist.
+     */
     public static String exportToGist(String fileName, String content) throws IOException{
         logger.info("Starting upload to GIST...");
         // check if the access token is set
@@ -153,17 +161,11 @@ public class FileUploader {
     }*/
 
     /**
-     * Convert a Horario object to a JSON formatted String
-     *   the Horario object to be converted
-     *  a JSON formatted String of the Horario object
+     * Converte um objeto do tipo Horario para uma representação em formato JSON.
+     *
+     * @param horario O objeto Horario a ser convertido em JSON.
+     * @return A representação JSON do objeto Horario.
      */
-
-    /**
-     * Convert a Horario object to a JSON formatted String
-     *   the Horario object to be converted
-     *  a JSON formatted String of the Horario object
-     */
-
     public static String horarioToJson(Horario horario) {
 
         String[] header = { "Curso" ,"Unidade Curricular","Turno","Turma","Inscritos no turno","Dia da semana",
@@ -195,8 +197,13 @@ public class FileUploader {
         return json;
     }
 
-
-
+    /**
+     * Cria um documento JSON a partir dos headers e valores de uma linha de dados.
+     *
+     * @param headers Array de strings com os cabeçalhos das colunas.
+     * @param row Array de strings com os valores da linha de dados.
+     * @return Um mapa contendo o documento JSON com os cabeçalhos como chaves e os valores como valores.
+     */
     private static Map<String, Object> createJsonDoc(String[] headers, String[] row) {
         Map<String, Object> jsonDoc = new LinkedHashMap<>();
         for (int j = 0; j < row.length; j++) {

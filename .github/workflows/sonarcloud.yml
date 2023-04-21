@@ -1,7 +1,7 @@
 name: SonarCloud
 on:
   push:
-    branches: [master, gui, converthorarios, savefiles, uploadhorario, visualizacaohorario]
+    branches: [master, gui, visualizacaohorario]
   pull_request:
     types: [opened, synchronize, reopened]
 jobs:
