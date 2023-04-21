@@ -5,13 +5,19 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import utils.uploader.FileUploader;
 
-import javax.swing.*;
 import java.awt.*;
+import javax.swing.*;
+import javax.swing.event.HyperlinkEvent;
+import javax.swing.event.HyperlinkListener;
+import javax.swing.text.html.HTMLDocument;
+import javax.swing.text.html.HTMLEditorKit;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.net.URI;
+
 
 /**
  * Esta classe é um controlador para exportar conteúdo.
@@ -73,15 +79,24 @@ public class ExportController extends ViewController {
         }
         try {
             String url = FileUploader.exportToGist(fileName, content);
-            JLabel linkLabel = new JLabel("<html><a href=\"" + url + "</a></html>");
-            linkLabel.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
-            linkLabel.addMouseListener(new MouseAdapter() {
+
+            //Adiciona um HyperlinkListener ao JOptionPane para tornar o link clicável
+            JLabel label = new JLabel("<html><a href=\"" + url + "\">" + url + "</a></html>");
+            label.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+            label.addMouseListener(new MouseAdapter() {
                 @Override
                 public void mouseClicked(MouseEvent e) {
-                    super.mouseClicked(e);
+                    if (Desktop.isDesktopSupported()) {
+                        try {
+                            Desktop.getDesktop().browse(URI.create(url));
+                        } catch (Exception ex) {
+                            ex.printStackTrace();
+                        }
+                    }
                 }
             });
-            JOptionPane.showMessageDialog(null, "Sucesso no upload no link: " + url,
+
+            JOptionPane.showMessageDialog(null, label,
                     "Sucesso!", JOptionPane.INFORMATION_MESSAGE);
         }catch (IOException e){
             logger.error("Failed to upload to Gist: {}", e.getMessage());
