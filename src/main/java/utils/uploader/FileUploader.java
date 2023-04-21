@@ -107,7 +107,6 @@ public class FileUploader {
         }
         catch (IOException e) {
             logger.error("Error writing CSV file: {}", e.getMessage());
-            e.printStackTrace();
         }
         return stringWriter.toString();
     }

@@ -45,7 +45,7 @@ public class CalendarView extends JFrame {
      * Inicializa o modelo da tabela.
      * @return O modelo da tabela.
      */
-    private DefaultTableModel initTable(){
+    protected DefaultTableModel initTable(){
         // Clear the table
         DefaultTableModel model = (DefaultTableModel) calendarTable.getModel();
         model.setRowCount(0);
@@ -75,7 +75,7 @@ public class CalendarView extends JFrame {
     /**
      * Atualiza a tabela com as aulas na semana atual.
      */
-    private void updateTable() {
+    void updateTable() {
         DefaultTableModel model = initTable();
 
         // Add the classes as events to the calendar for the current week
@@ -117,7 +117,7 @@ public class CalendarView extends JFrame {
      * @param time O horário para o qual se deseja obter o índice da linha.
      * @return O índice da linha correspondente ao horário, ou -1 se o horário estiver fora dos limites da tabela.
      */
-    private int getRowIndex(LocalTime time) {
+    protected int getRowIndex(LocalTime time) {
         // Get the starting time of the first row (8:00 AM)
         LocalTime startTime = LocalTime.of(8, 0);
 
@@ -134,7 +134,7 @@ public class CalendarView extends JFrame {
     /**
      * Método para configurar os botões de navegação (Previous e Next) e adicioná-los ao painel.
      */
-    private void setButtons(){
+    protected void setButtons(){
         // Add a label and buttons for the current week
         JPanel weekPanel = new JPanel(new BorderLayout());
         weekPanel.add(weekLabel, BorderLayout.WEST);
@@ -159,7 +159,7 @@ public class CalendarView extends JFrame {
     /**
      * Método para inicializar a estrutura do JFrame e criar a tabela para exibir o calendário.
      */
-    private void initFrame() {
+    public void initFrame() {
 
         // Create a table to display the calendar
         DefaultTableModel model = new DefaultTableModel();
