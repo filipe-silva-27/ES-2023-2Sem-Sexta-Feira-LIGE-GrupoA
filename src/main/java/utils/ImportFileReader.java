@@ -115,8 +115,8 @@ public class ImportFileReader {
             String data = recrd[8];
             String sala = recrd[9];
 
-            Integer inscritos = Integer.parseInt(recrd[4]);
-            Integer lotacao = Integer.parseInt(recrd[10]);
+            Integer inscritos = recrd[4].isEmpty() ? -1 : Integer.parseInt(recrd[4]);
+            Integer lotacao = recrd[10].isEmpty() ? -1 : Integer.parseInt(recrd[10]);
 
             if (unidadeCurricular.equals("") || horaInicio.equals("") || horaFim.equals("")
                     || data.equals("") || diaDaSemana.equals("")) return;
