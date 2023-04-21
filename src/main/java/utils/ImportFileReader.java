@@ -26,7 +26,7 @@ import java.util.Date;
 
 public class ImportFileReader {
 
-    private final Horario horario = new Horario("");
+    protected final Horario horario = new Horario("");
     private static final Logger logger = LoggerFactory.getLogger(ImportFileReader.class);
 
 
@@ -38,7 +38,7 @@ public class ImportFileReader {
      * @param data data da aula
      * @return objeto DataAula com as informações passadas como parâmetro
      */
-    private DataAula criaDataAula(String diaDaSemana, String horaInicio, String horaFim, String data) {
+    DataAula criaDataAula(String diaDaSemana, String horaInicio, String horaFim, String data) {
         DataAula dataAula = null;
 
         try {
@@ -87,10 +87,10 @@ public class ImportFileReader {
      * @param inscritos         número de inscritos na aula
      * @param lotacao           lotação da aula
      */
-    private void criaHorario (String unidadeCurricular, String curso, String turno,
-                              String turma, String diaDaSemana, String horaInicio,
-                              String horaFim, String data,  String sala,
-                              Integer inscritos, Integer lotacao) {
+    private void criaHorario(String unidadeCurricular, String curso, String turno,
+                     String turma, String diaDaSemana, String horaInicio,
+                     String horaFim, String data, String sala,
+                     Integer inscritos, Integer lotacao) {
         UnidadeCurricular uc = criaUC(curso, unidadeCurricular);
         Aula aula = new Aula(uc,turno, turma, inscritos, sala, lotacao);
         DataAula dataAula = criaDataAula(diaDaSemana, horaInicio, horaFim, data);
