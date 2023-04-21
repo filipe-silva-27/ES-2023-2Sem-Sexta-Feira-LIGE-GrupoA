@@ -178,7 +178,7 @@ public class ImportFileReader {
                 String horaInicio = (String) jsonDoc.get("Hora início da aula");
                 String horaFim = (String) jsonDoc.get("Hora fim da aula");
                 String data = (String) jsonDoc.get("Data da aula");
-                String sala = (String) jsonDoc.get("Sala atribuído à aula");
+                String sala = (String) jsonDoc.get("Sala atribuída à aula");
                 Integer lotacao = ((Long) jsonDoc.get("Lotação da sala")).intValue();
 
 

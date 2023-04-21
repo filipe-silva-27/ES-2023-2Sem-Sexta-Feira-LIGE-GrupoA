@@ -77,7 +77,7 @@ public class FileUploader {
      */
     public static String horarioToCsv(Horario horario) {
         StringWriter stringWriter = new StringWriter();
-        try (CSVWriter writer = new CSVWriter(stringWriter, ',',
+        try (CSVWriter writer = new CSVWriter(stringWriter, ';',
                 ICSVWriter.NO_QUOTE_CHARACTER,
                 ICSVWriter.DEFAULT_ESCAPE_CHARACTER,
                 ICSVWriter.DEFAULT_LINE_END)) {
