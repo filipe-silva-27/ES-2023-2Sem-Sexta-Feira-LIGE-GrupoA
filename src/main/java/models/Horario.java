@@ -113,7 +113,7 @@ public class Horario {
 
     /**
      * Retorna uma representação em formato de String do objeto Horario.
-     * Cada UnidadeCurricular associada ao horário é convertida em uma String
+     * Cada UnidadeCurricular associada ao horário é convertida numa String
      * usando o método toString() da classe UnidadeCurricular, e separada por uma nova linha.
      *
      * @return Uma String representando o objeto Horario.
