@@ -15,7 +15,7 @@ import java.io.IOException;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
-public class ExportControllerTest {
+class ExportControllerTest {
 
     private ExportController controller;
 
@@ -29,7 +29,7 @@ public class ExportControllerTest {
     }
 
     @Test
-    public void testExportToLocal() {
+    void testExportToLocal() {
         controller.setContent("Test content");
         controller.setHorario(new Horario("horarioTeste"));
 
@@ -45,7 +45,7 @@ public class ExportControllerTest {
     }
 
     @Test
-    public void testExportToRemote() throws IOException {
+    void testExportToRemote() throws IOException {
         controller.setContent("Test content");
 
         FileUploader fileUploader = mock(FileUploader.class);
@@ -57,11 +57,11 @@ public class ExportControllerTest {
         assertDoesNotThrow(() -> controller.exportToRemote());
 
         verify(pane, times(1)).showInputDialog(null, "Introduza o nome do ficheiro (com a extensão):");
-        verify(fileUploader, times(1)).exportToGist(eq("test.txt"), eq("Test content"));
+        verify(fileUploader, times(1)).exportToGist("test.txt", "Test content");
     }
 
     @Test
-    public void testExportToRemoteEmptyContent() throws IOException {
+    void testExportToRemoteEmptyContent() throws IOException {
         assertThrows(IllegalArgumentException.class, () -> controller.exportToRemote());
     }
 }

@@ -9,31 +9,31 @@ import org.mockito.MockitoAnnotations;
 
 import gui.App;
 
-public class MainMenuControllerTest {
+class MainMenuControllerTest {
 
     @Mock
     App mockApp;
 
     @BeforeEach
-    public void setUp() {
+    void setUp() {
         MockitoAnnotations.openMocks(this);
     }
 
     @Test
-    public void testMainMenuControllerInitialization() {
+    void testMainMenuControllerInitialization() {
         MainMenuController mainMenuController = new MainMenuController(mockApp);
         assertNotNull(mainMenuController);
     }
 
     @Test
-    public void testShowMainMenuViewWithoutHorarioSet() {
+    void testShowMainMenuViewWithoutHorarioSet() {
         MainMenuController mainMenuController = new MainMenuController(mockApp);
         mainMenuController.showMainMenuView();
         assertEquals(App.UPLOAD_MENU, mainMenuController.getCardLayout().toString());
     }
 
     @Test
-    public void testShowMainMenuViewWithHorarioSet() {
+    void testShowMainMenuViewWithHorarioSet() {
         MainMenuController mainMenuController = new MainMenuController(mockApp);
         ViewController.setHorario(new Horario("horarioTeste"));
         mainMenuController.showMainMenuView();
@@ -41,14 +41,14 @@ public class MainMenuControllerTest {
     }
 
     @Test
-    public void testShowShowScheduleViewWithoutHorarioSet() {
+    void testShowShowScheduleViewWithoutHorarioSet() {
         MainMenuController mainMenuController = new MainMenuController(mockApp);
         mainMenuController.showShowScheduleView();
         assertEquals(App.UPLOAD_MENU, mainMenuController.getCardLayout().toString());
     }
 
     @Test
-    public void testShowShowScheduleViewWithHorarioSet() {
+    void testShowShowScheduleViewWithHorarioSet() {
         MainMenuController mainMenuController = new MainMenuController(mockApp);
         ViewController.setHorario(new Horario("horarioTeste"));
         mainMenuController.showShowScheduleView();

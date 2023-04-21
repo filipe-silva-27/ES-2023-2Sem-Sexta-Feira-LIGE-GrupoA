@@ -12,7 +12,7 @@ import javax.swing.JButton;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.verify;
 
-public class UploadFilesViewTest {
+class UploadFilesViewTest {
 
     private UploadFilesView view;
 

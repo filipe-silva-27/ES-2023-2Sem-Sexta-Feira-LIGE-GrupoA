@@ -17,7 +17,7 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 
-public class ConvertControllerTest {
+class ConvertControllerTest {
 
     private ConvertController controller;
     private App app;
@@ -29,19 +29,19 @@ public class ConvertControllerTest {
     }
 
     @Test
-    public void testConvertFile() throws IOException {
+    void testConvertFile() throws IOException {
         Horario horario = mock(Horario.class);
         when(controller.getHorario()).thenReturn(horario);
         when(FileUploader.convertHorarioToFormat(horario)).thenReturn("{\"name\":\"John\", \"age\":30, \"city\":\"New York\"}");
 
-        controller.convertFile();
+        assertDoesNotThrow(() -> controller.convertFile());
 
-        controller.setContent("{\"name\":\"John\", \"age\":30, \"city\":\"New York\"}");
+        ViewController.setContent("{\"name\":\"John\", \"age\":30, \"city\":\"New York\"}");
         controller.showExportFilesView();
     }
 
     @Test
-    public void testConvertFileWithInvalidFormat() throws IOException {
+    void testConvertFileWithInvalidFormat() throws IOException {
         Horario horario = mock(Horario.class);
         when(controller.getHorario()).thenReturn(horario);
         when(FileUploader.convertHorarioToFormat(horario)).thenThrow(new IllegalArgumentException());
@@ -56,7 +56,7 @@ public class ConvertControllerTest {
     }
 
     @Test
-    public void testConvertFileWithoutHorarioSet() throws IOException {
+    void testConvertFileWithoutHorarioSet() throws IOException {
         when(controller.getHorario()).thenReturn(null);
 
         JOptionPane jOptionPane = mock(JOptionPane.class);

@@ -27,12 +27,13 @@ public class ViewController {
      * Construtor do controlador
      * @param app A instância da classe App
      */
-    protected ViewController(App app) {
+    public ViewController(App app) {
         this.cardLayout = (CardLayout) app.getMainPanel().getLayout();
         this.contentPane = app.getMainPanel();
         this.frame = app.getFrame();
         this.app = app;
     }
+
 
     /**
      * Obtém o conteúdo atual

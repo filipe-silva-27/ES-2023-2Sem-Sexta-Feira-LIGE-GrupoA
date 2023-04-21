@@ -18,7 +18,7 @@ import java.nio.file.Paths;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
-public class UploadFilesControllerTest {
+class UploadFilesControllerTest {
 
     private UploadFilesController uploadFilesController;
 
@@ -26,14 +26,14 @@ public class UploadFilesControllerTest {
     private App app;
 
     @BeforeEach
-    public void setUp() {
+    void setUp() {
         MockitoAnnotations.openMocks(this);
         uploadFilesController = new UploadFilesController(app);
     }
 
     @Test
     @DisplayName("Test import local file with csv format")
-    public void testImportLocalFileWithCsvFormat() throws IOException {
+    void testImportLocalFileWithCsvFormat() throws IOException {
         // Setup
         JFileChooser fileChooser = mock(JFileChooser.class);
         when(fileChooser.showOpenDialog(null)).thenReturn(JFileChooser.APPROVE_OPTION);
@@ -52,7 +52,7 @@ public class UploadFilesControllerTest {
 
     @Test
     @DisplayName("Test import local file with json format")
-    public void testImportLocalFileWithJsonFormat() throws IOException {
+    void testImportLocalFileWithJsonFormat() throws IOException {
         // Setup
         JFileChooser fileChooser = mock(JFileChooser.class);
         when(fileChooser.showOpenDialog(null)).thenReturn(JFileChooser.APPROVE_OPTION);
@@ -71,7 +71,7 @@ public class UploadFilesControllerTest {
 
     @Test
     @DisplayName("Test import local file with invalid format")
-    public void testImportLocalFileWithInvalidFormat() throws IOException {
+    void testImportLocalFileWithInvalidFormat() throws IOException {
         // Setup
         JFileChooser fileChooser = mock(JFileChooser.class);
         when(fileChooser.showOpenDialog(null)).thenReturn(JFileChooser.APPROVE_OPTION);
@@ -89,7 +89,7 @@ public class UploadFilesControllerTest {
 
     @Test
     @DisplayName("Test import local file with null file")
-    public void testImportLocalFileWithNullFile() {
+    void testImportLocalFileWithNullFile() {
         // Exercise
         uploadFilesController.importFile(null);
 

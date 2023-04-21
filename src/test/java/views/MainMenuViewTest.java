@@ -9,7 +9,7 @@ import org.mockito.MockitoAnnotations;
 import javax.swing.JButton;
 import static org.mockito.Mockito.*;
 
-public class MainMenuViewTest {
+class MainMenuViewTest {
 
     @Mock
     private ViewController viewController;
@@ -17,13 +17,13 @@ public class MainMenuViewTest {
     private MainMenuView mainMenuView;
 
     @BeforeEach
-    public void setUp() {
+    void setUp() {
         MockitoAnnotations.openMocks(this);
         mainMenuView = new MainMenuView(viewController);
     }
 
     @Test
-    public void testInitFrame() {
+    void testInitFrame() {
         mainMenuView.initFrame();
         verify(viewController).showCreateScheduleView();
         verify(viewController).showShowScheduleView();
@@ -32,7 +32,7 @@ public class MainMenuViewTest {
     }
 
     @Test
-    public void testCreateButtonAction() {
+    void testCreateButtonAction() {
         JButton createBtn = new JButton();
         mainMenuView.initFrame();
         createBtn.addActionListener(e -> viewController.showCreateScheduleView());
@@ -41,7 +41,7 @@ public class MainMenuViewTest {
     }
 
     @Test
-    public void testViewButtonAction() {
+    void testViewButtonAction() {
         JButton viewBtn = new JButton();
         mainMenuView.initFrame();
         viewBtn.addActionListener(e -> viewController.showShowScheduleView());
@@ -50,7 +50,7 @@ public class MainMenuViewTest {
     }
 
     @Test
-    public void testConvertButtonAction() {
+    void testConvertButtonAction() {
         JButton convertBtn = new JButton();
         mainMenuView.initFrame();
         convertBtn.addActionListener(e -> viewController.showConvertView());
@@ -59,7 +59,7 @@ public class MainMenuViewTest {
     }
 
     @Test
-    public void testBackButtonAction() {
+    void testBackButtonAction() {
         JButton backBtn = new JButton();
         mainMenuView.initFrame();
         backBtn.addActionListener(e -> viewController.showUploadFilesView());

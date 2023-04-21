@@ -10,12 +10,12 @@ import org.junit.jupiter.api.Test;
 
 import javax.swing.JButton;
 
-public class ViewTest {
+class ViewTest {
     private ViewController mockViewController;
     private View viewUnderTest;
 
     @BeforeEach
-    public void setUp() {
+    void setUp() {
         mockViewController = mock(ViewController.class);
         viewUnderTest = new View(mockViewController) {
             @Override
@@ -26,7 +26,7 @@ public class ViewTest {
     }
 
     @Test
-    public void testSetController() {
+    void testSetController() {
         // GIVEN
         ViewController newController = mock(ViewController.class);
 
@@ -38,7 +38,7 @@ public class ViewTest {
     }
 
     @Test
-    public void testInitFrameAddsButtons() {
+    void testInitFrameAddsButtons() {
         // GIVEN
         JButton mockButton1 = mock(JButton.class);
         JButton mockButton2 = mock(JButton.class);

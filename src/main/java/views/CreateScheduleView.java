@@ -24,7 +24,6 @@ public class CreateScheduleView extends View{
     @Override
     public void initFrame() {
         this.removeAll();
-        //TODO implementar criação do horário
         JButton backBtn = new JButton("Voltar");
         backBtn.addActionListener(e -> viewController.showMainMenuView());
 
