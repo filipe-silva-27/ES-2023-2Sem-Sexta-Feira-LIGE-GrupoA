@@ -31,7 +31,7 @@ class ShowScheduleViewTest {
         Mockito.when(((ShowScheduleController) controller).getAulas()).thenReturn(new ArrayList<Aula>());
 
         view.initFrame();
-        assertTrue(view.getComponentCount() == 1);
+        assertEquals(1, view.getComponentCount());
         assertTrue(view.getComponent(0) instanceof JButton);
         assertEquals(verAulas.getText(), ((JButton) view.getComponent(0)).getText());
     }
