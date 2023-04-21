@@ -208,7 +208,6 @@ public class CalendarView extends JFrame {
 
         // Add the JPanel to a JFrame
         this.getContentPane().add(new JScrollPane(panel));
-        this.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         this.setSize(800, 600);
         this.setVisible(true);
     }
