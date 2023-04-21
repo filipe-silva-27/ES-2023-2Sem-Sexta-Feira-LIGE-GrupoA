@@ -26,7 +26,7 @@ import java.util.Date;
 
 public class ImportFileReader {
 
-    private final Horario horario = new Horario("");
+    protected final Horario horario = new Horario("");
     private static final Logger logger = LoggerFactory.getLogger(ImportFileReader.class);
 
 
@@ -38,7 +38,7 @@ public class ImportFileReader {
      * @param data data da aula
      * @return objeto DataAula com as informações passadas como parâmetro
      */
-    private DataAula criaDataAula(String diaDaSemana, String horaInicio, String horaFim, String data) {
+    DataAula criaDataAula(String diaDaSemana, String horaInicio, String horaFim, String data) {
         DataAula dataAula = null;
 
         try {
@@ -87,10 +87,10 @@ public class ImportFileReader {
      * @param inscritos         número de inscritos na aula
      * @param lotacao           lotação da aula
      */
-    private void criaHorario (String unidadeCurricular, String curso, String turno,
-                              String turma, String diaDaSemana, String horaInicio,
-                              String horaFim, String data,  String sala,
-                              Integer inscritos, Integer lotacao) {
+    private void criaHorario(String unidadeCurricular, String curso, String turno,
+                     String turma, String diaDaSemana, String horaInicio,
+                     String horaFim, String data, String sala,
+                     Integer inscritos, Integer lotacao) {
         UnidadeCurricular uc = criaUC(curso, unidadeCurricular);
         Aula aula = new Aula(uc,turno, turma, inscritos, sala, lotacao);
         DataAula dataAula = criaDataAula(diaDaSemana, horaInicio, horaFim, data);
@@ -115,8 +115,8 @@ public class ImportFileReader {
             String data = recrd[8];
             String sala = recrd[9];
 
-            Integer inscritos = Integer.parseInt(recrd[4]);
-            Integer lotacao = Integer.parseInt(recrd[10]);
+            Integer inscritos = recrd[4].isEmpty() ? -1 : Integer.parseInt(recrd[4]);
+            Integer lotacao = recrd[10].isEmpty() ? -1 : Integer.parseInt(recrd[10]);
 
             if (unidadeCurricular.equals("") || horaInicio.equals("") || horaFim.equals("")
                     || data.equals("") || diaDaSemana.equals("")) return;
@@ -178,7 +178,7 @@ public class ImportFileReader {
                 String horaInicio = (String) jsonDoc.get("Hora início da aula");
                 String horaFim = (String) jsonDoc.get("Hora fim da aula");
                 String data = (String) jsonDoc.get("Data da aula");
-                String sala = (String) jsonDoc.get("Sala atribuído à aula");
+                String sala = (String) jsonDoc.get("Sala atribuída à aula");
                 Integer lotacao = ((Long) jsonDoc.get("Lotação da sala")).intValue();
 
 

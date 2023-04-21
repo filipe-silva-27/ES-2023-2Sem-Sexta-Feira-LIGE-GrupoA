@@ -51,7 +51,7 @@ public class ExportController extends ViewController {
                 try (FileWriter writer = new FileWriter(fileTo)) {
                     writer.write(content);
                 } catch (IOException e) {
-                    e.printStackTrace();
+                    logger.error("Erro na escrita do ficheiro!", e);
                 }
             }
         }
@@ -86,7 +86,7 @@ public class ExportController extends ViewController {
                         try {
                             Desktop.getDesktop().browse(URI.create(url));
                         } catch (Exception ex) {
-                            ex.printStackTrace();
+                            logger.error("Ocorreu um erro na criação do URL!", ex);
                         }
                     }
                 }
