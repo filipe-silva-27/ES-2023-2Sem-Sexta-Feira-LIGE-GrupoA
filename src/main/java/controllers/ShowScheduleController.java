@@ -42,6 +42,4 @@ public class ShowScheduleController extends ViewController{
         return aulaList;
     }
 
-
-
 }
