@@ -6,7 +6,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
-import utils.uploader.FileUploader;
+import utils.exporter.FileExporter;
 
 import javax.swing.*;
 import java.io.File;
@@ -48,8 +48,8 @@ class ExportControllerTest {
     void testExportToRemote() throws IOException {
         controller.setContent("Test content");
 
-        FileUploader fileUploader = mock(FileUploader.class);
-        when(fileUploader.exportToGist(anyString(), anyString())).thenReturn("https://gist.github.com/abc123");
+        FileExporter fileExporter = mock(FileExporter.class);
+        when(fileExporter.exportToGist(anyString(), anyString())).thenReturn("https://gist.github.com/abc123");
 
         JOptionPane pane = mock(JOptionPane.class);
         when(pane.showInputDialog(null, "Introduza o nome do ficheiro (com a extensão):")).thenReturn("test.txt");
@@ -57,7 +57,7 @@ class ExportControllerTest {
         assertDoesNotThrow(() -> controller.exportToRemote());
 
         verify(pane, times(1)).showInputDialog(null, "Introduza o nome do ficheiro (com a extensão):");
-        verify(fileUploader, times(1)).exportToGist("test.txt", "Test content");
+        verify(fileExporter, times(1)).exportToGist("test.txt", "Test content");
     }
 
     @Test

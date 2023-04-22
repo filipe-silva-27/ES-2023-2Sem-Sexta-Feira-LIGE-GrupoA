@@ -1,4 +1,4 @@
-package utils;
+package utils.importer;
 
 import org.apache.commons.io.FileUtils;
 
@@ -8,6 +8,9 @@ import java.net.URL;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 
+/**
+ * Classe de funções de utilidade para ir buscar ficheiros JSON ou CSV de um URL remoto
+ */
 public class FileDownloader {
 
     private FileDownloader(){

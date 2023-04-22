@@ -35,7 +35,7 @@ class AppTest {
     @Test
     @DisplayName("Check if upload files view is not null")
     void testUploadFilesViewNotNull() {
-        assertNotNull(app.getUploadFilesView(), "Upload files view should not be null");
+        assertNotNull(app.getImportFilesView(), "Upload files view should not be null");
     }
 
     @Test

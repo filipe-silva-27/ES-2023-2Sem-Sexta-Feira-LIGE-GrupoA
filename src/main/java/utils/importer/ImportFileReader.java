@@ -1,4 +1,4 @@
-package utils;
+package utils.importer;
 
 import com.opencsv.CSVParserBuilder;
 import com.opencsv.CSVReader;
@@ -24,6 +24,9 @@ import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Date;
 
+/**
+ * Classe que lê um ficheiro e cria um horário com base neste
+ */
 public class ImportFileReader {
 
     protected final Horario horario = new Horario("");

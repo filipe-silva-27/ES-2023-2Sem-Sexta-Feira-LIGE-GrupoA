@@ -124,7 +124,7 @@ public class ViewController {
             app.getMainMenuView().initFrame();
             cardLayout.show(contentPane, App.MAIN_MENU);
         }else {
-            app.getUploadFilesView().initFrame();
+            app.getImportFilesView().initFrame();
             cardLayout.show(contentPane, App.UPLOAD_MENU);
         }
     }
@@ -137,7 +137,7 @@ public class ViewController {
             app.getShowScheduleView().initFrame();
             cardLayout.show(contentPane, App.SHOW_SCHEDULE_MENU);
         }else {
-            app.getUploadFilesView().initFrame();
+            app.getImportFilesView().initFrame();
             cardLayout.show(contentPane, App.UPLOAD_MENU);
         }
     }
@@ -145,8 +145,8 @@ public class ViewController {
     /**
      * Exibe a tela de upload de ficheiros.
      */
-    public void showUploadFilesView(){
-        app.getUploadFilesView().initFrame();
+    public void showImportFilesView(){
+        app.getImportFilesView().initFrame();
         cardLayout.show(contentPane, App.UPLOAD_MENU);
     }
 

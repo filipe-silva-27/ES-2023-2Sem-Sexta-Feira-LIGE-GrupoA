@@ -28,7 +28,7 @@ class MainMenuViewTest {
         verify(viewController).showCreateScheduleView();
         verify(viewController).showShowScheduleView();
         verify(viewController).showConvertView();
-        verify(viewController).showUploadFilesView();
+        verify(viewController).showImportFilesView();
     }
 
     @Test
@@ -62,8 +62,8 @@ class MainMenuViewTest {
     void testBackButtonAction() {
         JButton backBtn = new JButton();
         mainMenuView.initFrame();
-        backBtn.addActionListener(e -> viewController.showUploadFilesView());
+        backBtn.addActionListener(e -> viewController.showImportFilesView());
         backBtn.doClick();
-        verify(viewController, times(1)).showUploadFilesView();
+        verify(viewController, times(1)).showImportFilesView();
     }
 }

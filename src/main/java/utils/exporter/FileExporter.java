@@ -1,4 +1,4 @@
-package utils.uploader;
+package utils.exporter;
 
 import com.google.gson.GsonBuilder;
 import com.opencsv.CSVWriter;
@@ -22,13 +22,16 @@ import java.util.Map;
 
 import static org.apache.logging.log4j.core.util.FileUtils.getFileExtension;
 
-public class FileUploader {
+/**
+ *  Classe que transforma um horário num ficheio CSV ou JSON, guardando-o
+ */
+public class FileExporter {
     
-    private static final Logger logger = LoggerFactory.getLogger(FileUploader.class);
+    private static final Logger logger = LoggerFactory.getLogger(FileExporter.class);
     private static Dotenv dotenv = Dotenv.load();
     private static String githubAccessToken = dotenv.get("GITHUB_ACCESS_TOKEN");
 
-    private FileUploader() {
+    private FileExporter() {
         throw new IllegalStateException("Classe de funções de utilidade!");
     }
 
@@ -66,7 +69,7 @@ public class FileUploader {
                     "Error", JOptionPane.ERROR_MESSAGE);
             throw new IllegalArgumentException("GITHUB_ACCESS_TOKEN environment variable not set");
         }
-        return GistUploader.uploadToGist(fileName, content, githubAccessToken);
+        return GistExporter.uploadToGist(fileName, content, githubAccessToken);
     }
 
     /**

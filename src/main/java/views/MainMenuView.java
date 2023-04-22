@@ -38,9 +38,9 @@ public class MainMenuView extends View {
         viewBtn.addActionListener(e -> viewController.showShowScheduleView());
         convertBtn.addActionListener(e -> viewController.showConvertView());
 
-        //back button to redirect to UploadFilesView
+        //back button to redirect to ImportFilesView
         JButton backBtn = new JButton("Voltar");
-        backBtn.addActionListener(e -> viewController.showUploadFilesView());
+        backBtn.addActionListener(e -> viewController.showImportFilesView());
 
         add(criarBtn);
         add(viewBtn);
