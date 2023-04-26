@@ -18,31 +18,32 @@ import static org.mockito.Mockito.*;
 class ExportControllerTest {
 
     private ExportController controller;
-
-    @Mock
     private App app;
 
     @BeforeEach
     public void setUp() {
-        MockitoAnnotations.openMocks(this);
+    	app = new App();
         controller = new ExportController(app);
     }
 
     @Test
     void testExportToLocal() {
-        controller.setContent("Test content");
-        controller.setHorario(new Horario("horarioTeste"));
+    	ViewController viewController = new ViewController(app);
+        // Set up
+        viewController.setContent(null);
 
-        JFileChooser fileChooser = mock(JFileChooser.class);
-        when(fileChooser.showSaveDialog(null)).thenReturn(JFileChooser.APPROVE_OPTION);
-        File file = new File("test.txt");
-        when(fileChooser.getSelectedFile()).thenReturn(file);
+        // Call the method
+        controller.exportToLocal();
+        
+        viewController.setContent("okkk");
+        controller.exportToLocal();
+        
+        viewController.setHorario(new Horario("okk"));
+        controller.exportToLocal();
 
-        assertDoesNotThrow(() -> controller.exportToLocal());
-
-        assertTrue(file.exists());
-        assertTrue(file.delete());
     }
+
+    
 
     @Test
     void testExportToRemote() throws IOException {

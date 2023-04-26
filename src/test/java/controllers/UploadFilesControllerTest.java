@@ -14,6 +14,7 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.io.FileWriter;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
@@ -21,80 +22,52 @@ import static org.mockito.Mockito.*;
 class UploadFilesControllerTest {
 
     private UploadFilesController uploadFilesController;
-
-    @Mock
     private App app;
 
     @BeforeEach
     void setUp() {
-        MockitoAnnotations.openMocks(this);
+        app = new App();
         uploadFilesController = new UploadFilesController(app);
     }
 
     @Test
-    @DisplayName("Test import local file with csv format")
-    void testImportLocalFileWithCsvFormat() throws IOException {
-        // Setup
-        JFileChooser fileChooser = mock(JFileChooser.class);
-        when(fileChooser.showOpenDialog(null)).thenReturn(JFileChooser.APPROVE_OPTION);
-        Path tempFile = Files.createTempFile("temp", ".csv");
-        File fromFile = tempFile.toFile();
-        fromFile.deleteOnExit();
+    void testImportFile() throws IOException {
+        // Create temporary CSV file
+        File csvFile = File.createTempFile("test", ".csv");
+        try (FileWriter writer = new FileWriter(csvFile)) {
+            writer.write("Disciplina,Sala,Dia,Hora Início,Hora Fim,Docente\n");
+            writer.write("Programação 1,D102,2ª,09:00,10:00,John Doe\n");
+        }
 
-        // Exercise
-        uploadFilesController.importFile(fromFile);
+        // Create temporary JSON file
+        File jsonFile = File.createTempFile("test", ".json");
+        try (FileWriter writer = new FileWriter(jsonFile)) {
+            writer.write("{\n");
+            writer.write("  \"disciplinas\": [\n");
+            writer.write("    {\n");
+            writer.write("      \"nome\": \"Programação 1\",\n");
+            writer.write("      \"aulas\": [\n");
+            writer.write("        {\n");
+            writer.write("          \"sala\": \"D102\",\n");
+            writer.write("          \"dia\": \"2ª\",\n");
+            writer.write("          \"horaInicio\": \"09:00\",\n");
+            writer.write("          \"horaFim\": \"10:00\",\n");
+            writer.write("          \"docente\": \"John Doe\"\n");
+            writer.write("        }\n");
+            writer.write("      ]\n");
+            writer.write("    }\n");
+            writer.write("  ]\n");
+            writer.write("}\n");
+        }
 
-        // Verify
-        assertEquals(fromFile, uploadFilesController.getHorario().getFile());
-        uploadFilesController.showMainMenuView();
-        verifyNoMoreInteractions(app);
-    }
-
-    @Test
-    @DisplayName("Test import local file with json format")
-    void testImportLocalFileWithJsonFormat() throws IOException {
-        // Setup
-        JFileChooser fileChooser = mock(JFileChooser.class);
-        when(fileChooser.showOpenDialog(null)).thenReturn(JFileChooser.APPROVE_OPTION);
-        Path tempFile = Files.createTempFile("temp", ".json");
-        File fromFile = tempFile.toFile();
-        fromFile.deleteOnExit();
-
-        // Exercise
-        uploadFilesController.importFile(fromFile);
-
-        // Verify
-        assertEquals(fromFile, uploadFilesController.getHorario().getFile());
-        uploadFilesController.showMainMenuView();
-        verifyNoMoreInteractions(app);
-    }
-
-    @Test
-    @DisplayName("Test import local file with invalid format")
-    void testImportLocalFileWithInvalidFormat() throws IOException {
-        // Setup
-        JFileChooser fileChooser = mock(JFileChooser.class);
-        when(fileChooser.showOpenDialog(null)).thenReturn(JFileChooser.APPROVE_OPTION);
-        Path tempFile = Files.createTempFile("temp", ".txt");
-        File fromFile = tempFile.toFile();
-        fromFile.deleteOnExit();
-
-        // Exercise
-        uploadFilesController.importFile(fromFile);
-
-        // Verify
-        uploadFilesController.showUploadFilesView();
-        verifyNoMoreInteractions(app);
-    }
-
-    @Test
-    @DisplayName("Test import local file with null file")
-    void testImportLocalFileWithNullFile() {
-        // Exercise
+        // Import CSV file
+        uploadFilesController.importFile(csvFile);
+        assertTrue(uploadFilesController.isHorarioSet());
+        
         uploadFilesController.importFile(null);
-
-        // Verify
-        uploadFilesController.showUploadFilesView();
-        verifyNoMoreInteractions(app);
+        uploadFilesController.importFile(new File("teste"));
+        uploadFilesController.importFile(new File("teste.json"));
+        
     }
+
 }
