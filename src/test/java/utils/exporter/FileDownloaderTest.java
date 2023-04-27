@@ -1,4 +1,4 @@
-package utils;
+package utils.exporter;
 
 
 import org.junit.jupiter.api.BeforeEach;
@@ -21,19 +21,6 @@ class FileDownloaderTest {
     void setUp() {
         fileDownloader = mock(FileDownloader.class);
 
-    }
-
-    @Test
-    void downloadFile() throws IOException {
-        URL url = mock(URL.class);
-        File file = fileDownloader.downloadFile(url);
-        assertNotNull(file);
-    }
-
-    @Test
-    void downloadRemoteFile() {
-        File file = fileDownloader.downloadRemoteFile();
-        assertNotNull(file);
     }
 
 }

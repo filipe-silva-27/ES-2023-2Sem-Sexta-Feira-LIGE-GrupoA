@@ -1,0 +1,161 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>App.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">ES-2023-2Sem-Sexta-Feira-LIGE-GrupoA</a> &gt; <a href="index.source.html" class="el_package">gui</a> &gt; <span class="el_source">App.java</span></div><h1>App.java</h1><pre class="source lang-java linenums">package gui;
+
+import controllers.*;
+import views.*;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import java.awt.BorderLayout;
+import java.awt.CardLayout;
+import javax.swing.*;
+
+/**
+ * Classe que é a aplicação principal que interage com o utilizador - GUI.
+ * Esta classe cria uma interface gráfica do usuário (GUI) para a aplicação
+ * Calendar App, que permite ao usuário interagir com várias funcionalidades,
+ * como upload de arquivos, visualização de horários, criação de horários,
+ * conversão de arquivos e exportação de arquivos.
+ */
+public class App {
+
+    private final JFrame frame;
+    private final JPanel mainPanel;
+<span class="nc" id="L22">    private static final Logger logger = LoggerFactory.getLogger(App.class);</span>
+
+    /**
+     * Variáveis estáticas que representam os nomes dos painéis no CardLayout.
+     * Esses nomes são usados para trocar entre as diferentes telas da aplicação.
+     */
+    public static final String MAIN_MENU =&quot;mainMenuView&quot;;
+    public static final String UPLOAD_MENU =&quot;importFilesView&quot;;
+    public static final String SHOW_SCHEDULE_MENU =&quot;showScheduleView&quot;;
+    public static final String CONVERT_MENU = &quot;convertView&quot;;
+    public static final String CREATE_SCHEDULE_MENU =&quot;createScheduleView&quot;;
+    public static final String EXPORT_MENU = &quot;exportFilesView&quot;;
+
+    private MainMenuView mainMenuView;
+    private ImportFilesView importFilesView;
+    private ShowScheduleView showScheduleView;
+    private CreateScheduleView createScheduleView;
+    private ConvertFilesView convertFilesView;
+    private ExportFilesView exportFilesView;
+
+
+    /**
+     * Método construtor que inicializa a GUI da aplicação.
+     */
+<span class="nc" id="L46">    public App() {</span>
+<span class="nc" id="L47">        logger.info(&quot;Inicializando a GUI...&quot;);</span>
+        // Inicializar a frame e o painel principal
+<span class="nc" id="L49">        this.frame = new JFrame(&quot;Calendar App&quot;);</span>
+<span class="nc" id="L50">        CardLayout cardLayout = new CardLayout();</span>
+<span class="nc" id="L51">        this.mainPanel = new JPanel();</span>
+
+<span class="nc" id="L53">        mainPanel.setLayout(cardLayout);</span>
+
+<span class="nc" id="L55">        initViews();</span>
+
+        // Configurar a frame
+<span class="nc" id="L58">        frame.getContentPane().add(mainPanel, BorderLayout.CENTER);</span>
+<span class="nc" id="L59">        frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);</span>
+<span class="nc" id="L60">        frame.pack();</span>
+<span class="nc" id="L61">        frame.setSize(200,200);</span>
+<span class="nc" id="L62">        frame.setVisible(true);</span>
+
+        // Mostrar o menu de upload de ficheiros/horario
+<span class="nc" id="L65">        getImportFilesView().initFrame();</span>
+<span class="nc" id="L66">        cardLayout.show(mainPanel, UPLOAD_MENU);</span>
+<span class="nc" id="L67">        logger.info(&quot;GUI inicializada com sucesso!&quot;);</span>
+<span class="nc" id="L68">    }</span>
+
+    /**
+     * Função que inicializa as views e adiciona ao painel.
+     * Cada view é inicializada com seu respectivo controller e adicionada ao CardLayout.
+     */
+    private void initViews(){
+<span class="nc" id="L75">        logger.info(&quot;Inicializando as views...&quot;);</span>
+        // Inicializar as views
+<span class="nc" id="L77">        mainMenuView = new MainMenuView(new MainMenuController(this));</span>
+<span class="nc" id="L78">        importFilesView = new ImportFilesView(new ImportFilesController(this));</span>
+<span class="nc" id="L79">        createScheduleView = new CreateScheduleView(new CreateScheduleController(this));</span>
+<span class="nc" id="L80">        showScheduleView = new ShowScheduleView( new ShowScheduleController(this));</span>
+<span class="nc" id="L81">        convertFilesView = new ConvertFilesView(new ConvertController(this));</span>
+<span class="nc" id="L82">        exportFilesView = new ExportFilesView(new ExportController(this));</span>
+
+        // Adicionar as views ao CardLayout
+<span class="nc" id="L85">        mainPanel.add(getMainMenuView(), MAIN_MENU);</span>
+<span class="nc" id="L86">        mainPanel.add(getImportFilesView(), UPLOAD_MENU);</span>
+<span class="nc" id="L87">        mainPanel.add(getCreateScheduleView(), CREATE_SCHEDULE_MENU);</span>
+<span class="nc" id="L88">        mainPanel.add(getShowScheduleView(), SHOW_SCHEDULE_MENU);</span>
+<span class="nc" id="L89">        mainPanel.add(getConvertFilesView(), CONVERT_MENU);</span>
+<span class="nc" id="L90">        mainPanel.add(getExportFilesView(), EXPORT_MENU);</span>
+<span class="nc" id="L91">        logger.info(&quot;Views adicionadas com sucesso ao panel!&quot;);</span>
+<span class="nc" id="L92">    }</span>
+
+    public static void main(String[] args) {
+<span class="nc" id="L95">        new App();</span>
+<span class="nc" id="L96">    }</span>
+
+    /**
+     * Obtém a referência para a JFrame da aplicação.
+     * @return A JFrame da aplicação.
+     */
+    public JFrame getFrame() {
+<span class="nc" id="L103">        return frame;</span>
+    }
+
+    /**
+     * Obtém a referência para o painel principal da aplicação.
+     * @return O JPanel do painel principal da aplicação.
+     */
+    public JPanel getMainPanel() {
+<span class="nc" id="L111">        return mainPanel;</span>
+    }
+
+    /**
+     * Obtém a referência para a view do menu principal.
+     * @return A MainMenuView do menu principal.
+     */
+    public MainMenuView getMainMenuView() {
+<span class="nc" id="L119">        return mainMenuView;</span>
+    }
+
+    /**
+     * Obtém a referência para a view de upload de arquivos.
+     * @return A ImportFilesView da view de upload de arquivos.
+     */
+    public ImportFilesView getImportFilesView() {
+<span class="nc" id="L127">        return importFilesView;</span>
+    }
+
+    /**
+     * Obtém a referência para a view de exibição de horário.
+     * @return A ShowScheduleView da view de exibição de horário.
+     */
+    public ShowScheduleView getShowScheduleView() {
+<span class="nc" id="L135">        return showScheduleView;</span>
+    }
+
+    /**
+     * Obtém a referência para a view de criação de horário.
+     * @return A CreateScheduleView da view de criação de horário.
+     */
+    public CreateScheduleView getCreateScheduleView() {
+<span class="nc" id="L143">        return createScheduleView;</span>
+    }
+
+    /**
+     * Obtém a referência para a view de conversão de arquivos.
+     * @return A ConvertFilesView da view de conversão de arquivos.
+     */
+    public ConvertFilesView getConvertFilesView() {
+<span class="nc" id="L151">        return convertFilesView;</span>
+    }
+
+    /**
+     * Obtém a referência para a view de exportação de arquivos.
+     * @return A ExportFilesView da view de exportação de arquivos.
+     */
+<span class="nc" id="L158">    public View getExportFilesView() { return exportFilesView;</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>

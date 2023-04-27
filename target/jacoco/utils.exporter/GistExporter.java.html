@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>GistExporter.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">ES-2023-2Sem-Sexta-Feira-LIGE-GrupoA</a> &gt; <a href="index.source.html" class="el_package">utils.exporter</a> &gt; <span class="el_source">GistExporter.java</span></div><h1>GistExporter.java</h1><pre class="source lang-java linenums">package utils.exporter;
+
+import org.eclipse.egit.github.core.*;
+import org.eclipse.egit.github.core.service.GistService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import java.io.IOException;
+import java.util.*;
+
+/**
+ * Classe que serve para exportar um ficheiro para um Gist do GitHub.
+
+ */
+public class GistExporter {
+
+    private GistExporter() {}
+    private static final String GIST_DESCRIPTION = &quot;Gist created by my Java application&quot;;
+    private static final boolean GIST_PUBLIC = true;
+<span class="nc" id="L20">    private static final Logger LOGGER = LoggerFactory.getLogger(GistExporter.class);</span>
+
+    /**
+     * Faz upload de um arquivo para o Gist do GitHub.
+     *
+     * @param fileName Nome do arquivo.
+     * @param content Conteúdo do arquivo.
+     * @param accessToken Token de acesso do GitHub.
+     * @return URL do Gist criado.
+     * @throws IOException Caso ocorra algum erro de I/O durante o upload.
+     */
+    public static String uploadToGist(String fileName, String content, String accessToken) throws IOException {
+
+<span class="nc" id="L33">        LOGGER.info(&quot;Uploading file to Gist...&quot;);</span>
+
+<span class="nc" id="L35">        GistService gistService = new GistService();</span>
+<span class="nc" id="L36">        gistService.getClient().setOAuth2Token(accessToken);</span>
+
+<span class="nc" id="L38">        GistFile gistFile = new GistFile();</span>
+<span class="nc" id="L39">        gistFile.setContent(content);</span>
+
+<span class="nc" id="L41">        Map&lt;String, GistFile&gt; files = new HashMap&lt;&gt;();</span>
+<span class="nc" id="L42">        files.put(fileName, gistFile);</span>
+
+<span class="nc" id="L44">        Gist gist = new Gist();</span>
+<span class="nc" id="L45">        gist.setDescription(GIST_DESCRIPTION);</span>
+<span class="nc" id="L46">        gist.setPublic(GIST_PUBLIC);</span>
+<span class="nc" id="L47">        gist.setFiles(files);</span>
+
+<span class="nc" id="L49">        Gist newGist = gistService.createGist(gist);</span>
+
+<span class="nc" id="L51">        LOGGER.info(&quot;File uploaded to Gist with URL: {}&quot;, newGist.getHtmlUrl());</span>
+<span class="nc" id="L52">        return newGist.getHtmlUrl();</span>
+    }
+}
+
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>

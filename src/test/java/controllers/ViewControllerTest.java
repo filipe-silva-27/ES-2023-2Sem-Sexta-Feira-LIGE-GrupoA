@@ -23,6 +23,15 @@ class ViewControllerTest {
     }
 
     @Test
+    void testShowMainMenuView() {
+        Horario horario = new Horario("Teste");
+        viewController.setHorario(horario);
+        viewController.showMainMenuView();
+        viewController.setHorario(null);
+        viewController.showMainMenuView();
+    }
+
+    @Test
     @DisplayName("Test getContent method")
     void testGetContent() {
         String expected = "Hello World";
