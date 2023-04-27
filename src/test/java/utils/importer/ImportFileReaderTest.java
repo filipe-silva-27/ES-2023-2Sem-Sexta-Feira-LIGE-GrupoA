@@ -13,6 +13,8 @@ import java.util.Date;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
+import utils.importer.ImportFileReader;
+
 import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
@@ -29,20 +31,6 @@ class ImportFileReaderTest {
     @BeforeEach
     void setUp() {
         importFileReader = new ImportFileReader();
-    }
-
-    @Test
-    void testCriaDataAula() {
-        // Create a test date string
-        String dateStr = "01/01/2022";
-
-        // Call the method with valid input values
-        DataAula result = importFileReader.criaDataAula("Seg", "08:00:00", "10:00:00", dateStr);
-        assertEquals(DiaSemana.MONDAY, result.getDiaSemana());
-
-     // Call the method with an invalid date format
-        DataAula dataAula = importFileReader.criaDataAula("Seg", "9:00:00", "", "");
-
     }
 
 

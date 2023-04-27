@@ -2,32 +2,23 @@ package controllers;
 
 import gui.App;
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.mockito.Mock;
-import org.mockito.MockitoAnnotations;
-import utils.ImportFileReader;
 
-import javax.swing.*;
 import java.io.File;
 import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.io.FileWriter;
 
-import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.Mockito.*;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
-class UploadFilesControllerTest {
+class ImportFilesControllerTest {
 
-    private UploadFilesController uploadFilesController;
+    private ImportFilesController importFilesController;
     private App app;
 
     @BeforeEach
     void setUp() {
         app = new App();
-        uploadFilesController = new UploadFilesController(app);
+        importFilesController = new ImportFilesController(app);
     }
 
     @Test
@@ -61,12 +52,12 @@ class UploadFilesControllerTest {
         }
 
         // Import CSV file
-        uploadFilesController.importFile(csvFile);
-        assertTrue(uploadFilesController.isHorarioSet());
+        importFilesController.importFile(csvFile);
+        assertTrue(importFilesController.isHorarioSet());
 
-        uploadFilesController.importFile(null);
-        uploadFilesController.importFile(new File("teste"));
-        uploadFilesController.importFile(new File("teste.json"));
+        importFilesController.importFile(null);
+        importFilesController.importFile(new File("teste"));
+        importFilesController.importFile(new File("teste.json"));
 
     }
 
