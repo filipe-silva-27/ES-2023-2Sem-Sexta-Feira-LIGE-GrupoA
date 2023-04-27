@@ -1,4 +1,4 @@
-package utils.importer;
+package utils;
 
 import models.*;
 import org.junit.jupiter.api.Assertions;
@@ -6,108 +6,111 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.MockitoAnnotations;
 import org.mockito.InjectMocks;
-import utils.importer.ImportFileReader;
 
 import java.io.IOException;
 import java.time.LocalTime;
 import java.util.Date;
+import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
+import java.io.File;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
 
+
+import static org.junit.Assert.assertEquals;
 import static org.mockito.Mockito.*;
 
 class ImportFileReaderTest {
 
-    @InjectMocks
     ImportFileReader importFileReader;
 
     @BeforeEach
     void setUp() {
-        MockitoAnnotations.openMocks(this);
+        importFileReader = new ImportFileReader();
     }
 
     @Test
     void testCriaDataAula() {
-        DataAula expectedDataAula = new DataAula(
-                DiaSemana.MONDAY,
-                LocalTime.of(8, 30),
-                LocalTime.of(10, 0),
-                new Date(123456789)
-        );
-        /*DataAula actualDataAula = importFileReader.criaDataAula(
-                "MONDAY", "08:30", "10:00", "01/01/1970"
-        );
-        Assertions.assertEquals(expectedDataAula, actualDataAula);*/
+        // Create a test date string
+        String dateStr = "01/01/2022";
+
+        // Call the method with valid input values
+        DataAula result = importFileReader.criaDataAula("Seg", "08:00:00", "10:00:00", dateStr);
+        assertEquals(DiaSemana.MONDAY, result.getDiaSemana());
+
+     // Call the method with an invalid date format
+        DataAula dataAula = importFileReader.criaDataAula("Seg", "9:00:00", "", "");
+
     }
+
 
     @Test
     void testCriaUC() {
-        UnidadeCurricular expectedUC = new UnidadeCurricular("LEIC", "POO");
-        Horario horario = mock(Horario.class);
-        horario.addUnidadeCurricular(expectedUC);
-        when(horario.getUnidadeCurricular(expectedUC)).thenReturn(expectedUC);
+        // Create a new Horario and UC
+        Horario horario = new Horario("Test Horario");
+        String curso = "Test Curso";
+        String unidadeCurricular = "Test UC";
 
-        UnidadeCurricular actualUC = importFileReader.criaUC("LEIC", "POO");
-        Assertions.assertEquals(expectedUC, actualUC);
+        UnidadeCurricular uc = importFileReader.criaUC(curso, unidadeCurricular);
+        // Check that the returned UC has the correct properties
+        assertEquals(curso, uc.getCurso());
+        assertEquals(unidadeCurricular, uc.getNomeUC());
 
-        verify(horario, times(1)).addUnidadeCurricular(expectedUC);
-        verify(horario, times(1)).getUnidadeCurricular(expectedUC);
+        horario.addUnidadeCurricular(uc);
+        UnidadeCurricular uc2 = importFileReader.criaUC(curso, unidadeCurricular);
+        assertEquals(curso, uc2.getCurso());
+        assertEquals(unidadeCurricular, uc2.getNomeUC());
+
     }
 
     @Test
-    void testCriaHorario() {
-        UnidadeCurricular uc = new UnidadeCurricular("LEIC", "POO");
-        Aula expectedAula = new Aula(
-                uc, "P", "1", 50, "LT1", 100
-        );
-        expectedAula.setDataAula(new DataAula(
-                DiaSemana.MONDAY,
-                LocalTime.of(8, 30),
-                LocalTime.of(10, 0),
-                new Date(123456789)
-        ));
-        uc.addAula(expectedAula);
-        when(importFileReader.criaUC("LEIC", "POO")).thenReturn(uc);
+    void testJsonToHorario() {
+        // create a JSON object with one record
+        JSONObject json = new JSONObject();
+        json.put("Curso", "Engenharia Informática");
+        json.put("Unidade Curricular", "Programação");
+        json.put("Turno", "T1");
+        json.put("Turma", "EI-42");
+        json.put("Inscritos no turno", 20);
+        json.put("Dia da semana", "Segunda");
+        json.put("Hora início da aula", "08:30");
+        json.put("Hora fim da aula", "10:00");
+        json.put("Data da aula", "01/01/2022");
+        json.put("Sala atribuída à aula", "B102");
+        json.put("Lotação da sala", 30);
+
+        JSONArray jsonArray = new JSONArray();
+        jsonArray.add(json);
+
+        // create a mock file
+        File jsonFile = new File("test.json");
+        try {
+            FileWriter fileWriter = new FileWriter(jsonFile);
+            fileWriter.write(jsonArray.toJSONString());
+            fileWriter.flush();
+            fileWriter.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        Horario horario = importFileReader.jsonToHorario(jsonFile);
+     // assert the results
+        assertEquals(1, horario.getUnidadesCurriculares().size());
+        assertEquals("Programação", horario.getUnidadeCurricularByNome("Programação").getNomeUC());
+        assertEquals("Engenharia Informática", horario.getUnidadeCurricularByNome("Programação").getCurso());
+        assertEquals("T1", horario.getUnidadeCurricularByNome("Programação").getAulas().get(0).getTurno());
+        assertEquals("EI-42", horario.getUnidadeCurricularByNome("Programação").getAulas().get(0).getTurma());
 
 
-        /*importFileReader.criaHorario(
-                "POO", "LEIC", "P", "1", "MONDAY", "08:30", "10:00", "01/01/1970", "LT1", 50, 100
-        );
-        UnidadeCurricular actualUC = horario.getUnidadeCurricular(uc);
-        Assertions.assertEquals(uc, actualUC);
-
-        Aula actualAula = actualUC.getAulas().get(0);
-        Assertions.assertEquals(expectedAula, actualAula);*/
-
-        verify(importFileReader, times(1)).criaUC("LEIC", "POO");
     }
 
-    @Test
-    void testProcessRecord() throws IOException {
-        String[] record = {
-                "POO", "LEIC", "P", "1", "MONDAY", "08:30", "10:00", "01/01/1970", "LT1", "50", "100"
-        };
-        UnidadeCurricular uc = new UnidadeCurricular("LEIC", "POO");
-        Aula expectedAula = new Aula(
-                uc, "P", "1", 50, "LT1", 100
-        );
-        expectedAula.setDataAula(new DataAula(
-                DiaSemana.MONDAY,
-                LocalTime.of(8, 30),
-                LocalTime.of(10, 0),
-                new Date(123456789)
-        ));
-        uc.addAula(expectedAula);
-        when(importFileReader.criaUC("LEIC", "POO")).thenReturn(uc);
 
-        //importFileReader.processRecord(record);
-        Horario horario = mock(Horario.class);
-        UnidadeCurricular actualUC = horario.getUnidadeCurricular(uc);
-        Assertions.assertEquals(uc, actualUC);
 
-        Aula actualAula = actualUC.getAulas().get(0);
-        Assertions.assertEquals(expectedAula, actualAula);
 
-        verify(importFileReader, times(1)).criaUC("LEIC", "POO");
-    }
+
+
 
 }
 

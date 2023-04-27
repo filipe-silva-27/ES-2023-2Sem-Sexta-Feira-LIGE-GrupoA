@@ -1,7 +1,7 @@
 package controllers;
 
 import static org.junit.jupiter.api.Assertions.*;
-
+import java.awt.CardLayout;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -16,6 +16,24 @@ class ViewControllerTest {
     private App app;
     private ViewController viewController;
 
+    @Test
+    void testShowMainMenuView() {
+    	Horario horario = new Horario("Teste");
+    	viewController.setHorario(horario);
+    	viewController.showMainMenuView();
+    	viewController.setHorario(null);
+    	viewController.showMainMenuView();
+    }
+    
+    @Test
+    void testShowShowScheduleView() {
+    	Horario horario = new Horario("Teste");
+    	viewController.setHorario(horario);
+    	viewController.showShowScheduleView();
+    	viewController.setHorario(null);
+    	viewController.showShowScheduleView();
+    }
+    
     @BeforeEach
     void setUp() {
         app = new App();
@@ -41,20 +59,33 @@ class ViewControllerTest {
     }
 
     @Test
-    @DisplayName("Test isContentSet method")
     void testIsContentSet() {
-        ViewController.setContent("Hello World");
+        ViewController viewController = new ViewController(app);
+        assertFalse(viewController.isContentSet());
+
+        viewController.setContent("test");
         assertTrue(viewController.isContentSet());
+
+        viewController.setContent(null);
+        assertFalse(viewController.isContentSet());
     }
 
+
     @Test
-    @DisplayName("Test isFileUploaded method")
     void testIsFileUploaded() {
-        Horario horario = new Horario("horarioTest");
-        horario.setFile(new File("test.txt"));
-        ViewController.setHorario(horario);
+        // Create a Horario object with a null file
+        Horario horario1 = new Horario("Test Horario 1");
+        horario1.setFile(null);
+        viewController.setHorario(horario1);
+        assertFalse(viewController.isFileUploaded());
+
+        // Create a Horario object with a non-null file
+        Horario horario2 = new Horario("Test Horario 2");
+        horario2.setFile(new File("dummy/path"));
+        viewController.setHorario(horario2);
         assertTrue(viewController.isFileUploaded());
     }
+   
 
     @Test
     @DisplayName("Test isHorarioSet method")
