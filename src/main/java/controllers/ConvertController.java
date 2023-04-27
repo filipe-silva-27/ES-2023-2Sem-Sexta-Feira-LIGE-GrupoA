@@ -4,7 +4,7 @@ import gui.App;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import utils.uploader.FileUploader;
+import utils.exporter.FileExporter;
 
 import javax.swing.*;
 
@@ -31,7 +31,7 @@ public class ConvertController extends ViewController {
     public void convertFile(){
         if(isHorarioSet()){
             try{
-                String content = FileUploader.convertHorarioToFormat(getHorario());
+                String content = FileExporter.convertHorarioToFormat(getHorario());
                 setContent(content);
                 showExportFilesView();
             }catch (IllegalArgumentException e){

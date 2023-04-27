@@ -3,7 +3,7 @@ package controllers;
 import gui.App;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import utils.uploader.FileUploader;
+import utils.exporter.FileExporter;
 
 import java.awt.*;
 import javax.swing.*;
@@ -74,7 +74,7 @@ public class ExportController extends ViewController {
             throw new IllegalArgumentException("Nome do ficheiro vazio!");
         }
         try {
-            String url = FileUploader.exportToGist(fileName, content);
+            String url = FileExporter.exportToGist(fileName, content);
 
             //Adiciona um HyperlinkListener ao JOptionPane para tornar o link clicável
             JLabel label = new JLabel("<html><a href=\"" + url + "\">" + url + "</a></html>");

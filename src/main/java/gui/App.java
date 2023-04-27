@@ -26,14 +26,14 @@ public class App {
      * Esses nomes são usados para trocar entre as diferentes telas da aplicação.
      */
     public static final String MAIN_MENU ="mainMenuView";
-    public static final String UPLOAD_MENU ="uploadFilesView";
+    public static final String UPLOAD_MENU ="importFilesView";
     public static final String SHOW_SCHEDULE_MENU ="showScheduleView";
     public static final String CONVERT_MENU = "convertView";
     public static final String CREATE_SCHEDULE_MENU ="createScheduleView";
     public static final String EXPORT_MENU = "exportFilesView";
 
     private MainMenuView mainMenuView;
-    private UploadFilesView uploadFilesView;
+    private ImportFilesView importFilesView;
     private ShowScheduleView showScheduleView;
     private CreateScheduleView createScheduleView;
     private ConvertFilesView convertFilesView;
@@ -62,7 +62,7 @@ public class App {
         frame.setVisible(true);
 
         // Mostrar o menu de upload de ficheiros/horario
-        getUploadFilesView().initFrame();
+        getImportFilesView().initFrame();
         cardLayout.show(mainPanel, UPLOAD_MENU);
         logger.info("GUI inicializada com sucesso!");
     }
@@ -75,7 +75,7 @@ public class App {
         logger.info("Inicializando as views...");
         // Inicializar as views
         mainMenuView = new MainMenuView(new MainMenuController(this));
-        uploadFilesView = new UploadFilesView(new UploadFilesController(this));
+        importFilesView = new ImportFilesView(new ImportFilesController(this));
         createScheduleView = new CreateScheduleView(new CreateScheduleController(this));
         showScheduleView = new ShowScheduleView( new ShowScheduleController(this));
         convertFilesView = new ConvertFilesView(new ConvertController(this));
@@ -83,7 +83,7 @@ public class App {
 
         // Adicionar as views ao CardLayout
         mainPanel.add(getMainMenuView(), MAIN_MENU);
-        mainPanel.add(getUploadFilesView(), UPLOAD_MENU);
+        mainPanel.add(getImportFilesView(), UPLOAD_MENU);
         mainPanel.add(getCreateScheduleView(), CREATE_SCHEDULE_MENU);
         mainPanel.add(getShowScheduleView(), SHOW_SCHEDULE_MENU);
         mainPanel.add(getConvertFilesView(), CONVERT_MENU);
@@ -121,10 +121,10 @@ public class App {
 
     /**
      * Obtém a referência para a view de upload de arquivos.
-     * @return A UploadFilesView da view de upload de arquivos.
+     * @return A ImportFilesView da view de upload de arquivos.
      */
-    public UploadFilesView getUploadFilesView() {
-        return uploadFilesView;
+    public ImportFilesView getImportFilesView() {
+        return importFilesView;
     }
 
     /**

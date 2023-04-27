@@ -49,7 +49,7 @@ class ViewTest {
             viewUnderTest.add(mockButton1);
             viewUnderTest.add(mockButton2);
             return null;
-        }).when(mockViewController).showUploadFilesView();
+        }).when(mockViewController).showImportFilesView();
 
         // WHEN
         viewUnderTest.initFrame();
@@ -60,6 +60,6 @@ class ViewTest {
         verify(mockButton1).getText();
         verify(mockButton2).getText();
         verify(mockViewController).getHorario();
-        verify(mockViewController).showUploadFilesView();
+        verify(mockViewController).showImportFilesView();
     }
 }

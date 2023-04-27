@@ -3,6 +3,7 @@ package utils;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import utils.importer.FileDownloader;
 
 import java.io.File;
 import java.io.IOException;

@@ -1,5 +1,7 @@
 package models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import java.util.*;
 
 
@@ -7,6 +9,7 @@ public class UnidadeCurricular {
 
     private String curso;
     private String nomeUC;
+    @JsonIgnore
     private List<Aula> aulas;
 
     /**

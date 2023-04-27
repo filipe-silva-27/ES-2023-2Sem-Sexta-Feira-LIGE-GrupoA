@@ -7,14 +7,11 @@ import gui.App;
 import models.Horario;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.slf4j.Logger;
 
-import utils.uploader.FileUploader;
+import utils.exporter.FileExporter;
 
 import javax.swing.*;
 
-import java.io.File;
-import java.io.FileWriter;
 import java.io.IOException;
 
 class ConvertControllerTest {
@@ -32,7 +29,7 @@ class ConvertControllerTest {
     void testConvertFile() throws IOException {
         Horario horario = mock(Horario.class);
         when(controller.getHorario()).thenReturn(horario);
-        when(FileUploader.convertHorarioToFormat(horario)).thenReturn("{\"name\":\"John\", \"age\":30, \"city\":\"New York\"}");
+        when(FileExporter.convertHorarioToFormat(horario)).thenReturn("{\"name\":\"John\", \"age\":30, \"city\":\"New York\"}");
 
         assertDoesNotThrow(() -> controller.convertFile());
 
@@ -44,7 +41,7 @@ class ConvertControllerTest {
     void testConvertFileWithInvalidFormat() throws IOException {
         Horario horario = mock(Horario.class);
         when(controller.getHorario()).thenReturn(horario);
-        when(FileUploader.convertHorarioToFormat(horario)).thenThrow(new IllegalArgumentException());
+        when(FileExporter.convertHorarioToFormat(horario)).thenThrow(new IllegalArgumentException());
 
         JOptionPane jOptionPane = mock(JOptionPane.class);
         when(app.getFrame().getContentPane()).thenReturn(jOptionPane);

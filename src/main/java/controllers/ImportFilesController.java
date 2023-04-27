@@ -3,26 +3,26 @@ package controllers;
 import gui.App;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import utils.FileDownloader;
-import utils.ImportFileReader;
+import utils.importer.FileDownloader;
+import utils.importer.ImportFileReader;
 
 import javax.swing.*;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import java.io.File;
 
 /**
- * Esta classe é um controlador para upload de ficheiros.
+ * Esta classe é um controlador para importar para a aplicação ficheiros CSV e JSON.
  * Estende a classe ViewController.
  */
-public class UploadFilesController extends ViewController{
+public class ImportFilesController extends ViewController{
 
-    private static final Logger logger = LoggerFactory.getLogger(UploadFilesController.class);
+    private static final Logger logger = LoggerFactory.getLogger(ImportFilesController.class);
 
     /**
      * Construtor do controlador de upload de arquivos.
      * @param app - instância da classe principal da aplicação
      */
-    public UploadFilesController(App app) {
+    public ImportFilesController(App app) {
         super(app);
         logger.info("- inicializado com sucesso.");
     }
@@ -78,7 +78,7 @@ public class UploadFilesController extends ViewController{
      */
     private void showErrorAndUploadView(String message) {
         JOptionPane.showMessageDialog(null, message, "Erro", JOptionPane.ERROR_MESSAGE);
-        showUploadFilesView();
+        showImportFilesView();
     }
 
 }

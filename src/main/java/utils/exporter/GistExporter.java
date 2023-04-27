@@ -1,4 +1,4 @@
-package utils.uploader;
+package utils.exporter;
 
 import org.eclipse.egit.github.core.*;
 import org.eclipse.egit.github.core.service.GistService;
@@ -9,14 +9,15 @@ import java.io.IOException;
 import java.util.*;
 
 /**
- * Classe utilitária para fazer upload de arquivos para o Gist do GitHub.
- */
-public class GistUploader {
+ * Classe que serve para exportar um ficheiro para um Gist do GitHub.
 
-    private GistUploader() {}
+ */
+public class GistExporter {
+
+    private GistExporter() {}
     private static final String GIST_DESCRIPTION = "Gist created by my Java application";
     private static final boolean GIST_PUBLIC = true;
-    private static final Logger LOGGER = LoggerFactory.getLogger(GistUploader.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(GistExporter.class);
 
     /**
      * Faz upload de um arquivo para o Gist do GitHub.

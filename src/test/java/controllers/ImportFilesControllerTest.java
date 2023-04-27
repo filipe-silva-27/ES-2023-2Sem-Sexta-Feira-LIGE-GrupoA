@@ -6,21 +6,19 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
-import utils.ImportFileReader;
 
 import javax.swing.*;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.nio.file.Paths;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
-class UploadFilesControllerTest {
+class ImportFilesControllerTest {
 
-    private UploadFilesController uploadFilesController;
+    private ImportFilesController importFilesController;
 
     @Mock
     private App app;
@@ -28,7 +26,7 @@ class UploadFilesControllerTest {
     @BeforeEach
     void setUp() {
         MockitoAnnotations.openMocks(this);
-        uploadFilesController = new UploadFilesController(app);
+        importFilesController = new ImportFilesController(app);
     }
 
     @Test
@@ -42,11 +40,11 @@ class UploadFilesControllerTest {
         fromFile.deleteOnExit();
 
         // Exercise
-        uploadFilesController.importFile(fromFile);
+        importFilesController.importFile(fromFile);
 
         // Verify
-        assertEquals(fromFile, uploadFilesController.getHorario().getFile());
-        uploadFilesController.showMainMenuView();
+        assertEquals(fromFile, importFilesController.getHorario().getFile());
+        importFilesController.showMainMenuView();
         verifyNoMoreInteractions(app);
     }
 
@@ -61,11 +59,11 @@ class UploadFilesControllerTest {
         fromFile.deleteOnExit();
 
         // Exercise
-        uploadFilesController.importFile(fromFile);
+        importFilesController.importFile(fromFile);
 
         // Verify
-        assertEquals(fromFile, uploadFilesController.getHorario().getFile());
-        uploadFilesController.showMainMenuView();
+        assertEquals(fromFile, importFilesController.getHorario().getFile());
+        importFilesController.showMainMenuView();
         verifyNoMoreInteractions(app);
     }
 
@@ -80,10 +78,10 @@ class UploadFilesControllerTest {
         fromFile.deleteOnExit();
 
         // Exercise
-        uploadFilesController.importFile(fromFile);
+        importFilesController.importFile(fromFile);
 
         // Verify
-        uploadFilesController.showUploadFilesView();
+        importFilesController.showImportFilesView();
         verifyNoMoreInteractions(app);
     }
 
@@ -91,10 +89,10 @@ class UploadFilesControllerTest {
     @DisplayName("Test import local file with null file")
     void testImportLocalFileWithNullFile() {
         // Exercise
-        uploadFilesController.importFile(null);
+        importFilesController.importFile(null);
 
         // Verify
-        uploadFilesController.showUploadFilesView();
+        importFilesController.showImportFilesView();
         verifyNoMoreInteractions(app);
     }
 }

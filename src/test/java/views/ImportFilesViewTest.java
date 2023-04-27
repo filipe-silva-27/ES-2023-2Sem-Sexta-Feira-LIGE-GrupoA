@@ -1,6 +1,6 @@
 package views;
 
-import controllers.UploadFilesController;
+import controllers.ImportFilesController;
 import controllers.ViewController;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -12,12 +12,12 @@ import javax.swing.JButton;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.verify;
 
-class UploadFilesViewTest {
+class ImportFilesViewTest {
 
-    private UploadFilesView view;
+    private ImportFilesView view;
 
     @Mock
-    private UploadFilesController controller;
+    private ImportFilesController controller;
 
     @Mock
     private ViewController viewController;
@@ -25,7 +25,7 @@ class UploadFilesViewTest {
     @BeforeEach
     void setUp() {
         viewController = Mockito.mock(ViewController.class);
-        view = new UploadFilesView(viewController);
+        view = new ImportFilesView(viewController);
     }
 
     @Test
