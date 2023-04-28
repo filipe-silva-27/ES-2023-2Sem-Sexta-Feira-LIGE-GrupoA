@@ -52,7 +52,7 @@ class UnidadeCurricularTest {
 
     @Test
     void getCurso() {
-        assertEquals("Engenharia de Software", uc.getCurso());
+        assertEquals("LIGE", uc.getCurso());
     }
 
     @Test
@@ -62,13 +62,13 @@ class UnidadeCurricularTest {
 
     @Test
     void testEquals() {
-        UnidadeCurricular uc1 = new UnidadeCurricular("Engenharia de Software", "Inteligência Artificial");
+        UnidadeCurricular uc1 = new UnidadeCurricular("LIGE", "Engenharia de Software");
         assertEquals(uc, uc1);
     }
 
     @Test
     void testHashCode() {
-        UnidadeCurricular uc1 = new UnidadeCurricular("Engenharia de Software", "Inteligência Artificial");
+    	UnidadeCurricular uc1 = new UnidadeCurricular("LIGE", "Engenharia de Software");
         assertEquals(uc1.hashCode(), uc.hashCode());
     }
 

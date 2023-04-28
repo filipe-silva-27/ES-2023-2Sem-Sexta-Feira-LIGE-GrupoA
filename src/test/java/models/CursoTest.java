@@ -1,27 +1,31 @@
 package models;
 
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-
-import static org.junit.jupiter.api.Assertions.*;
 
 class CursoTest {
 
-    @Test
-    void getNome() {
-        Curso curso = new Curso("Engenharia de Software");
-        assertEquals("Engenharia de Software", curso.getNome());
+    private Curso curso;
+
+    @BeforeEach
+    void setUp() {
+        curso = new Curso("Engenharia Informática");
     }
 
     @Test
-    void setNome() {
-        Curso curso = new Curso("Engenharia de Software");
-        curso.setNome("Ciência da Computação");
-        assertEquals("Ciência da Computação", curso.getNome());
+    void testGetNome() {
+        Assertions.assertEquals("Engenharia Informática", curso.getNome());
+    }
+
+    @Test
+    void testSetNome() {
+        curso.setNome("Engenharia de Software");
+        Assertions.assertEquals("Engenharia de Software", curso.getNome());
     }
 
     @Test
     void testToString() {
-        Curso curso = new Curso("Engenharia de Software");
-        assertEquals("Curso{nome='Engenharia de Software'}", curso.toString());
+        Assertions.assertEquals("Curso{nome='Engenharia Informática'}", curso.toString());
     }
 }
