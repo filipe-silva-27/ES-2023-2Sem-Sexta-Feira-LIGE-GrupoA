@@ -30,6 +30,7 @@ import java.util.List;
 public class ShowScheduleController extends ViewController{
 
     private static final Logger logger = LoggerFactory.getLogger(ShowScheduleController.class);
+    private List<Aula> aulasSobrepostas;
 
     /**
      * Construtor da classe ShowScheduleController.
@@ -117,4 +118,58 @@ public class ShowScheduleController extends ViewController{
         return aulaList;
     }
 
+    //so testar: quando aulas sobrepostas sao null, quand ficam vazias, quando tem aulas sobrepostas, e quando aulas é null?
+    public void showSobreposicoes() {
+        List<Aula> aulas = getAulas();
+        if (aulasSobrepostas == null) {
+            aulasSobrepostas = new ArrayList<>();
+            for (Aula aula: aulas) {
+                search(aulas, aula);
+            }
+        }
+        if (!aulasSobrepostas.isEmpty()) {
+            int i =0;
+            StringBuilder aulasSobrepostasString = new StringBuilder();
+            for (Aula aula : aulasSobrepostas) {
+                String[] dataApresentavel = aula.getDataAula().getData().toString().split(" ");
+                String data = (dataApresentavel[0] + " " + dataApresentavel[1] + " " + dataApresentavel[2] + " " + dataApresentavel[5]);
+                aulasSobrepostasString.append( data + " das " +
+                        aula.getDataAula().getHoraInicio() + " às " + aula.getDataAula().getHoraFim() +
+                        " - " + aula.getUc().getNomeUC() + "\n");
+                i++;
+                if ( i >= 10 ) break;
+            }
+            //make a new window that is scrollable and show the text
+            JTextArea textArea = new JTextArea(aulasSobrepostasString.toString());
+            JScrollPane scrollPane = new JScrollPane(textArea);
+            textArea.setLineWrap(true);
+            textArea.setWrapStyleWord(true);
+            scrollPane.setPreferredSize(new Dimension(500, 500));
+            JOptionPane.showMessageDialog(null, scrollPane, "Aulas sobrepostas",
+                    JOptionPane.INFORMATION_MESSAGE);
+
+        } else {
+            JOptionPane.showMessageDialog(null, "Não existem aulas sobrepostas!",
+                    "Aulas sobrepostas", JOptionPane.INFORMATION_MESSAGE);
+        }
+    }
+
+    public void search(List<Aula> aulas, Aula aula) {
+        int start = 0;
+        int end = aulas.size() - 1;
+
+        while (start <= end) {
+            int mid = start + (end - start) / 2;
+
+            if (aulas.get(mid).compareTo(aula) > 0)
+                end = mid - 1;
+            else if (aulas.get(mid).compareTo(aula) < 0)
+                start = mid + 1;
+            else {
+                aulasSobrepostas.add(aulas.get(mid));
+                break;
+            }
+        }
+
+    }
 }
