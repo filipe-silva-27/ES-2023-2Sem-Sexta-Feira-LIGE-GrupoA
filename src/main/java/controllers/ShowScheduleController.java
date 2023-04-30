@@ -123,8 +123,13 @@ public class ShowScheduleController extends ViewController{
         List<Aula> aulas = getAulas();
         if (aulasSobrepostas == null) {
             aulasSobrepostas = new ArrayList<>();
-            for (Aula aula: aulas) {
-                search(aulas, aula);
+            for (int i = 0; i < aulas.size() -1; i++){
+                for (int j = i+1; j < aulas.size(); j++){
+                    if (aulas.get(i).compareTo(aulas.get(j)) == 0) {
+                        aulasSobrepostas.add(aulas.get(i));
+                        aulasSobrepostas.add(aulas.get(j));
+                    }
+                }
             }
         }
         if (!aulasSobrepostas.isEmpty()) {
@@ -154,22 +159,23 @@ public class ShowScheduleController extends ViewController{
         }
     }
 
-    public void search(List<Aula> aulas, Aula aula) {
-        int start = 0;
-        int end = aulas.size() - 1;
-
-        while (start <= end) {
-            int mid = start + (end - start) / 2;
-
-            if (aulas.get(mid).compareTo(aula) > 0)
-                end = mid - 1;
-            else if (aulas.get(mid).compareTo(aula) < 0)
-                start = mid + 1;
-            else {
+    public void binarySearchForDuplicates(List<Aula> aulas) {
+        int left = 0, right = aulas.size() - 1;
+        while (left < right) {
+            int mid = (left + right) / 2;
+            if (aulas.get(mid).compareTo(aulas.get(right)) == 0) {
                 aulasSobrepostas.add(aulas.get(mid));
-                break;
+                right--;
+            } else if (aulas.get(mid).compareTo(aulas.get(left)) == 0) {
+                aulasSobrepostas.add(aulas.get(mid));
+                left++;
+            } else if (aulas.get(mid).compareTo(aulas.get(right)) < 0) {
+                right = mid - 1;
+            } else {
+                left = mid + 1;
             }
         }
-
     }
+
+    /**/
 }
