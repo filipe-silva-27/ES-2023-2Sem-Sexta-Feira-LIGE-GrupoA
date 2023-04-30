@@ -1,0 +1,163 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>Aula.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">ES-2023-2Sem-Sexta-Feira-LIGE-GrupoA</a> &gt; <a href="index.source.html" class="el_package">models</a> &gt; <span class="el_source">Aula.java</span></div><h1>Aula.java</h1><pre class="source lang-java linenums">package models;
+
+import java.util.Objects;
+
+/**
+ * Classe que representa uma aula de uma unidade curricular.
+ * Esta classe possui informações sobre a unidade curricular, turno, turma, número de inscritos,
+ * data da aula, sala e lotação da sala.
+ * Implementa a interface Comparable para permitir comparação entre aulas com base na data e hora de início.
+ * Implementa os métodos equals, hashCode e toString para permitir comparação e representação textual adequada
+ * dos objetos do tipo Aula.
+ */
+public class Aula implements Comparable&lt;Aula&gt;{
+
+    private UnidadeCurricular uc;
+    private String turno;
+    private String turma;
+    private Integer numInscritos;
+<span class="nc" id="L19">    private DataAula dataAula = null;</span>
+    private String sala;
+    private Integer lotacao;
+
+    /**
+     * Construtor da classe Aula.
+     *
+     * @param uc Unidade curricular da aula
+     * @param turno Turno da aula
+     * @param turma Turma da aula
+     * @param numInscritos Número de inscritos na aula
+     * @param sala Sala onde ocorre a aula
+     * @param lotacao Lotação da sala
+     */
+<span class="nc" id="L33">    public Aula(UnidadeCurricular uc,String turno, String turma, Integer numInscritos,String sala, Integer lotacao) {</span>
+<span class="nc" id="L34">        this.uc = uc;</span>
+<span class="nc" id="L35">        this.turno = turno;</span>
+<span class="nc" id="L36">        this.turma = turma;</span>
+<span class="nc" id="L37">        this.numInscritos = numInscritos;</span>
+<span class="nc" id="L38">        this.sala = sala;</span>
+<span class="nc" id="L39">        this.lotacao = lotacao;</span>
+<span class="nc" id="L40">    }</span>
+
+    /**
+     * Obtém a unidade curricular da aula.
+     * @return Unidade curricular da aula
+     */
+    public UnidadeCurricular getUc() {
+<span class="nc" id="L47">        return uc;</span>
+    }
+
+    /**
+     * Obtém a data da aula.
+     * @return Data da aula
+     */
+    public DataAula getDataAula() {
+<span class="nc" id="L55">        return dataAula;</span>
+    }
+
+    /**
+     * Define a data da aula.
+     * @param dataAula Data da aula
+     */
+    public void setDataAula(DataAula dataAula) {
+<span class="nc" id="L63">        this.dataAula = dataAula;</span>
+<span class="nc" id="L64">    }</span>
+
+    /**
+     * Obtém o turno da aula.
+     * @return Turno da aula
+     */
+    public String getTurno() {
+<span class="nc" id="L71">        return turno;</span>
+    }
+
+    /**
+     * Obtém a turma da aula.
+     * @return Turma da aula
+     */
+    public String getTurma() {
+<span class="nc" id="L79">        return turma;</span>
+    }
+
+    /**
+     * Obtém o número de inscritos na aula.
+     * @return Número de inscritos na aula
+     */
+    public Integer getNumInscritos() {
+<span class="nc" id="L87">        return numInscritos;</span>
+    }
+
+    /**
+     * Obtém a sala onde ocorre a aula.
+     * @return Sala onde ocorre a aula
+     */
+    public String getSala() {
+<span class="nc" id="L95">        return sala;</span>
+    }
+
+    /**
+     * Obtém a lotação da sala.
+     * @return Lotação da sala
+     */
+    public Integer getLotacao() {
+<span class="nc" id="L103">        return lotacao;</span>
+    }
+
+    /**
+     * Compara dois objetos Aula com base na sua data e hora de início.
+     * @param o o objeto Aula a ser comparado
+     * @return um valor inteiro que indica a ordem dos dois objetos
+     */
+    @Override
+    public int compareTo(Aula o) {
+<span class="nc" id="L113">        int cmp = this.getDataAula().getData().compareTo(o.getDataAula().getData());</span>
+<span class="nc bnc" id="L114" title="All 2 branches missed.">        if (cmp == 0) {</span>
+<span class="nc" id="L115">            cmp = this.getDataAula().getHoraInicio().compareTo(o.getDataAula().getHoraInicio());</span>
+        }
+<span class="nc" id="L117">        return cmp;</span>
+    }
+
+    /**
+     * Verifica se um objeto é igual a este objeto Aula.
+     * @param o o objeto a ser comparado
+     * @return true se os objetos forem iguais, false caso contrário
+     */
+    @Override
+    public boolean equals(Object o) {
+<span class="nc bnc" id="L127" title="All 2 branches missed.">        if (this == o) return true;</span>
+<span class="nc bnc" id="L128" title="All 4 branches missed.">        if (o == null || getClass() != o.getClass()) return false;</span>
+<span class="nc" id="L129">        Aula aula = (Aula) o;</span>
+<span class="nc bnc" id="L130" title="All 2 branches missed.">        return Objects.equals(turno, aula.turno) &amp;&amp;</span>
+<span class="nc bnc" id="L131" title="All 2 branches missed.">                Objects.equals(turma, aula.turma) &amp;&amp;</span>
+<span class="nc bnc" id="L132" title="All 2 branches missed.">                Objects.equals(numInscritos, aula.numInscritos) &amp;&amp;</span>
+<span class="nc bnc" id="L133" title="All 2 branches missed.">                Objects.equals(dataAula, aula.dataAula) &amp;&amp;</span>
+<span class="nc bnc" id="L134" title="All 2 branches missed.">                Objects.equals(sala, aula.sala) &amp;&amp;</span>
+<span class="nc bnc" id="L135" title="All 2 branches missed.">                Objects.equals(lotacao, aula.lotacao);</span>
+    }
+
+    /**
+     * Retorna o valor de hash deste objeto Aula.
+     * @return o valor de hash do objeto
+     */
+    @Override
+    public int hashCode() {
+<span class="nc" id="L144">        return Objects.hash(dataAula, sala);</span>
+    }
+
+    /**
+     * Retorna uma representação em formato de string deste objeto Aula.
+     * @return uma string que representa o objeto Aula
+     */
+    @Override
+    public String toString() {
+<span class="nc" id="L153">        return &quot;Aula{&quot; +</span>
+                &quot;turno='&quot; + turno + '\'' +
+                &quot;, turma='&quot; + turma + '\'' +
+                &quot;, numInscritos=&quot; + numInscritos +
+                &quot;, dataAula=&quot; + dataAula +
+                &quot;, sala='&quot; + sala + '\'' +
+                &quot;, lotacao=&quot; + lotacao +
+                '}';
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>
