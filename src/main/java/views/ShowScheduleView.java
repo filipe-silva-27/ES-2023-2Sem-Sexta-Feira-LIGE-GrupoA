@@ -42,7 +42,8 @@ public class ShowScheduleView extends View {
 
         JButton verAulas = new JButton("Ver aulas");
 
-        verAulas.addActionListener(e ->((ShowScheduleController) viewController).createHtmlView());
+        verAulas.addActionListener(e ->
+                ShowScheduleController.createHtmlView(((ShowScheduleController) viewController).getAulas()));
 
         JButton backBtn = new JButton("Voltar");
         backBtn.addActionListener(e -> viewController.showMainMenuView());
