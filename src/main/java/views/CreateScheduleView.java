@@ -1,5 +1,6 @@
 package views;
 
+import controllers.CreateScheduleController;
 import controllers.ViewController;
 import models.UnidadeCurricular;
 import org.slf4j.Logger;
@@ -13,15 +14,14 @@ import java.util.Set;
 
 public class CreateScheduleView extends View {
 
-    private Set<UnidadeCurricular> selectedUnits;
     private static final Logger logger = LoggerFactory.getLogger(CreateScheduleView.class);
 
     public CreateScheduleView(ViewController viewController) {
         super(viewController);
-        selectedUnits = new HashSet<>();
     }
 
     public void showCreateUC() {
+        Set<UnidadeCurricular> selectedUnits = new HashSet<>();
         // Create the panel to display the checkboxes
         JPanel checkboxPanel = new JPanel(new GridLayout(0, 1));
         Set<UnidadeCurricular> unidadesCurriculares = viewController.getHorario().getUnidadesCurriculares();
@@ -44,7 +44,7 @@ public class CreateScheduleView extends View {
         JButton saveBtn = new JButton("Save");
         saveBtn.addActionListener(e -> {
             // Save the selected units and close the dialog
-            selectedUnits.forEach(f -> logger.info(f.getNomeUC()));
+            ((CreateScheduleController)viewController).setSelectedUnits(selectedUnits);
             dialog.dispose();
         });
         JPanel buttonPanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
