@@ -50,9 +50,11 @@ public class CreateScheduleController extends ViewController{
             if(selectedHorario.addUnidadeCurricular(uc)){
                 // Adicionar às aulas
                 uc.addAula(aula);
+            }else{
+                // Adicionar às aulas
+                selectedHorario.getUnidadeCurricular(uc).addAula(aula);
             }
             logger.info(aula.getUc().toString());
-            //selectedHorario.addUnidadeCurricular(aula.getUc());
         }
     }
 

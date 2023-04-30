@@ -11,7 +11,6 @@ import utils.exporter.FileExporter;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ItemEvent;
 import java.util.*;
 import java.util.List;
 
@@ -23,6 +22,28 @@ public class CreateScheduleView extends View {
 
     public CreateScheduleView(ViewController viewController) {
         super(viewController);
+    }
+
+    @Override
+    public void initFrame() {
+        this.removeAll();
+        JButton criarUc = new JButton("Personalizar horário");
+        criarUc.addActionListener(e -> showCreateUC());
+        JButton verHorario = new JButton("Visualizar horário");
+        verHorario.addActionListener(e ->{
+                    List<Aula> selectedAulas = ((CreateScheduleController) viewController).getSelectedAulas();
+                    ShowScheduleController.createHtmlView(selectedAulas);
+                }
+        );
+        JButton guardarBtn = new JButton("Guardar Horário");
+        guardarBtn.addActionListener(e -> showChooseFileFormat());
+        JButton backBtn = new JButton("Voltar");
+        backBtn.addActionListener(e -> viewController.showMainMenuView());
+
+        add(criarUc);
+        add(verHorario);
+        add(guardarBtn);
+        add(backBtn);
     }
 
     private void showCreateUC() {
@@ -60,7 +81,7 @@ public class CreateScheduleView extends View {
         buttonPanel.add(saveBtn);
         dialog.add(buttonPanel, BorderLayout.SOUTH);
         dialog.setTitle("Escolher Unidades Curriculares");
-        dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
+        dialog.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
         dialog.setModal(true);
         dialog.pack();
         dialog.setVisible(true);
@@ -107,7 +128,7 @@ public class CreateScheduleView extends View {
         buttonPanel.add(saveBtn);
         dialog.add(buttonPanel, BorderLayout.SOUTH);
         dialog.setTitle("Escolher os turnos");
-        dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
+        dialog.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
         dialog.setModal(true);
         dialog.pack();
         dialog.setVisible(true);
@@ -122,7 +143,6 @@ public class CreateScheduleView extends View {
 
         toCsv.addActionListener(e -> {
             dialog.dispose();
-            //TODO chamar funcao para mostrar o dialog do export e passar o string do conteudo
             String content = FileExporter.horarioToCsv(((CreateScheduleController) viewController).getSelectedHorario());
             setContent(content);
             viewController.showExportFilesView();
@@ -130,8 +150,7 @@ public class CreateScheduleView extends View {
 
         toJson.addActionListener(e -> {
             dialog.dispose();
-            //TODO chamar funcao para mostrar o dialog do export e passar o string do conteudo
-            String content = FileExporter.horarioToCsv(((CreateScheduleController) viewController).getSelectedHorario());
+            String content = FileExporter.horarioToJson(((CreateScheduleController) viewController).getSelectedHorario());
             setContent(content);
             viewController.showExportFilesView();
         });
@@ -144,34 +163,12 @@ public class CreateScheduleView extends View {
         buttonPanel.add(toJson);
         dialog.add(buttonPanel, BorderLayout.SOUTH);
         dialog.setTitle("Escolher os turnos");
-        dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
+        dialog.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
         dialog.setModal(true);
         dialog.pack();
         dialog.setVisible(true);
     }
 
-
-    @Override
-    public void initFrame() {
-        this.removeAll();
-        JButton criarUc = new JButton("Criar horário");
-        criarUc.addActionListener(e -> showCreateUC());
-        JButton verHorario = new JButton("Visualizar horário");
-        verHorario.addActionListener(e ->{
-            List<Aula> selectedAulas = ((CreateScheduleController) viewController).getSelectedAulas();
-            ShowScheduleController.createHtmlView(selectedAulas);
-        }
-        );
-        JButton guardarBtn = new JButton("Guardar Horário");
-        guardarBtn.addActionListener(e -> showChooseFileFormat());
-        JButton backBtn = new JButton("Voltar");
-        backBtn.addActionListener(e -> viewController.showMainMenuView());
-
-        add(criarUc);
-        add(verHorario);
-        add(guardarBtn);
-        add(backBtn);
-    }
 
     static class UCCheckBoxListRenderer extends JCheckBox implements ListCellRenderer<UnidadeCurricular> {
         @Override
