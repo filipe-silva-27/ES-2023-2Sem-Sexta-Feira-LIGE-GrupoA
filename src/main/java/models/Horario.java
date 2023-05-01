@@ -21,6 +21,7 @@ public class Horario {
         this.file = null;
     }
 
+
     /**
      * Adiciona uma unidade curricular ao horário.
      *
