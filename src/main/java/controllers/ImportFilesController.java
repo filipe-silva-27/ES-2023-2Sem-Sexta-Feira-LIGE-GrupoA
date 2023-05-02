@@ -47,8 +47,8 @@ public class ImportFilesController extends ViewController{
      * Função que trata do import de ficheiro remoto.
      */
     public void importRemoteFile()  {
-        // Import a Webcal URI
-        importWebcalURI();
+        File fromFile = FileDownloader.downloadRemoteFile();
+        importFile(fromFile);
     }
 
     /**
