@@ -99,6 +99,7 @@ public class ShowScheduleController extends ViewController{
     }
 
 
+
     /**
      * Obtém a lista de aulas do horário de aulas atual.
      * @return A lista de aulas ordenada.
