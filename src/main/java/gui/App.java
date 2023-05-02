@@ -4,8 +4,8 @@ import controllers.*;
 import views.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import java.awt.BorderLayout;
-import java.awt.CardLayout;
+
+import java.awt.*;
 import javax.swing.*;
 
 /**
@@ -15,7 +15,7 @@ import javax.swing.*;
  * como upload de arquivos, visualização de horários, criação de horários,
  * conversão de arquivos e exportação de arquivos.
  */
-public class App {
+public class App extends Component {
 
     private final JFrame frame;
     private final JPanel mainPanel;

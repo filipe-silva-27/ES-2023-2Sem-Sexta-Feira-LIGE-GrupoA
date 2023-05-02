@@ -47,6 +47,8 @@ public class Horario {
         return null;
     }
 
+
+
     /**
      * Obtém uma unidade curricular por objeto.
      *
