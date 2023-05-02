@@ -31,8 +31,6 @@ public class ShowScheduleController extends ViewController{
 
     private static final Logger logger = LoggerFactory.getLogger(ShowScheduleController.class);
 
-    private List<Aula> aulasSobrelotadas;
-
     /**
      * Construtor da classe ShowScheduleController.
      * @param app A aplicação principal que será compartilhada por todos os controladores.
@@ -120,12 +118,12 @@ public class ShowScheduleController extends ViewController{
     }
 
     /**
-     * Returns a list of all Aulas. Checks if numInscritos is greater than lotacao for each Aula and adds the
-     * Aula to a new array called aulasSobreLotadas if it is.
+     * Devolve uma lista de todas as Aulas. Verifica se numInscritos é maior que lotacao para cada Aula e se for adiciona
+     * a Aula a um novo array chamado aulasSobreLotadas.
      *
-     * @return a list of Aulas that are over capacity
+     * @return uma lista de Aulas que estão com excesso de alunos
      */
-    public List<Aula> getAulasSobreLotadas() {
+    public List<Aula> showAulasSobreLotadas() {
         List<Aula> aulaList = new ArrayList<>();
         List<Aula> aulasSobreLotadas = new ArrayList<>();
         if (isHorarioSet()) {
@@ -137,7 +135,7 @@ public class ShowScheduleController extends ViewController{
         Collections.sort(aulaList);
         logger.info("Aulas size: {}", aulaList.size());
 
-        // Iterate through each Aula and add it to aulasSobreLotadas if it's over capacity
+        // Iterar através de cada Aula e adicioná-la a aulasSobreLotadas se estiver com excesso de lotação
         for (Aula aula : aulaList) {
             if (aula.getNumInscritos() > aula.getLotacao()) {
                 aulasSobreLotadas.add(aula);

@@ -45,11 +45,14 @@ public class ShowScheduleView extends View {
         verAulas.addActionListener(e ->
                 ShowScheduleController.createHtmlView(((ShowScheduleController) viewController).getAulas()));
 
+        JButton verSobrelotacao = new JButton("Ver sobreposições");
+        verSobrelotacao.addActionListener(e ->((ShowScheduleController) viewController).showAulasSobreLotadas());
+
         JButton backBtn = new JButton("Voltar");
         backBtn.addActionListener(e -> viewController.showMainMenuView());
 
         add(verAulas);
-
+        add(verSobrelotacao);
         add(backBtn);
 
     }
