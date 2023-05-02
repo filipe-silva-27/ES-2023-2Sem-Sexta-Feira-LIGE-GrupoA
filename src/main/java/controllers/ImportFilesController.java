@@ -9,6 +9,9 @@ import utils.importer.ImportFileReader;
 import javax.swing.*;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import java.io.File;
+import java.net.URI;
+import java.net.URISyntaxException;
+import java.io.IOException;
 
 /**
  * Esta classe é um controlador para importar para a aplicação ficheiros CSV e JSON.
@@ -44,9 +47,36 @@ public class ImportFilesController extends ViewController{
      * Função que trata do import de ficheiro remoto.
      */
     public void importRemoteFile()  {
-        File fromFile = FileDownloader.downloadRemoteFile();
-        importFile(fromFile);
+        // Import a Webcal URI
+        importWebcalURI();
     }
+
+    /**
+     * Função que faz o import do WebcalURI
+     */
+    public void importWebcalURI(){
+        // Display a dialog box to prompt the user to enter the Webcal URI
+        String input = JOptionPane.showInputDialog(getApp(), "Enter the Webcal URI:");
+        if (input != null && !input.trim().isEmpty()) {
+            try {
+                // Parse the input as a URI
+                URI webcalURI = new URI(input);
+
+                // Do something with the URI, such as downloading the calendar events
+                // or adding them to the application's calendar
+
+                // For example, you could use the following code to display the calendar
+                // events in a dialog box:
+                JOptionPane.showMessageDialog(getApp(), "Calendar events imported from:\n" + webcalURI.toString());
+
+            } catch (URISyntaxException e) {
+                logger.error("Error importing Webcal URI", e);
+                JOptionPane.showMessageDialog(getApp(), "Error importing Webcal URI:\n" + e.getMessage());
+            }
+        }
+
+    }
+
     /**
      * Método que realiza a importação de um arquivo.
      * @param fromFile - arquivo de origem a ser importado
