@@ -159,4 +159,9 @@ public class Aula implements Comparable<Aula>{
                 ", lotacao=" + lotacao +
                 '}';
     }
+
+    public void setSala(String sala) {
+        this.sala = sala;
+    }
 }
+
