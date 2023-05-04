@@ -76,7 +76,6 @@ public class ShowScheduleView extends View {
     }
 
 
-
     private void showAulasSobrelotadasView(){
 
         List<Aula> aulasSobrelotadas = ((ShowScheduleController) viewController).showAulasSobreLotadas();
