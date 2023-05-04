@@ -67,7 +67,6 @@ public class ShowScheduleController extends ViewController{
                 }
 
             } catch (IOException ex) {
-                ex.printStackTrace();
                 JOptionPane.showMessageDialog(null,
                         "Erro a criar o ficheiro HTML de visualização",
                         "Error", JOptionPane.ERROR_MESSAGE);

@@ -51,8 +51,7 @@ public class ImportFilesController extends ViewController{
             fromFile = FileDownloader.downloadRemoteFile();
         }catch (CustomExceptions.EmptyUrlException | IOException | CustomExceptions.InvalidFilenameException |
                 CustomExceptions.InvalidFileExtensionException e) {
-            JOptionPane.showMessageDialog(null, e.getMessage(),
-                    "Erro", JOptionPane.ERROR_MESSAGE);
+            showErrorAndUploadView(e.getMessage());
         }
         if(fromFile != null){
             importFile(fromFile);
