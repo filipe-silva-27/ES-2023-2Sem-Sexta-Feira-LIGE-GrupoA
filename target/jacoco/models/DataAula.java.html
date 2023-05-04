@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>DataAula.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">ES-2023-2Sem-Sexta-Feira-LIGE-GrupoA</a> &gt; <a href="index.source.html" class="el_package">models</a> &gt; <span class="el_source">DataAula.java</span></div><h1>DataAula.java</h1><pre class="source lang-java linenums">package models;
+
+import java.time.LocalTime;
+import java.util.Date;
+import java.util.Objects;
+
+/**
+ * Classe que representa uma data de aula.
+ */
+public class DataAula {
+    private final DiaSemana diaSemana;
+    private final LocalTime horaInicio;
+    private final LocalTime horaFim;
+    private final Date data;
+
+    /**
+     * Construtor que cria um objeto DataAula com os parâmetros especificados.
+     *
+     * @param diaSemana  o dia da semana da aula
+     * @param horaInicio a hora de início da aula
+     * @param horaFim    a hora de fim da aula
+     * @param data       a data da aula
+     */
+<span class="nc" id="L24">    public DataAula(DiaSemana diaSemana, LocalTime horaInicio, LocalTime horaFim, Date data) {</span>
+<span class="nc" id="L25">        this.diaSemana = diaSemana;</span>
+<span class="nc" id="L26">        this.horaInicio = horaInicio;</span>
+<span class="nc" id="L27">        this.horaFim = horaFim;</span>
+<span class="nc" id="L28">        this.data = data;</span>
+<span class="nc" id="L29">    }</span>
+
+    /**
+     * Obtém o dia da semana da aula.
+     * @return o dia da semana da aula
+     */
+    public DiaSemana getDiaSemana() {
+<span class="nc" id="L36">        return diaSemana;</span>
+    }
+
+    /**
+     * Obtém a hora de início da aula.
+     * @return a hora de início da aula
+     */
+    public LocalTime getHoraInicio() {
+<span class="nc" id="L44">        return horaInicio;</span>
+    }
+
+    /**
+     * Obtém a hora de fim da aula.
+     * @return a hora de fim da aula
+     */
+    public LocalTime getHoraFim() {
+<span class="nc" id="L52">        return horaFim;</span>
+    }
+
+    /**
+     * Obtém a data da aula.
+     * @return a data da aula
+     */
+    public Date getData() {
+<span class="nc" id="L60">        return data;</span>
+    }
+
+    /**
+     * Verifica se este objeto DataAula é igual a outro objeto.
+     * @param o o objeto a ser comparado
+     * @return true se os objetos forem iguais, false caso contrário
+     */
+    @Override
+    public boolean equals(Object o) {
+<span class="nc bnc" id="L70" title="All 2 branches missed.">        if (this == o) return true;</span>
+<span class="nc bnc" id="L71" title="All 2 branches missed.">        if (!(o instanceof DataAula)) return false;</span>
+<span class="nc" id="L72">        DataAula dataAula = (DataAula) o;</span>
+<span class="nc bnc" id="L73" title="All 2 branches missed.">        return diaSemana == dataAula.diaSemana &amp;&amp;</span>
+<span class="nc bnc" id="L74" title="All 2 branches missed.">                horaInicio.equals(dataAula.horaInicio) &amp;&amp;</span>
+<span class="nc bnc" id="L75" title="All 2 branches missed.">                horaFim.equals(dataAula.horaFim) &amp;&amp;</span>
+<span class="nc bnc" id="L76" title="All 2 branches missed.">                data.equals(dataAula.data);</span>
+    }
+
+    /**
+     * Retorna o código de hash deste objeto DataAula.
+     * @return o código de hash do objeto DataAula
+     */
+    @Override
+    public int hashCode() {
+<span class="nc" id="L85">        return Objects.hash(diaSemana, horaInicio, horaFim, data);</span>
+    }
+
+    /**
+     * Retorna uma representação em formato de string deste objeto DataAula.
+     * @return uma string que representa o objeto DataAula
+     */
+    @Override
+    public String toString() {
+<span class="nc" id="L94">        return &quot;DataAula{&quot; +</span>
+                &quot;diaSemana=&quot; + diaSemana +
+                &quot;, horaInicio=&quot; + horaInicio +
+                &quot;, horaFim=&quot; + horaFim +
+                &quot;, data=&quot; + data +
+                '}';
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>

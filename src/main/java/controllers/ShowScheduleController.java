@@ -43,13 +43,12 @@ public class ShowScheduleController extends ViewController{
     /**
      * Função que lê o ficheiro html template e gera um calendário dado um objeto JSON
      */
-    public void createHtmlView(){
-        List<Aula> aulas = getAulas();
+    public static void createHtmlView(List<Aula> aulas){
         String aulasJson = exportAulasToJson(aulas);
         String escapedAulasJson = StringEscapeUtils.escapeEcmaScript(aulasJson);
 
         // Ler o template HTML
-        InputStream templateStream = getClass().getResourceAsStream("/calendar_template.html");
+        InputStream templateStream = ShowScheduleController.class.getResourceAsStream("/calendar_template.html");
         if (templateStream != null) {
             try {
                 Path tempFile = Files.createTempFile("calendar", ".html");
@@ -85,7 +84,7 @@ public class ShowScheduleController extends ViewController{
      * @param aulas
      * @return json String que corresponde ao JSON
      */
-    public String exportAulasToJson(List<Aula> aulas) {
+    public static String exportAulasToJson(List<Aula> aulas) {
         ObjectMapper objectMapper = new ObjectMapper();
         objectMapper.registerModule(new JavaTimeModule());
         objectMapper.disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS);

@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>UnidadeCurricular.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">ES-2023-2Sem-Sexta-Feira-LIGE-GrupoA</a> &gt; <a href="index.source.html" class="el_package">models</a> &gt; <span class="el_source">UnidadeCurricular.java</span></div><h1>UnidadeCurricular.java</h1><pre class="source lang-java linenums">package models;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
+import java.util.*;
+
+
+public class UnidadeCurricular {
+
+    private String curso;
+    private String nomeUC;
+    @JsonIgnore
+    private List&lt;Aula&gt; aulas;
+
+    /**
+     * Construtor da classe UnidadeCurricular.
+     * @param curso O curso da unidade curricular.
+     * @param nomeUC O nome da unidade curricular.
+     */
+<span class="nc" id="L20">    public UnidadeCurricular(String curso, String nomeUC) {</span>
+<span class="nc" id="L21">        this.curso = curso;</span>
+<span class="nc" id="L22">        this.nomeUC = nomeUC;</span>
+<span class="nc" id="L23">        this.aulas = new ArrayList&lt;&gt;();</span>
+<span class="nc" id="L24">    }</span>
+
+    /**
+     * Retorna o curso da unidade curricular.
+     * @return O curso da unidade curricular.
+     */
+    public String getCurso() {
+<span class="nc" id="L31">        return curso;</span>
+    }
+
+    /**
+     * Retorna o nome da unidade curricular.
+     * @return O nome da unidade curricular.
+     */
+    public String getNomeUC() {
+<span class="nc" id="L39">        return nomeUC;</span>
+    }
+
+    /**
+     * Retorna a lista de aulas associadas à unidade curricular.
+     * @return A lista de aulas associadas à unidade curricular.
+     */
+    public List&lt;Aula&gt; getAulas() {
+<span class="nc" id="L47">        return aulas;</span>
+    }
+
+    /**
+     * Verifica se duas unidades curriculares são iguais.
+     * Duas unidades curriculares são iguais se possuem o mesmo curso e mesmo nome.
+     * @param o O objeto a ser comparado.
+     * @return true se as unidades curriculares são iguais, false caso contrário.
+     */
+    @Override
+    public boolean equals(Object o) {
+<span class="nc bnc" id="L58" title="All 2 branches missed.">        if (this == o) return true;</span>
+<span class="nc bnc" id="L59" title="All 4 branches missed.">        if (o == null || getClass() != o.getClass()) return false;</span>
+<span class="nc" id="L60">        UnidadeCurricular that = (UnidadeCurricular) o;</span>
+<span class="nc bnc" id="L61" title="All 4 branches missed.">        return Objects.equals(curso, that.curso) &amp;&amp; Objects.equals(nomeUC, that.nomeUC);</span>
+    }
+
+    /**
+     * Retorna o código de hash da unidade curricular.
+     * @return O código de hash da unidade curricular.
+     */
+    @Override
+    public int hashCode() {
+<span class="nc" id="L70">        return Objects.hash(curso, nomeUC);</span>
+    }
+
+    /**
+     * Adiciona uma aula à lista de aulas associadas à unidade curricular.
+     * @param aula A aula a ser adicionada.
+     * @return true se a aula foi adicionada com sucesso, false caso contrário.
+     */
+    public boolean addAula(Aula aula){
+<span class="nc" id="L79">        return aulas.add(aula);</span>
+    }
+
+    /**
+     * Retorna uma representação em formato de String do objeto UnidadeCurricular.
+     * A representação contém o curso, nome e aulas associadas à unidade curricular.
+     * @return Uma String representando o objeto UnidadeCurricular.
+     */
+    @Override
+    public String toString() {
+<span class="nc" id="L89">        return &quot;UnidadeCurricular{&quot; +</span>
+                &quot;curso='&quot; + curso + '\'' +
+                &quot;, nomeUC='&quot; + nomeUC + '\'' +
+                &quot;, aulas=&quot; + aulas +
+                '}';
+    }
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>
