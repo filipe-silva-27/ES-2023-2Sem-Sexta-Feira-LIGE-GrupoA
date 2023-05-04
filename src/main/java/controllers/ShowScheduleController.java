@@ -124,20 +124,12 @@ public class ShowScheduleController extends ViewController{
      * @return uma lista de Aulas que estão com excesso de alunos
      */
     public List<Aula> showAulasSobreLotadas() {
-        List<Aula> aulaList = new ArrayList<>();
+        List<Aula> aulaList = getAulas();
         List<Aula> aulasSobreLotadas = new ArrayList<>();
-        if (isHorarioSet()) {
-            for (UnidadeCurricular uc : getHorario().getUnidadesCurriculares()) {
-                List<Aula> aulasAux = uc.getAulas();
-                aulaList.addAll(aulasAux);
-            }
-        }
-        Collections.sort(aulaList);
-        logger.info("Aulas size: {}", aulaList.size());
-
         // Iterar através de cada Aula e adicioná-la a aulasSobreLotadas se estiver com excesso de lotação
         for (Aula aula : aulaList) {
-            if (aula.getNumInscritos() > aula.getLotacao()) {
+            // Ignorar salas com lotação -1 porque -1 quer dizer que o CSV nao tinha essa informação
+            if (aula.getNumInscritos() > aula.getLotacao() && aula.getLotacao() != -1) {
                 aulasSobreLotadas.add(aula);
             }
         }
