@@ -58,7 +58,8 @@ public class App {
         frame.getContentPane().add(mainPanel, BorderLayout.CENTER);
         frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         frame.pack();
-        frame.setSize(200,200);
+        frame.setSize(400,200);
+        frame.setLocationRelativeTo(null);
         frame.setVisible(true);
 
         // Mostrar o menu de upload de ficheiros/horario
