@@ -30,7 +30,6 @@ import java.util.List;
 public class ShowScheduleController extends ViewController{
 
     private static final Logger logger = LoggerFactory.getLogger(ShowScheduleController.class);
-    private List<Aula> aulasSobrepostas;
 
     /**
      * Construtor da classe ShowScheduleController.
@@ -119,63 +118,42 @@ public class ShowScheduleController extends ViewController{
     }
 
     //so testar: quando aulas sobrepostas sao null, quand ficam vazias, quando tem aulas sobrepostas, e quando aulas é null?
-    public void showSobreposicoes() {
+    public List<Aula> showSobreposicoes() {
         List<Aula> aulas = getAulas();
-        if (aulasSobrepostas == null) {
-            aulasSobrepostas = new ArrayList<>();
-            for (int i = 0; i < aulas.size() -1; i++){
-                for (int j = i+1; j < aulas.size(); j++){
-                    if (aulas.get(i).compareTo(aulas.get(j)) == 0) {
-                        aulasSobrepostas.add(aulas.get(i));
-                        aulasSobrepostas.add(aulas.get(j));
-                    }
+        List<Aula> aulasSobrepostas = new ArrayList<>();
+
+        aulasSobrepostas = new ArrayList<>();
+        for (int i = 0; i < aulas.size() -1; i++){
+            for (int j = i+1; j < aulas.size(); j++){
+                if (aulas.get(i).compareTo(aulas.get(j)) == 0) {
+//                        logger.info("A1: {} | A2: {}", aulas.get(i).getDataAula().toString(),
+//                                aulas.get(j).getDataAula().toString());
+                    aulasSobrepostas.add(aulas.get(i));
+                    aulasSobrepostas.add(aulas.get(j));
                 }
             }
         }
-        if (!aulasSobrepostas.isEmpty()) {
-            int i =0;
-            StringBuilder aulasSobrepostasString = new StringBuilder();
-            for (Aula aula : aulasSobrepostas) {
-                String[] dataApresentavel = aula.getDataAula().getData().toString().split(" ");
-                String data = (dataApresentavel[0] + " " + dataApresentavel[1] + " " + dataApresentavel[2] + " " + dataApresentavel[5]);
-                aulasSobrepostasString.append( data + " das " +
-                        aula.getDataAula().getHoraInicio() + " às " + aula.getDataAula().getHoraFim() +
-                        " - " + aula.getUc().getNomeUC() + "\n");
-                i++;
-                if ( i >= 10 ) break;
-            }
-            //make a new window that is scrollable and show the text
-            JTextArea textArea = new JTextArea(aulasSobrepostasString.toString());
-            JScrollPane scrollPane = new JScrollPane(textArea);
-            textArea.setLineWrap(true);
-            textArea.setWrapStyleWord(true);
-            scrollPane.setPreferredSize(new Dimension(500, 500));
-            JOptionPane.showMessageDialog(null, scrollPane, "Aulas sobrepostas",
-                    JOptionPane.INFORMATION_MESSAGE);
+        return aulasSobrepostas;
 
-        } else {
-            JOptionPane.showMessageDialog(null, "Não existem aulas sobrepostas!",
-                    "Aulas sobrepostas", JOptionPane.INFORMATION_MESSAGE);
-        }
     }
 
-    public void binarySearchForDuplicates(List<Aula> aulas) {
-        int left = 0, right = aulas.size() - 1;
-        while (left < right) {
-            int mid = (left + right) / 2;
-            if (aulas.get(mid).compareTo(aulas.get(right)) == 0) {
-                aulasSobrepostas.add(aulas.get(mid));
-                right--;
-            } else if (aulas.get(mid).compareTo(aulas.get(left)) == 0) {
-                aulasSobrepostas.add(aulas.get(mid));
-                left++;
-            } else if (aulas.get(mid).compareTo(aulas.get(right)) < 0) {
-                right = mid - 1;
-            } else {
-                left = mid + 1;
-            }
-        }
-    }
+//    public void binarySearchForDuplicates(List<Aula> aulas) {
+//        int left = 0, right = aulas.size() - 1;
+//        while (left < right) {
+//            int mid = (left + right) / 2;
+//            if (aulas.get(mid).compareTo(aulas.get(right)) == 0) {
+//                aulasSobrepostas.add(aulas.get(mid));
+//                right--;
+//            } else if (aulas.get(mid).compareTo(aulas.get(left)) == 0) {
+//                aulasSobrepostas.add(aulas.get(mid));
+//                left++;
+//            } else if (aulas.get(mid).compareTo(aulas.get(right)) < 0) {
+//                right = mid - 1;
+//            } else {
+//                left = mid + 1;
+//            }
+//        }
+//    }
 
     /**/
 }
