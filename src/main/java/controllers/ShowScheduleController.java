@@ -7,18 +7,23 @@ import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import gui.App;
 import models.Aula;
 import models.UnidadeCurricular;
+import org.apache.commons.lang3.SystemUtils;
 import org.apache.commons.text.StringEscapeUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import javax.swing.*;
 import java.awt.*;
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.StandardCopyOption;
+import java.nio.file.attribute.FileAttribute;
+import java.nio.file.attribute.PosixFilePermission;
+import java.nio.file.attribute.PosixFilePermissions;
 import java.text.SimpleDateFormat;
 import java.util.*;
 import java.util.List;
@@ -43,16 +48,29 @@ public class ShowScheduleController extends ViewController{
     /**
      * Função que lê o ficheiro html template e gera um calendário dado um objeto JSON
      */
-    public void createHtmlView(){
-        List<Aula> aulas = getAulas();
+    public static void createHtmlView(List<Aula> aulas){
         String aulasJson = exportAulasToJson(aulas);
         String escapedAulasJson = StringEscapeUtils.escapeEcmaScript(aulasJson);
 
         // Ler o template HTML
-        InputStream templateStream = getClass().getResourceAsStream("/calendar_template.html");
+        InputStream templateStream = ShowScheduleController.class.getResourceAsStream("/calendar_template.html");
         if (templateStream != null) {
             try {
-                Path tempFile = Files.createTempFile("calendar", ".html");
+                Path tempFile;
+
+                if (SystemUtils.IS_OS_UNIX) {
+                    FileAttribute<Set<PosixFilePermission>> attr =
+                            PosixFilePermissions.asFileAttribute(PosixFilePermissions.fromString("rw-------"));
+                    tempFile = Files.createTempFile("calendar", ".html", attr); // Compliant
+                } else {
+                    tempFile = Files.createTempFile("calendar", ".html"); // Compliant
+                    File f = tempFile.toFile();
+                    f.setReadable(true, true);
+                    f.setWritable(true, true);
+                }
+
+                tempFile.toFile().deleteOnExit();
+
                 Files.copy(templateStream, tempFile, StandardCopyOption.REPLACE_EXISTING);
                 String htmlTemplate = Files.readString(tempFile, StandardCharsets.UTF_8);
                 // Carregar o JSON para o HTML
@@ -68,10 +86,9 @@ public class ShowScheduleController extends ViewController{
                 }
 
             } catch (IOException ex) {
-                ex.printStackTrace();
                 JOptionPane.showMessageDialog(null,
                         "Erro a criar o ficheiro HTML de visualização",
-                        "Error", JOptionPane.ERROR_MESSAGE);
+                        "Erro", JOptionPane.ERROR_MESSAGE);
             }
         } else {
             JOptionPane.showMessageDialog(null, "Não foi encontrado o template do calendário",
@@ -85,7 +102,7 @@ public class ShowScheduleController extends ViewController{
      * @param aulas
      * @return json String que corresponde ao JSON
      */
-    public String exportAulasToJson(List<Aula> aulas) {
+    public static String exportAulasToJson(List<Aula> aulas) {
         ObjectMapper objectMapper = new ObjectMapper();
         objectMapper.registerModule(new JavaTimeModule());
         objectMapper.disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS);
@@ -98,6 +115,7 @@ public class ShowScheduleController extends ViewController{
             return "[]";
         }
     }
+
 
 
     /**
@@ -117,4 +135,23 @@ public class ShowScheduleController extends ViewController{
         return aulaList;
     }
 
+    /**
+     * Devolve uma lista de todas as Aulas. Verifica se numInscritos é maior que lotacao para cada Aula e se for adiciona
+     * a Aula a um novo array chamado aulasSobreLotadas.
+     *
+     * @return uma lista de Aulas que estão com excesso de alunos
+     */
+    public List<Aula> showAulasSobreLotadas() {
+        List<Aula> aulaList = getAulas();
+        List<Aula> aulasSobreLotadas = new ArrayList<>();
+        // Iterar através de cada Aula e adicioná-la a aulasSobreLotadas se estiver com excesso de lotação
+        for (Aula aula : aulaList) {
+            // Ignorar salas com lotação -1 porque -1 quer dizer que o CSV nao tinha essa informação
+            if (aula.getNumInscritos() > aula.getLotacao() && aula.getLotacao() != -1) {
+                aulasSobreLotadas.add(aula);
+            }
+        }
+
+        return aulasSobreLotadas;
+    }
 }
