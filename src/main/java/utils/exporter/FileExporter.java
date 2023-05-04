@@ -116,53 +116,6 @@ public class FileExporter {
 
 
     /**
-     * Convert a Horario object to a String in JSON format
-     *
-     * @param horario the Horario object to be converted
-     * @param outputFile the FileWriter object to write the converted Horario object
-
-    public static void horarioToCsv(Horario horario, FileWriter outputFile) {
-
-        try {
-
-            // create CSVWriter object filewriter object as parameter
-            CSVWriter writer = new CSVWriter(outputFile, ',',
-                    ICSVWriter.NO_QUOTE_CHARACTER,
-                    ICSVWriter.DEFAULT_ESCAPE_CHARACTER,
-                    ICSVWriter.DEFAULT_LINE_END);
-
-            LOGGER.info("Writing CSV file...");
-
-            // adding header to csv
-            String[] header = { "Curso" ,"Unidade Curricular","Turno","Turma","Inscritos no turno","Dia da semana","Hora inÃ\u00ADcio da aula","Hora fim da aula","Data da aula","Sala atribuÃ\u00ADda Ã  aula","LotaÃ§Ã£o da sala"};
-            writer.writeNext(header);
-
-            // add data to csv
-            for (UnidadeCurricular uc : horario.getUnidadesCurriculares()) {
-                for (Aula aula : uc.getAulas()) {
-                    SimpleDateFormat outputFormat = new SimpleDateFormat("dd/MM/yyyy");
-                    String dateString = outputFormat.format(aula.getDataAula().getData());
-                    DateTimeFormatter timeFormatter = DateTimeFormatter.ofPattern("HH:mm:ss");
-                    String horaInicio = aula.getDataAula().getHoraInicio().format(timeFormatter);
-                    String horaFim = aula.getDataAula().getHoraFim().format(timeFormatter);
-
-                    String[] row = { uc.getCurso() , uc.getNomeUC(), aula.getTurno(), aula.getTurma() , aula.getNumInscritos().toString(),
-                            aula.getDataAula().getDiaSemana().getName(), horaInicio, horaFim, dateString, aula.getSala(), aula.getLotacao().toString()} ;
-                    writer.writeNext(row);
-                }
-            }
-            // closing writer connection
-            writer.close();
-            LOGGER.info("CSV file written successfully.");
-        }
-        catch (IOException e) {
-            LOGGER.severe("Error writing CSV file: " + e.getMessage());
-            e.printStackTrace();
-
-        }
-    }*/
-
-    /**
      * Converte um objeto do tipo Horario para uma representação em formato JSON.
      *
      * @param horario O objeto Horario a ser convertido em JSON.

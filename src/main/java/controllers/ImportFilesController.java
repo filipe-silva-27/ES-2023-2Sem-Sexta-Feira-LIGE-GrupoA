@@ -1,6 +1,7 @@
 package controllers;
 
 import gui.App;
+import models.CustomExceptions;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import utils.importer.FileDownloader;
@@ -9,6 +10,7 @@ import utils.importer.ImportFileReader;
 import javax.swing.*;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import java.io.File;
+import java.io.IOException;
 
 /**
  * Esta classe é um controlador para importar para a aplicação ficheiros CSV e JSON.
@@ -44,8 +46,17 @@ public class ImportFilesController extends ViewController{
      * Função que trata do import de ficheiro remoto.
      */
     public void importRemoteFile()  {
-        File fromFile = FileDownloader.downloadRemoteFile();
-        importFile(fromFile);
+        File fromFile = null;
+        try{
+            fromFile = FileDownloader.downloadRemoteFile();
+        }catch (CustomExceptions.EmptyUrlException | IOException | CustomExceptions.InvalidFilenameException |
+                CustomExceptions.InvalidFileExtensionException e) {
+            showErrorAndUploadView(e.getMessage());
+        }
+        if(fromFile != null){
+            importFile(fromFile);
+        }
+
     }
     /**
      * Método que realiza a importação de um arquivo.
