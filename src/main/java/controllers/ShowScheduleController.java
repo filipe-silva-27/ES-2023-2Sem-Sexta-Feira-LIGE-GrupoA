@@ -99,6 +99,7 @@ public class ShowScheduleController extends ViewController{
     }
 
 
+
     /**
      * Obtém a lista de aulas do horário de aulas atual.
      * @return A lista de aulas ordenada.
@@ -116,4 +117,23 @@ public class ShowScheduleController extends ViewController{
         return aulaList;
     }
 
+    /**
+     * Devolve uma lista de todas as Aulas. Verifica se numInscritos é maior que lotacao para cada Aula e se for adiciona
+     * a Aula a um novo array chamado aulasSobreLotadas.
+     *
+     * @return uma lista de Aulas que estão com excesso de alunos
+     */
+    public List<Aula> showAulasSobreLotadas() {
+        List<Aula> aulaList = getAulas();
+        List<Aula> aulasSobreLotadas = new ArrayList<>();
+        // Iterar através de cada Aula e adicioná-la a aulasSobreLotadas se estiver com excesso de lotação
+        for (Aula aula : aulaList) {
+            // Ignorar salas com lotação -1 porque -1 quer dizer que o CSV nao tinha essa informação
+            if (aula.getNumInscritos() > aula.getLotacao() && aula.getLotacao() != -1) {
+                aulasSobreLotadas.add(aula);
+            }
+        }
+
+        return aulasSobreLotadas;
+    }
 }
