@@ -1,1 +1,1 @@
-const packageSearchIndex = [{"l":"All Packages","u":"allpackages-index.html"},{"l":"gui"},{"l":"utils"},{"l":"views"}];updateSearchResults();
+packageSearchIndex = [{"l":"All Packages","u":"allpackages-index.html"},{"l":"controllers"},{"l":"gui"},{"l":"models"},{"l":"utils"},{"l":"utils.exporter"},{"l":"utils.importer"},{"l":"views"}];updateSearchResults();
