@@ -1,12 +1,31 @@
 package utils.URI;
+
+import controllers.ShowScheduleController;
+import models.Aula;
+import models.UnidadeCurricular;
+import org.apache.commons.io.input.ObservableInputStream;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.net.URL;
+import java.time.LocalDateTime;
+import java.time.ZoneOffset;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
 
-public class TesteLeitorURI {
 
+
+public class URIToWebcal {
+
+
+    private static final Logger logger = LoggerFactory.getLogger(URIToWebcal.class);
     public static void loadScheduleFromWebcal(String webcalURI) throws IOException {
         // Criar um objeto URL a partir do Webcal URI
         URL url = new URL(webcalURI);
@@ -38,38 +57,6 @@ public class TesteLeitorURI {
         connection.disconnect();
     }
 
-    /*public static String getWebcalURIFromUser() throws IOException {
-        // Cria um objeto BufferedReader para ler a entrada do usuário
-        BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
-
-        // Pede que o usuário digite a URI do Webcal
-        System.out.println("Digite a URI do Webcal: ");
-
-        // Lê a entrada do usuário e retorna a string
-        String webcalURI =  reader.readLine();
-       // webcalURI = webcalURI.substring(8);
-        //
-        // webcalURI = "https://" + webcalURI;
-        return webcalURI;
-    }*/
-
-   /* public static String getWebcalURIFromUser() throws IOException {
-        // Cria um objeto BufferedReader para ler a entrada do usuário
-        BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
-
-        // Pede que o usuário digite a URI do Webcal
-        System.out.println("Digite a URI do Webcal: ");
-
-        // Lê a entrada do usuário e retorna a string
-        String webcalURI =  reader.readLine();
-        if (webcalURI.startsWith("webcal://")) {
-            webcalURI = "https://" + webcalURI.substring(9);
-        } else {
-            webcalURI = "https://" + webcalURI;
-        }
-        return webcalURI;
-    }*/
-
     public static String getWebcalURIFromUser(String input) {
         // Use the input provided as the URI
         String webcalURI = input;
@@ -84,9 +71,11 @@ public class TesteLeitorURI {
         return webcalURI;
     }
 
-    public static void main(String[] args) throws IOException {
+    public static void main(String[] args) throws IOException, URISyntaxException {
         //String webcalURI = getWebcalURIFromUser();
         //String webcalURI = "https://fenix.iscte-iul.pt/publico/publicPersonICalendar.do?method=iCalendar&username=rmfde@iscte.pt&password=Kat41qMCyPigm7gCNAc5l1WKb5cHkLdInbvS1IYm3fDz84UaPhyJ3nsvdKcLPAfOMZkW0sW0STWAHYsNi3B6cOqDzoF2Sa0Q2aGPQ7LSw23yhGHehYEnsWWHhyYTADFZ";
         //loadScheduleFromWebcal(webcalURI);
+
+
     }
 }

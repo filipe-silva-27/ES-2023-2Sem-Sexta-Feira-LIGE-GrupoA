@@ -1,18 +1,18 @@
 package controllers;
 
 import gui.App;
+import models.Aula;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import utils.URI.TesteLeitorURI;
+import utils.URI.URIToWebcal;
 import utils.importer.FileDownloader;
 import utils.importer.ImportFileReader;
 
 import javax.swing.*;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import java.io.File;
-import java.net.URI;
-import java.net.URISyntaxException;
 import java.io.IOException;
+import java.util.List;
 
 /**
  * Esta classe é um controlador para importar para a aplicação ficheiros CSV e JSON.
@@ -62,10 +62,10 @@ public class ImportFilesController extends ViewController{
         if (input != null && !input.trim().isEmpty()) {
             try {
                 // Parse the input as a URI
-                String webcalURI = TesteLeitorURI.getWebcalURIFromUser(input);
+                String webcalURI = URIToWebcal.getWebcalURIFromUser(input);
 
                 // Load the calendar events from the Webcal URI using the TesteLeitorURI class
-                TesteLeitorURI.loadScheduleFromWebcal(webcalURI);
+                URIToWebcal.loadScheduleFromWebcal(webcalURI);
 
                 // For example, you could use the following code to display the calendar
                 // events in a dialog box:

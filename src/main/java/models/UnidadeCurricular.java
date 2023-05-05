@@ -23,6 +23,10 @@ public class UnidadeCurricular {
         this.aulas = new ArrayList<>();
     }
 
+    public UnidadeCurricular(String nomeUC) {
+        this.nomeUC = nomeUC;
+    }
+
     /**
      * Retorna o curso da unidade curricular.
      * @return O curso da unidade curricular.

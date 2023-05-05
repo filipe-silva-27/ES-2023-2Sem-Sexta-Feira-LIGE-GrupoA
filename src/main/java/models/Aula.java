@@ -31,12 +31,18 @@ public class Aula implements Comparable<Aula>{
      * @param lotacao Lotação da sala
      */
     public Aula(UnidadeCurricular uc,String turno, String turma, Integer numInscritos,String sala, Integer lotacao) {
+        this.uc = uc; //sim
+        this.turno = turno; //sim
+        this.turma = turma;
+        this.numInscritos = numInscritos; //nao
+        this.sala = sala; //sim
+        this.lotacao = lotacao;
+    }
+
+    public Aula(UnidadeCurricular uc,String turno ,String sala) {
         this.uc = uc;
         this.turno = turno;
-        this.turma = turma;
-        this.numInscritos = numInscritos;
-        this.sala = sala;
-        this.lotacao = lotacao;
+        this.sala = sala; //sim
     }
 
     /**
@@ -62,6 +68,7 @@ public class Aula implements Comparable<Aula>{
     public void setDataAula(DataAula dataAula) {
         this.dataAula = dataAula;
     }
+
 
     /**
      * Obtém o turno da aula.
@@ -151,7 +158,8 @@ public class Aula implements Comparable<Aula>{
     @Override
     public String toString() {
         return "Aula{" +
-                "turno='" + turno + '\'' +
+                " uc='" + this.getUc().getNomeUC() + '\'' +
+                ", turno='" + turno + '\'' +
                 ", turma='" + turma + '\'' +
                 ", numInscritos=" + numInscritos +
                 ", dataAula=" + dataAula +
@@ -159,6 +167,7 @@ public class Aula implements Comparable<Aula>{
                 ", lotacao=" + lotacao +
                 '}';
     }
+
 
     public void setSala(String sala) {
         this.sala = sala;
