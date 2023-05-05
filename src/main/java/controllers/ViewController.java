@@ -142,6 +142,16 @@ public class ViewController {
         }
     }
 
+    public void showWebcalScheduleView(){
+        if(isHorarioSet()){
+            app.getWebcalScheduleView().initFrame();
+            cardLayout.show(contentPane, App.SHOW_WEBCAL_MENU);
+        }else {
+            app.getImportFilesView().initFrame();
+            cardLayout.show(contentPane, App.UPLOAD_MENU);
+        }
+    }
+
     /**
      * Exibe a tela de upload de ficheiros.
      */

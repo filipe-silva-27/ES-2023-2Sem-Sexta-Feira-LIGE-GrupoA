@@ -80,16 +80,6 @@ public class ExtractModelsFromWebcal {
                 String summary = event.getSummary().getValue();
                 String description = event.getDescription().getValue();
                 String location = event.getLocation().getValue();
-
-                // Parse UC and turno from description
-                /*String[] lines = description.split(LINE_SEPARATOR);
-                String uc = "";
-                for (String line : lines) {
-                    if (line.contains("Unidade de Execucao")) {
-                        uc = line.substring(line.indexOf("Unidade de Execucao") + "Unidade de Execucao".length()).trim();
-                        break;
-                    }
-                }*/
                 String[] lines = description.split(LINE_SEPARATOR);
                 //String uc = "";
                 for (String line : lines) {
@@ -102,17 +92,14 @@ public class ExtractModelsFromWebcal {
                         }
                     }
                 }
-
                 String uc = parseValue(lines, UC_PREFIX);
                 String turno = parseValue(lines, TURNO_PREFIX);
-
 
                 // Create new Aula object and add to list
                 Aula aula = new Aula(new UnidadeCurricular(uc), turno, location);
                 aulas.add(aula);
             }
         }
-
         return aulas;
     }
 
@@ -132,10 +119,9 @@ public class ExtractModelsFromWebcal {
 
             List<Aula> aulas = ExtractModelsFromWebcal.getAulasFromWebcal(uri);
 
-            for (Aula aula : aulas) {
+            /*for (Aula aula : aulas) {
                 System.out.println(aula.toString());
-            }
-
+            }*/
         } catch (URISyntaxException | IOException | ParserException | ParseException e) {
             e.printStackTrace();
         }

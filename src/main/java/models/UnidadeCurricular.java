@@ -25,6 +25,7 @@ public class UnidadeCurricular {
 
     public UnidadeCurricular(String nomeUC) {
         this.nomeUC = nomeUC;
+        this.aulas = new ArrayList<>();
     }
 
     /**
