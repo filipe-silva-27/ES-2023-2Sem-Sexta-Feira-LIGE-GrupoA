@@ -7,6 +7,7 @@ import models.Aula;
 import models.UnidadeCurricular;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import utils.DetalhesAulasDialog;
 import utils.exporter.FileExporter;
 
 import javax.swing.*;
@@ -29,13 +30,30 @@ public class CreateScheduleView extends View {
     public void initFrame() {
         this.removeAll();
         JButton criarUc = new JButton("Personalizar horário");
-        criarUc.addActionListener(e -> showCreateUC());
+        criarUc.addActionListener(e -> {
+            Set<UnidadeCurricular> unidadesCurriculares = viewController.getHorario().getUnidadesCurriculares();
+            showCreateUC(unidadesCurriculares);
+        });
         JButton verHorario = new JButton("Visualizar horário");
         verHorario.addActionListener(e ->{
                     List<Aula> selectedAulas = ((CreateScheduleController) viewController).getSelectedAulas();
                     ShowScheduleController.createHtmlView(selectedAulas);
                 }
         );
+        JButton verSobrelotacao = new JButton("Ver sobrelotações");
+        verSobrelotacao.addActionListener(e -> {
+            List<Aula> aulaList = ((CreateScheduleController) viewController).getSelectedAulas();
+            List<Aula> aulasSobrepostas = DetalhesAulasDialog.getSobreposicoes(aulaList);
+            DetalhesAulasDialog.showSobreposicoesView(aulasSobrepostas);
+        });
+
+        JButton verSobreposicoes = new JButton("Ver sobreposições");
+        verSobreposicoes.addActionListener(e ->{
+            List<Aula> aulaList = ((CreateScheduleController) viewController).getSelectedAulas();
+            List<Aula> aulasSobrelotadas = DetalhesAulasDialog.getAulasSobreLotadas(aulaList);
+            DetalhesAulasDialog.showAulasSobrelotadasView(aulasSobrelotadas);
+        });
+
         JButton guardarBtn = new JButton("Guardar Horário");
         guardarBtn.addActionListener(e -> showChooseFileFormat());
         JButton backBtn = new JButton("Voltar");
@@ -43,18 +61,19 @@ public class CreateScheduleView extends View {
 
         add(criarUc);
         add(verHorario);
+        add(verSobrelotacao);
+        add(verSobreposicoes);
         add(guardarBtn);
         add(backBtn);
     }
 
-    private void showCreateUC() {
+    private void showCreateUC(Set<UnidadeCurricular> unidadesCurriculares) {
         // Create the list to display the checkboxes
         JList<UnidadeCurricular> ucList = new JList<>();
         ucList.setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
         ucList.setCellRenderer(new UCCheckBoxListRenderer());
 
         DefaultListModel<UnidadeCurricular> listModel = new DefaultListModel<>();
-        Set<UnidadeCurricular> unidadesCurriculares = viewController.getHorario().getUnidadesCurriculares();
         List<UnidadeCurricular> sortedList = new ArrayList<>(unidadesCurriculares);
         sortedList.sort(Comparator.comparing(UnidadeCurricular::getNomeUC));
         for (UnidadeCurricular uc : sortedList) {
@@ -111,7 +130,7 @@ public class CreateScheduleView extends View {
         aulasList.setCellRenderer(new AulaCheckBoxListRenderer());
 
         JLabel instructionsLabel = new JLabel("" +
-                "Selecione uma ou mais Unidades Curriculares (use Ctrl + clique para selecionar várias):");
+                "Selecione um ou mais Turnos (use Ctrl + clique para selecionar várias):");
 
         // Create a new dialog for the popup and add the list and save button to it
         JDialog dialog = new JDialog();
