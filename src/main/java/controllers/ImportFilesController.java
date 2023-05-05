@@ -56,7 +56,7 @@ public class ImportFilesController extends ViewController{
      */
     public void importWebcalURI(){
         // Display a dialog box to prompt the user to enter the Webcal URI
-        String input = JOptionPane.showInputDialog(getApp(), "Enter the Webcal URI:");
+        String input = JOptionPane.showInputDialog(null, "Enter the Webcal URI: ");
         if (input != null && !input.trim().isEmpty()) {
             try {
                 // Parse the input as a URI
