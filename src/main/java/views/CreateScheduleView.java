@@ -11,6 +11,7 @@ import utils.exporter.FileExporter;
 
 import javax.swing.*;
 import java.awt.*;
+import java.text.SimpleDateFormat;
 import java.util.*;
 import java.util.List;
 
@@ -172,7 +173,8 @@ public class CreateScheduleView extends View {
 
     static class UCCheckBoxListRenderer extends JCheckBox implements ListCellRenderer<UnidadeCurricular> {
         @Override
-        public Component getListCellRendererComponent(JList<? extends UnidadeCurricular> list, UnidadeCurricular uc, int index, boolean isSelected, boolean cellHasFocus) {
+        public Component getListCellRendererComponent(JList<? extends UnidadeCurricular> list,
+                                                      UnidadeCurricular uc, int index, boolean isSelected, boolean cellHasFocus) {
             setText(uc.getNomeUC());
             setSelected(isSelected);
             setEnabled(list.isEnabled());
@@ -183,9 +185,12 @@ public class CreateScheduleView extends View {
     static class AulaCheckBoxListRenderer extends JCheckBox implements ListCellRenderer<Aula> {
         @Override
         public Component getListCellRendererComponent(JList<? extends Aula> list, Aula aula, int index, boolean isSelected, boolean cellHasFocus) {
+            SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
+            String dateStr = dateFormat.format(aula.getDataAula().getData());
             setText("UC: " + aula.getUc().getNomeUC() + " | Turno: " + aula.getTurno() +
+                    " | Data Aula: " + dateStr +
                     " | Dia da semana: "
-                    + aula.getDataAula().getDiaSemana() + " | Hora início: " + aula.getDataAula().getHoraInicio() +
+                    + aula.getDataAula().getDiaSemana().getName() + " | Hora início: " + aula.getDataAula().getHoraInicio() +
                     " | Hora fim: " + aula.getDataAula().getHoraFim());
             setSelected(isSelected);
             setEnabled(list.isEnabled());
