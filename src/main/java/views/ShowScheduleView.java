@@ -90,7 +90,7 @@ public class ShowScheduleView extends View {
 
     private void showSobrelotadasDialog(List<Aula> aulasSobrelotadas){
         JDialog dialog = new JDialog();
-        dialog.setTitle("Aulas sobrepostas");
+        dialog.setTitle("Aulas sobrelotadas");
         dialog.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
 
         String[] columnNames = {"Data", "Hora", "Unidade Curricular", "Turno", "Sala", "Lotação", "NºInscritos"};
