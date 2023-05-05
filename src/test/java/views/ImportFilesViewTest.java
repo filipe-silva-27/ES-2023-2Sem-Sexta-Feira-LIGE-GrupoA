@@ -5,26 +5,24 @@ import controllers.ViewController;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
-import org.mockito.Mockito;
 
 import javax.swing.JButton;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 
 class ImportFilesViewTest {
 
     private ImportFilesView view;
 
-    @Mock
-    private ImportFilesController controller;
 
     @Mock
     private ViewController viewController;
 
     @BeforeEach
     void setUp() {
-        viewController = Mockito.mock(ViewController.class);
+        viewController = mock(ViewController.class);
         view = new ImportFilesView(viewController);
     }
 
@@ -38,6 +36,8 @@ class ImportFilesViewTest {
 
     @Test
     void testLocalBtnAction() {
+        ImportFilesController controller = mock(ImportFilesController.class);
+        ImportFilesView view = new ImportFilesView(controller);
         view.initFrame();
         JButton localBtn = (JButton) view.getComponent(0);
         localBtn.doClick();
@@ -46,6 +46,8 @@ class ImportFilesViewTest {
 
     @Test
     void testRemoteBtnAction() {
+        ImportFilesController controller = mock(ImportFilesController.class);
+        ImportFilesView view = new ImportFilesView(controller);
         view.initFrame();
         JButton remoteBtn = (JButton) view.getComponent(1);
         remoteBtn.doClick();
