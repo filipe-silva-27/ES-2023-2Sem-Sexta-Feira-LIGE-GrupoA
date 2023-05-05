@@ -3,6 +3,7 @@ package controllers;
 import gui.App;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import utils.URI.TesteLeitorURI;
 import utils.importer.FileDownloader;
 import utils.importer.ImportFileReader;
 
@@ -54,28 +55,30 @@ public class ImportFilesController extends ViewController{
     /**
      * Função que faz o import do WebcalURI
      */
+
     public void importWebcalURI(){
         // Display a dialog box to prompt the user to enter the Webcal URI
-        String input = JOptionPane.showInputDialog(getApp(), "Enter the Webcal URI:");
+        String input = JOptionPane.showInputDialog(null, "Enter the Webcal URI: ");
         if (input != null && !input.trim().isEmpty()) {
             try {
                 // Parse the input as a URI
-                URI webcalURI = new URI(input);
+                String webcalURI = TesteLeitorURI.getWebcalURIFromUser(input);
 
-                // Do something with the URI, such as downloading the calendar events
-                // or adding them to the application's calendar
+                // Load the calendar events from the Webcal URI using the TesteLeitorURI class
+                TesteLeitorURI.loadScheduleFromWebcal(webcalURI);
 
                 // For example, you could use the following code to display the calendar
                 // events in a dialog box:
-                JOptionPane.showMessageDialog(getApp(), "Calendar events imported from:\n" + webcalURI.toString());
+                JOptionPane.showMessageDialog(getApp(), "Calendar events imported from:\n" + webcalURI);
 
-            } catch (URISyntaxException e) {
+            } catch (IOException e) {
                 logger.error("Error importing Webcal URI", e);
                 JOptionPane.showMessageDialog(getApp(), "Error importing Webcal URI:\n" + e.getMessage());
             }
         }
-
     }
+
+
 
     /**
      * Método que realiza a importação de um arquivo.
