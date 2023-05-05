@@ -66,10 +66,13 @@ public class ImportFilesController extends ViewController{
 
                 // Load the calendar events from the Webcal URI using the TesteLeitorURI class
                 URIToWebcal.loadScheduleFromWebcal(webcalURI);
+                showWebcalScheduleView();
+
 
                 // For example, you could use the following code to display the calendar
                 // events in a dialog box:
                 JOptionPane.showMessageDialog(getApp(), "Calendar events imported from:\n" + webcalURI);
+
 
             } catch (IOException e) {
                 logger.error("Error importing Webcal URI", e);

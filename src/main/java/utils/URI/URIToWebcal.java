@@ -71,11 +71,11 @@ public class URIToWebcal {
         return webcalURI;
     }
 
-    public static void main(String[] args) throws IOException, URISyntaxException {
+    /*public static void main(String[] args) throws IOException, URISyntaxException {
         //String webcalURI = getWebcalURIFromUser();
         //String webcalURI = "https://fenix.iscte-iul.pt/publico/publicPersonICalendar.do?method=iCalendar&username=rmfde@iscte.pt&password=Kat41qMCyPigm7gCNAc5l1WKb5cHkLdInbvS1IYm3fDz84UaPhyJ3nsvdKcLPAfOMZkW0sW0STWAHYsNi3B6cOqDzoF2Sa0Q2aGPQ7LSw23yhGHehYEnsWWHhyYTADFZ";
         //loadScheduleFromWebcal(webcalURI);
 
 
-    }
+    }*/
 }
