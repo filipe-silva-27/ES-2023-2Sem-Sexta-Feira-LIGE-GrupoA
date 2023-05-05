@@ -5,6 +5,7 @@ import controllers.ShowScheduleController;
 import controllers.ViewController;
 import models.Aula;
 import models.UnidadeCurricular;
+import org.junit.Ignore;
 import utils.DetalhesAulasDialog;
 import utils.exporter.FileExporter;
 
@@ -41,6 +42,7 @@ public class CreateScheduleView extends View {
     /**
      * Função que inicializa os botões
      */
+    @Ignore
     private void initButtons(){
         criarUc = new JButton("Personalizar horário");
         verHorario = new JButton("Visualizar horário");
@@ -53,6 +55,7 @@ public class CreateScheduleView extends View {
     /**
      * Função que inicializa os listeners
      */
+    @Ignore
     private void initListeners(){
         criarUc.addActionListener(e -> {
             Set<UnidadeCurricular> unidadesCurriculares = viewController.getHorario().getUnidadesCurriculares();
@@ -81,6 +84,7 @@ public class CreateScheduleView extends View {
      * Função que inicializa a frame
      */
     @Override
+    @Ignore
     public void initFrame() {
         this.removeAll();
         initButtons();
@@ -100,6 +104,7 @@ public class CreateScheduleView extends View {
      * @see DefaultListModel
      * @see UCCheckBoxListRenderer
      */
+    @Ignore
     private void showCreateUC(Set<UnidadeCurricular> unidadesCurriculares) {
 
         JList<UnidadeCurricular> ucList = new JList<>();
@@ -147,6 +152,7 @@ public class CreateScheduleView extends View {
      * @see DefaultListModel
      * @see AulaCheckBoxListRenderer
      */
+    @Ignore
     private void showChooseTurno() {
         Set<UnidadeCurricular> selectedUnits = ((CreateScheduleController) viewController).getSelectedUnits();
         if (selectedUnits.isEmpty()) {
@@ -199,6 +205,7 @@ public class CreateScheduleView extends View {
      * @see JDialog
      * @see CreateScheduleController
      */
+    @Ignore
     private void showChooseFileFormat(){
         // Create a new dialog for the popup and add the checkboxes and save button to it
         JDialog dialog = new JDialog();
@@ -236,6 +243,7 @@ public class CreateScheduleView extends View {
      * Classe que altera o look default dos JCheckbox
      * @see JCheckBox
      */
+    @Ignore
     static class UCCheckBoxListRenderer extends JCheckBox implements ListCellRenderer<UnidadeCurricular> {
         @Override
         public Component getListCellRendererComponent(JList<? extends UnidadeCurricular> list,
@@ -251,6 +259,7 @@ public class CreateScheduleView extends View {
      * Classe que altera o look default dos JCheckbox
      * @see JCheckBox
      */
+    @Ignore
     static class AulaCheckBoxListRenderer extends JCheckBox implements ListCellRenderer<Aula> {
         @Override
         public Component getListCellRendererComponent(JList<? extends Aula> list, Aula aula, int index, boolean isSelected, boolean cellHasFocus) {

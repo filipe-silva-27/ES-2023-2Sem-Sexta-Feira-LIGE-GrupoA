@@ -3,8 +3,7 @@ package views;
 import controllers.ShowScheduleController;
 import controllers.ViewController;
 import models.Aula;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.junit.Ignore;
 import utils.DetalhesAulasDialog;
 
 import javax.swing.*;
@@ -12,14 +11,15 @@ import java.util.List;
 
 /**
  * Classe que representa a view de visualização do horário.
+ * @see View
  */
 public class ShowScheduleView extends View {
 
-    private static final Logger logger = LoggerFactory.getLogger(ShowScheduleView.class);
 
     /**
      * Construtor da classe ShowScheduleView.
      * @param viewController O controlador da view.
+     * @see ViewController
      */
     public ShowScheduleView(ViewController viewController) {
         super(viewController);
@@ -31,6 +31,7 @@ public class ShowScheduleView extends View {
      * Inicializa o frame da view.
      */
     @Override
+    @Ignore
     public void initFrame() {
 
         this.removeAll();

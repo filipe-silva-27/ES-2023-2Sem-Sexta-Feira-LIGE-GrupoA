@@ -29,6 +29,7 @@ import java.util.List;
 /**
  * Esta classe é um controlador para exibir o horário de aulas.
  * Estende a classe ViewController.
+ * @see ViewController
  */
 public class ShowScheduleController extends ViewController{
 
@@ -37,6 +38,7 @@ public class ShowScheduleController extends ViewController{
     /**
      * Construtor da classe ShowScheduleController.
      * @param app A aplicação principal que será compartilhada por todos os controladores.
+     * @see App
      */
     public ShowScheduleController(App app) {
         super(app);
@@ -48,7 +50,7 @@ public class ShowScheduleController extends ViewController{
      * @param aulas lista com todas as aulas para serem visualizadas
      */
     public static void createHtmlView(List<Aula> aulas) {
-        // Load the template HTML file
+
         String templateContent = loadResourceFile("/calendar_template.html");
         if (templateContent == null) {
             JOptionPane.showMessageDialog(null, "Não foi encontrado o template do calendário",
@@ -56,11 +58,9 @@ public class ShowScheduleController extends ViewController{
             return;
         }
 
-        // Generate the JSON string and escape it
         String aulasJson = exportAulasToJson(aulas);
         String escapedAulasJson = StringEscapeUtils.escapeEcmaScript(aulasJson);
 
-        // Create a temporary file to hold the HTML content
         Path tempFile;
         try {
             if (SystemUtils.IS_OS_UNIX) {
@@ -84,6 +84,11 @@ public class ShowScheduleController extends ViewController{
         openBrowser(tempFile);
     }
 
+    /**
+     * Função que abre um ficheiro dado uma path no browser
+     * @param path path para o ficheiro a ser aberto
+     * @see Desktop
+     */
     private static void openBrowser(Path path){
         // Open the generated HTML file in the default browser
         try {
@@ -100,6 +105,11 @@ public class ShowScheduleController extends ViewController{
         }
     }
 
+    /**
+     * Função que carrega o conteúdo de um arquivo de recursos do classpath e retorna como uma String.
+     * @param fileName o nome do arquivo a ser carregado
+     * @return conteúdo do arquivo como uma String, ou null se o arquivo não pôde ser encontrado ou lido
+     */
     private static String loadResourceFile(String fileName) {
         try (InputStream inputStream = ShowScheduleController.class.getResourceAsStream(fileName)) {
             if (inputStream == null) {
@@ -114,8 +124,10 @@ public class ShowScheduleController extends ViewController{
 
     /**
      * Função que gera a lista de Aulas mas em formato JSON
-     * @param aulas
+     * @param aulas List<Aula> lista de aulas a ser exportada
      * @return json String que corresponde ao JSON
+     * @see SimpleDateFormat
+     * @see ObjectMapper
      */
     public static String exportAulasToJson(List<Aula> aulas) {
         ObjectMapper objectMapper = new ObjectMapper();
@@ -135,6 +147,8 @@ public class ShowScheduleController extends ViewController{
     /**
      * Obtém a lista de aulas do horário de aulas atual.
      * @return A lista de aulas ordenada.
+     * @see Collections
+     * @see List
      */
     public List<Aula> getAulas() {
         List<Aula> aulaList = new ArrayList<>();
