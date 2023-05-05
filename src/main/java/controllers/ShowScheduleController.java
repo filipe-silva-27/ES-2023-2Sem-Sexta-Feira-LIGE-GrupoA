@@ -154,4 +154,25 @@ public class ShowScheduleController extends ViewController{
 
         return aulasSobreLotadas;
     }
+
+
+    //so testar: quando aulas sobrepostas sao null, quand ficam vazias, quando tem aulas sobrepostas, e quando aulas é null?
+    public List<Aula> showSobreposicoes() {
+        List<Aula> aulas = getAulas();
+        List<Aula> aulasSobrepostas = new ArrayList<>();
+
+        aulasSobrepostas = new ArrayList<>();
+        for (int i = 0; i < aulas.size() -1; i++){
+            for (int j = i+1; j < aulas.size(); j++){
+                if (aulas.get(i).compareTo(aulas.get(j)) == 0) {
+//                        logger.info("A1: {} | A2: {}", aulas.get(i).getDataAula().toString(),
+//                                aulas.get(j).getDataAula().toString());
+                    aulasSobrepostas.add(aulas.get(i));
+                    aulasSobrepostas.add(aulas.get(j));
+                }
+            }
+        }
+        return aulasSobrepostas;
+
+    }
 }
