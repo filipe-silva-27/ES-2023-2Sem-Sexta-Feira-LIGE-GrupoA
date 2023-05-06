@@ -1,7 +1,6 @@
 package views;
 
 import controllers.ViewController;
-import org.junit.Ignore;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -27,7 +26,6 @@ public class MainMenuView extends View {
      * Inicializa o frame da view.
      */
     @Override
-    @Ignore
     public void initFrame() {
         this.removeAll();
 

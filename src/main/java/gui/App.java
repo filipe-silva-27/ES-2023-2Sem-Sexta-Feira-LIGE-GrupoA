@@ -32,9 +32,6 @@ public class App {
     public static final String CREATE_SCHEDULE_MENU ="createScheduleView";
     public static final String EXPORT_MENU = "exportFilesView";
 
-    /**
-     * Views
-     */
     private MainMenuView mainMenuView;
     private ImportFilesView importFilesView;
     private ShowScheduleView showScheduleView;
