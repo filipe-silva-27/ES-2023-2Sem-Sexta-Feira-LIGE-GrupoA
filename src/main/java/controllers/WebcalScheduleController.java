@@ -5,17 +5,37 @@ import models.Aula;
 import models.Horario;
 import models.UnidadeCurricular;
 import org.apache.commons.io.input.ObservableInputStream;
+
+import org.apache.commons.text.StringEscapeUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import gui.App;
 import utils.URI.ExtractModelsFromWebcal;
 import views.WebcalScheduleView;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.SerializationFeature;
+import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
+import gui.App;
+import models.Aula;
+import models.UnidadeCurricular;
+import org.apache.commons.text.StringEscapeUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import javax.swing.*;
-import java.io.BufferedReader;
-import java.io.FileWriter;
+import java.awt.*;
 import java.io.IOException;
-import java.io.InputStreamReader;
+import java.io.InputStream;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.StandardCopyOption;
+import java.text.SimpleDateFormat;
+import java.util.*;
+import java.util.List;
+import javax.swing.*;
+import java.io.*;
 import java.net.HttpURLConnection;
 import java.net.URI;
 import java.net.URISyntaxException;
@@ -26,6 +46,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import static controllers.ShowScheduleController.exportAulasToJson;
 
 
 public class WebcalScheduleController extends ViewController{
@@ -34,16 +55,30 @@ public class WebcalScheduleController extends ViewController{
     private static boolean stateURI = false;
     private static final Logger logger = LoggerFactory.getLogger(WebcalScheduleController.class);
 
+    public static String uri_max;
+
     public WebcalScheduleController(App app){
         super(app);
         logger.info("- inicializado com sucesso.");
     }
 
+    public static void setInput(String input) {
+        input = input;
+    }
+
+    public static String getUri_max(){
+        return uri_max;
+    }
+
 
     public void insertURI(){
-        String input = JOptionPane.showInputDialog(null, "Enter the Webcal URI: ");
+       String input = JOptionPane.showInputDialog(null, "Enter the Webcal URI: ");
+        uri_max = input;
+        //logger.info(" isto é o insert uri --- " + input);
         if (input != null && !input.trim().isEmpty()) {
+          //  logger.info(" iEntroiu no ruytghruibewirvje");
             try {
+            //    logger.info(" iEntroiu no ruytghruibewirvje");
                 // Parse the input as a URI
                 String webcalURI = getWebcalURIFromUser(input);
                 //WebcalScheduleView.setUri(webcalURI);
@@ -115,83 +150,55 @@ public class WebcalScheduleController extends ViewController{
 
     }
 
-
-    /*public static void createHtmlView(List<Aula> aulas){
-        String aulasURI =
-
-    }*/
-
-
-
-
-    /* public static void createHtml(Horario horario) {
-         // Construct HTML content
-         String htmlContent = horario.toHtml();
-
-         // Write HTML content to file
-         try {
-             FileWriter writer = new FileWriter("output.html");
-             writer.write(htmlContent);
-             writer.close();
-         } catch (IOException e) {
-             System.out.println("Error writing HTML file: " + e.getMessage());
-         }
-
-         // Open HTML file in browser
-         try {
-             String os = System.getProperty("os.name").toLowerCase();
-             Runtime rt = Runtime.getRuntime();
-             if (os.contains("win")) {
-                 rt.exec("cmd /c start output.html");
-             } else if (os.contains("mac")) {
-                 rt.exec("open output.html");
-             } else if (os.contains("nix") || os.contains("nux")) {
-                 rt.exec("xdg-open output.html");
-             }
-         } catch (IOException e) {
-             System.out.println("Error opening HTML file in browser: " + e.getMessage());
-         }
-     }*/
-   /* public static void createHtml() {
-        // Extract parts from URI
-        // For example, extract the hostname and path
-        String[] parts = webcalURI.split("/");
-        String hostname = parts[2];
-        String path = "/" + parts[3];
-
-        // Construct HTML content
-        String htmlContent = "<html><body><h1>URI Information</h1>" +
-                "<p>Hostname: " + hostname + "</p>" +
-                "<p>Path: " + path + "</p></body></html>";
-
-        // Write HTML content to file
-        try {
-            FileWriter writer = new FileWriter("output.html");
-            writer.write(htmlContent);
-            writer.close();
-        } catch (IOException e) {
-            System.out.println("Error writing HTML file: " + e.getMessage());
-        }
-
-        // Open HTML file in browser
-        try {
-            String os = System.getProperty("os.name").toLowerCase();
-            Runtime rt = Runtime.getRuntime();
-            if (os.contains("win")) {
-                rt.exec("cmd /c start output.html");
-            } else if (os.contains("mac")) {
-                rt.exec("open output.html");
-            } else if (os.contains("nix") || os.contains("nux")) {
-                rt.exec("xdg-open output.html");
+    public List<Aula> getAulas() {
+        List<Aula> aulaList = new ArrayList<>();
+        if (isHorarioSet()) {
+            for(UnidadeCurricular uc : getHorario().getUnidadesCurriculares()){
+                List<Aula> aulasAux = uc.getAulas();
+                aulaList.addAll(aulasAux);
             }
-        } catch (IOException e) {
-            System.out.println("Error opening HTML file in browser: " + e.getMessage());
         }
-    }*/
+        Collections.sort(aulaList);
+        logger.info("Aulas size: {}", aulaList.size());
+        return aulaList;
+    }
+
+    public static void createHtmlView(List<Aula> aulas) {
+        String json = exportAulasToJson(aulas);
+        String escapedJson = StringEscapeUtils.escapeEcmaScript(json);
+
+        // Load the HTML template
+        InputStream templateStream = ShowScheduleController.class.getResourceAsStream("/calendar_template.html");
+        if (templateStream != null) {
+            try {
+                Path tempFile = Files.createTempFile("calendar", ".html");
+                Files.copy(templateStream, tempFile, StandardCopyOption.REPLACE_EXISTING);
+                String htmlTemplate = Files.readString(tempFile, StandardCharsets.UTF_8);
+
+                // Replace the JSON placeholder with the actual JSON data
+                String htmlOutput = htmlTemplate.replace("{{aulas_json}}", escapedJson);
+                Files.writeString(tempFile, htmlOutput, StandardCharsets.UTF_8);
+
+                if (Desktop.isDesktopSupported() && Desktop.getDesktop().isSupported(Desktop.Action.BROWSE)) {
+                    Desktop.getDesktop().browse(tempFile.toUri());
+                } else {
+                    JOptionPane.showMessageDialog(null, "Erro a abrir o browser!", "Erro", JOptionPane.ERROR_MESSAGE);
+                }
+            } catch (IOException ex) {
+                ex.printStackTrace();
+                JOptionPane.showMessageDialog(null, "Erro a criar o ficheiro HTML de visualização", "Error", JOptionPane.ERROR_MESSAGE);
+            }
+        } else {
+            JOptionPane.showMessageDialog(null, "Não foi encontrado o template do calendário", "Error", JOptionPane.ERROR_MESSAGE);
+        }
+    }
 
 
     public static boolean getURI(){
         return stateURI;
     }
 
-}
+    public static String getWebcalURIAsString() {
+        return webcalURI;
+    }
+}*/

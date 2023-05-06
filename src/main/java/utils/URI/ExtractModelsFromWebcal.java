@@ -111,9 +111,39 @@ public class ExtractModelsFromWebcal {
             }
         }
         return aulas;
+    }*/
+
+    public static List<Aula> getAulasFromWebcal(String uriString) {
+        List<Aula> aulas = new ArrayList<>();
+
+        CalendarBuilder builder = new CalendarBuilder();
+        Calendar calendar = null;
+        try {
+            calendar = builder.build(new URI(uriString).toURL().openStream());
+        } catch (IOException | ParserException | URISyntaxException e) {
+            throw new RuntimeException(e);
+        }
+
+        for (Component component : calendar.getComponents()) {
+            if (component.getName().equals(EVENT_NAME)) {
+                VEvent event = (VEvent) component;
+
+                String summary = event.getSummary().getValue();
+                String description = event.getDescription().getValue();
+                String location = event.getLocation().getValue();
+                String[] lines = description.split(LINE_SEPARATOR);
+                String uc = parseValue(lines, UC_PREFIX);
+                String turno = parseValue(lines, TURNO_PREFIX);
+
+                // Create new Aula object and add to list
+                Aula aula = new Aula(new UnidadeCurricular(uc), turno, location);
+                aulas.add(aula);
+            }
+        }
+        return aulas;
     }
 
-    public static List<DataAula> getDataAulaFromWebcal(URI uri) throws IOException, ParserException, ParseException {
+    /*public static List<DataAula> getDataAulaFromWebcal(String uri) throws IOException, ParserException, ParseException {
         List<DataAula> aulas = new ArrayList<>();
 
         CalendarBuilder builder = new CalendarBuilder();
@@ -133,6 +163,44 @@ public class ExtractModelsFromWebcal {
 
                 // Get start and end times
                 Date start = event.getStartDate().getDate();
+                Date end = event.getEndDate().getDate();
+                LocalTime horaInicio = start.toInstant().atZone(ZoneId.systemDefault()).toLocalTime();
+                LocalTime horaFim = end.toInstant().atZone(ZoneId.systemDefault()).toLocalTime();
+
+                // Get day of week
+                int dayOfWeek = start.toInstant().atZone(ZoneId.systemDefault()).getDayOfWeek().getValue();
+                DiaSemana diaSemana = DiaSemana.values()[dayOfWeek - 1];
+
+                // Create new DataAula object and add to list
+                DataAula aula = new DataAula(diaSemana, horaInicio, horaFim, start);
+                aulas.add(aula);
+            }
+        }
+        return aulas;
+    }*/
+
+    public static List<DataAula> getDataAulaFromWebcal(String uriString) throws IOException, ParserException, ParseException {
+        List<DataAula> aulas = new ArrayList<>();
+
+        URI uri = URI.create(uriString);
+        CalendarBuilder builder = new CalendarBuilder();
+        Calendar calendar = builder.build(uri.toURL().openStream());
+
+        for (Component component : calendar.getComponents()) {
+            if (component.getName().equals(EVENT_NAME)) {
+                VEvent event = (VEvent) component;
+
+                String summary = event.getSummary().getValue();
+                String description = event.getDescription().getValue();
+                String location = event.getLocation().getValue();
+                String[] lines = description.split(LINE_SEPARATOR);
+
+                String uc = parseValue(lines, UC_PREFIX);
+                String turno = parseValue(lines, TURNO_PREFIX);
+
+                // Get start and end times
+                Date start = event.getStartDate().getDate();
+
                 Date end = event.getEndDate().getDate();
                 LocalTime horaInicio = start.toInstant().atZone(ZoneId.systemDefault()).toLocalTime();
                 LocalTime horaFim = end.toInstant().atZone(ZoneId.systemDefault()).toLocalTime();
@@ -173,20 +241,25 @@ public class ExtractModelsFromWebcal {
 
     public static void main(String[] args) {
         try {
-            URI uri = new URI("https://fenix.iscte-iul.pt/publico/publicPersonICalendar.do?method=iCalendar&username=jmcfo@iscte.pt&password=BBvgt0CF3CA66sm253Rr8j3nms5GkvuvniL8IrRCmfTuZwxQBqFaJ8pDDRZS0oedL1Qx7YHandbEuN9wRAJdflCP1RUMUlyOQuzb4IeCmcKFdgAE7KGAOA4JPVNmzxAz");
-
-
-            List<DataAula> dataAulas = ExtractModelsFromWebcal.getDataAulaFromWebcal(uri);
-            for (DataAula dataAula : dataAulas) {
-                System.out.println(dataAula.toString());
+            String uri = "webcal://fenix.iscte-iul.pt/publico/publicPersonICalendar.do?method=iCalendar&username=jmcfo@iscte.pt&password=BBvgt0CF3CA66sm253Rr8j3nms5GkvuvniL8IrRCmfTuZwxQBqFaJ8pDDRZS0oedL1Qx7YHandbEuN9wRAJdflCP1RUMUlyOQuzb4IeCmcKFdgAE7KGAOA4JPVNmzxAz";
+            if (uri.startsWith("webcal://")) {
+                uri = "https://" + uri.substring(9);
             }
-            //List<Aula> aulas = ExtractModelsFromWebcal.getAulasFromWebcal(uri);
-            /*for (Aula aula : aulas) {
+            List<DataAula> aulas = getDataAulaFromWebcal(uri);
+            System.out.println("Aulas:");
+            for (DataAula aula : aulas) {
                 System.out.println(aula.toString());
-            }*/
-        } catch (URISyntaxException | IOException | ParserException | ParseException e) {
+            }
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }
-
+    /*List<DataAula> dataAulas = ExtractModelsFromWebcal.getDataAulaFromWebcal(uri);
+            for (DataAula dataAula : dataAulas) {
+        System.out.println(dataAula.toString());
+    }*/
+    //List<Aula> aulas = ExtractModelsFromWebcal.getAulasFromWebcal(uri);
+            /*for (Aula aula : aulas) {
+                System.out.println(aula.toString());
+            }*/
 }
