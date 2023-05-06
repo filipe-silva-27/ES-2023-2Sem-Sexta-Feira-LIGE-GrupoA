@@ -33,7 +33,6 @@ public class ImportFilesView extends View {
         localBtn.addActionListener(e -> ((ImportFilesController) viewController).importLocalFile());
         remoteBtn.addActionListener(e -> ((ImportFilesController) viewController).importRemoteFile());
 
-        // Add the buttons to the panel
         add(localBtn);
         add(remoteBtn);
     }

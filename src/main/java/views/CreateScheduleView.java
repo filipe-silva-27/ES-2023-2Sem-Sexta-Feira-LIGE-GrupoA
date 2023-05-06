@@ -30,6 +30,7 @@ public class CreateScheduleView extends View {
     JButton guardarBtn;
     JButton backBtn;
 
+    List<Aula> selectedAulas;
     /**
      * Método construtor
      * @param viewController ViewController
@@ -37,6 +38,7 @@ public class CreateScheduleView extends View {
      */
     public CreateScheduleView(ViewController viewController) {
         super(viewController);
+        selectedAulas = null;
     }
 
     /**
@@ -61,20 +63,18 @@ public class CreateScheduleView extends View {
             Set<UnidadeCurricular> unidadesCurriculares = viewController.getHorario().getUnidadesCurriculares();
             showCreateUC(unidadesCurriculares);
         });
-        verHorario.addActionListener(e ->{
-                    List<Aula> selectedAulas = ((CreateScheduleController) viewController).getSelectedAulas();
-                    ShowScheduleController.createHtmlView(selectedAulas);
-                }
-        );
+        selectedAulas = ((CreateScheduleController) viewController).getSelectedAulas();
+
+        verHorario.addActionListener(e -> ShowScheduleController.createHtmlView(selectedAulas));
+
         verSobrelotacao.addActionListener(e -> {
-            List<Aula> aulaList = ((CreateScheduleController) viewController).getSelectedAulas();
-            List<Aula> aulasSobrepostas = DetalhesAulasDialog.getSobreposicoes(aulaList);
-            DetalhesAulasDialog.showSobreposicoesView(aulasSobrepostas);
+            List<Aula> aulasSobrepostas = DetalhesAulasDialog.getAulasSobreLotadas(selectedAulas);
+            DetalhesAulasDialog.showAulasSobrelotadasView(aulasSobrepostas);
         });
-        verSobreposicoes.addActionListener(e ->{
-            List<Aula> aulaList = ((CreateScheduleController) viewController).getSelectedAulas();
-            List<Aula> aulasSobrelotadas = DetalhesAulasDialog.getAulasSobreLotadas(aulaList);
-            DetalhesAulasDialog.showAulasSobrelotadasView(aulasSobrelotadas);
+
+        verSobreposicoes.addActionListener(e -> {
+            List<Aula> aulasSobrelotadas = DetalhesAulasDialog.getSobreposicoes(selectedAulas);
+            DetalhesAulasDialog.showSobreposicoesView(aulasSobrelotadas);
         });
         guardarBtn.addActionListener(e -> showChooseFileFormat());
         backBtn.addActionListener(e -> viewController.showMainMenuView());
@@ -89,12 +89,16 @@ public class CreateScheduleView extends View {
         this.removeAll();
         initButtons();
         initListeners();
+        //add buttons to panel
         add(criarUc);
-        add(verHorario);
-        add(verSobrelotacao);
-        add(verSobreposicoes);
-        add(guardarBtn);
         add(backBtn);
+        if (selectedAulas != null && !selectedAulas.isEmpty()) {
+            add(verHorario);
+            add(verSobrelotacao);
+            add(verSobreposicoes);
+            add(guardarBtn);
+        }
+        this.revalidate();
     }
 
     /**
@@ -189,6 +193,7 @@ public class CreateScheduleView extends View {
             ((CreateScheduleController) viewController).setSelectedAulas(aulasList.getSelectedValuesList());
             ((CreateScheduleController) viewController).createHorario();
             dialog.dispose();
+            this.initFrame();
         });
         JPanel buttonPanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
         buttonPanel.add(saveBtn);

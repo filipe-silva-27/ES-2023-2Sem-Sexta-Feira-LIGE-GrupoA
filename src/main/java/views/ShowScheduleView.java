@@ -44,15 +44,15 @@ public class ShowScheduleView extends View {
         JButton verSobrelotacao = new JButton("Ver sobrelotações");
         verSobrelotacao.addActionListener(e -> {
             List<Aula> aulaList = ((ShowScheduleController) viewController).getAulas();
-            List<Aula> aulasSobrepostas = DetalhesAulasDialog.getSobreposicoes(aulaList);
-            DetalhesAulasDialog.showSobreposicoesView(aulasSobrepostas);
+            List<Aula> aulasSobrepostas = DetalhesAulasDialog.getAulasSobreLotadas(aulaList);
+            DetalhesAulasDialog.showAulasSobrelotadasView(aulasSobrepostas);
         });
 
         JButton verSobreposicoes = new JButton("Ver sobreposições");
         verSobreposicoes.addActionListener(e ->{
             List<Aula> aulaList = ((ShowScheduleController) viewController).getAulas();
-            List<Aula> aulasSobrelotadas = DetalhesAulasDialog.getAulasSobreLotadas(aulaList);
-            DetalhesAulasDialog.showAulasSobrelotadasView(aulasSobrelotadas);
+            List<Aula> aulasSobrelotadas = DetalhesAulasDialog.getSobreposicoes(aulaList);
+            DetalhesAulasDialog.showSobreposicoesView(aulasSobrelotadas);
         });
 
         JButton backBtn = new JButton("Voltar");
