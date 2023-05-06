@@ -1,9 +1,5 @@
 package utils.URI;
 
-import controllers.ShowScheduleController;
-import models.Aula;
-import models.UnidadeCurricular;
-import org.apache.commons.io.input.ObservableInputStream;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -11,20 +7,12 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
-import java.net.URI;
-import java.net.URISyntaxException;
 import java.net.URL;
-import java.time.LocalDateTime;
-import java.time.ZoneOffset;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-
 
 
 public class URIToWebcal {
 
-
+    private static String webcalURI = null;
     private static final Logger logger = LoggerFactory.getLogger(URIToWebcal.class);
     public static void loadScheduleFromWebcal(String webcalURI) throws IOException {
         // Criar um objeto URL a partir do Webcal URI
@@ -59,7 +47,7 @@ public class URIToWebcal {
 
     public static String getWebcalURIFromUser(String input) {
         // Use the input provided as the URI
-        String webcalURI = input;
+        webcalURI = input;
 
         if (webcalURI.startsWith("webcal://")) {
             webcalURI = "https://" + webcalURI.substring(9);
@@ -71,6 +59,13 @@ public class URIToWebcal {
         return webcalURI;
     }
 
+
+    public static boolean getURI(){
+        if(webcalURI==null) {
+            return false;
+        }
+        return true;
+    }
     /*public static void main(String[] args) throws IOException, URISyntaxException {
         //String webcalURI = getWebcalURIFromUser();
         //String webcalURI = "https://fenix.iscte-iul.pt/publico/publicPersonICalendar.do?method=iCalendar&username=rmfde@iscte.pt&password=Kat41qMCyPigm7gCNAc5l1WKb5cHkLdInbvS1IYm3fDz84UaPhyJ3nsvdKcLPAfOMZkW0sW0STWAHYsNi3B6cOqDzoF2Sa0Q2aGPQ7LSw23yhGHehYEnsWWHhyYTADFZ";

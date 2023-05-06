@@ -163,5 +163,11 @@ public class App extends Component {
     public View getExportFilesView() { return exportFilesView;
     }
 
+    /**
+     * Obtém a referência para import e visualização de URI.
+     * @return A WebcalScheduleView da view de URI.
+     */
     public WebcalScheduleView getWebcalScheduleView(){ return webcalScheduleView;}
+
+
 }

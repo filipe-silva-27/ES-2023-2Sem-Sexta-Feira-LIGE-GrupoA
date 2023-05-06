@@ -1,7 +1,6 @@
 package views;
 
-import controllers.ShowScheduleController;
-import controllers.ViewController;
+import controllers.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import controllers.ShowScheduleController;
@@ -10,6 +9,8 @@ import models.Aula;
 import org.apache.commons.text.StringEscapeUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import utils.URI.URIToWebcal;
+
 import javax.swing.*;
 import java.awt.*;
 import java.io.IOException;
@@ -25,7 +26,7 @@ import javax.swing.*;
 
 public class WebcalScheduleView extends View {
 
-    private static final Logger logger = LoggerFactory.getLogger(views.WebcalScheduleView.class);
+    private static final Logger logger = LoggerFactory.getLogger(WebcalScheduleView.class);
 
     /**
      * Construtor da classe ShowScheduleView.
@@ -33,6 +34,7 @@ public class WebcalScheduleView extends View {
      * @param viewController O controlador da view.
      */
     public WebcalScheduleView(ViewController viewController) {
+
         super(viewController);
     }
 
@@ -43,16 +45,34 @@ public class WebcalScheduleView extends View {
     public void initFrame() {
 
         this.removeAll();
+        logger.info("Inicializando a frame da view MainMenuView");
+        JButton inserirBtn = new JButton("Inserir URI");
+        JButton verBtn = new JButton("Ver Horário");
 
-        JButton verAulas = new JButton("Ver aulas");
+        TimerTask task = new TimerTask() {
+            public void run() {
+                if (!WebcalScheduleController.getURI()) {
+                    verBtn.setVisible(false);
+                } else {
+                    verBtn.setVisible(true);
+                }
+            }
+        };
+        Timer timer = new Timer();
+        timer.schedule(task, 0, 1000);
 
+        inserirBtn.addActionListener(e -> ((WebcalScheduleController) viewController).insertURI());
+        verBtn.addActionListener(e -> viewController.showWebcalScheduleView());
 
-
+        //back button to redirect to ImportFilesView
         JButton backBtn = new JButton("Voltar");
-        backBtn.addActionListener(e -> viewController.showMainMenuView());
+        backBtn.addActionListener(e -> viewController.showImportFilesView());
 
-        add(verAulas);
+
+        add(inserirBtn);
+        add(verBtn);
 
         add(backBtn);
+        logger.info("Frame da view WebcalScheduleView inicializada com sucesso!");
     }
 }
