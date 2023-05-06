@@ -6,6 +6,7 @@ import models.Horario;
 
 import javax.swing.*;
 import java.awt.*;
+import java.net.URISyntaxException;
 
 
 /**
@@ -150,6 +151,7 @@ public class ViewController {
     }*/
 
 
+
     /**
      * Exibe a tela de upload de ficheiros.
      */
@@ -162,7 +164,11 @@ public class ViewController {
      * Exibe a tela de exportação de ficheiros.
      */
     public void showExportFilesView(){
-        app.getExportFilesView().initFrame();
+        try {
+            app.getExportFilesView().initFrame();
+        } catch (URISyntaxException e) {
+            throw new RuntimeException(e);
+        }
         cardLayout.show(contentPane, App.EXPORT_MENU);
     }
 

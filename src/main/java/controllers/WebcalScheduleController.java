@@ -30,6 +30,7 @@ import java.util.List;
 
 public class WebcalScheduleController extends ViewController{
     private static String webcalURI = null;
+    private static String webcalURI2 = null;
     private static boolean stateURI = false;
     private static final Logger logger = LoggerFactory.getLogger(WebcalScheduleController.class);
 
@@ -45,6 +46,7 @@ public class WebcalScheduleController extends ViewController{
             try {
                 // Parse the input as a URI
                 String webcalURI = getWebcalURIFromUser(input);
+                //WebcalScheduleView.setUri(webcalURI);
 
                 // Load the calendar events from the Webcal URI using the TesteLeitorURI class
                 loadScheduleFromWebcal(webcalURI);
@@ -78,9 +80,9 @@ public class WebcalScheduleController extends ViewController{
         return webcalURI;
     }
 
-    public static void loadScheduleFromWebcal(String webcalURI) throws IOException {
+    public static void loadScheduleFromWebcal(String webcalURI2) throws IOException {
         // Criar um objeto URL a partir do Webcal URI
-        URL url = new URL(getWebcalURIFromUser(webcalURI));
+        URL url = new URL(getWebcalURIFromUser(webcalURI2));
         stateURI=true;
 
 

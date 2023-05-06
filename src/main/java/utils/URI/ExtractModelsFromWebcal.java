@@ -70,11 +70,18 @@ public class ExtractModelsFromWebcal {
 
 */
 
-    public static List<Aula> getAulasFromWebcal(URI uri) throws IOException, ParserException, ParseException {
+    /*public static List<Aula> getAulasFromWebcal(URI uri)  {
         List<Aula> aulas = new ArrayList<>();
 
         CalendarBuilder builder = new CalendarBuilder();
-        Calendar calendar = builder.build(uri.toURL().openStream());
+        Calendar calendar = null;
+        try {
+            calendar = builder.build(uri.toURL().openStream());
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        } catch (ParserException e) {
+            throw new RuntimeException(e);
+        }
 
         for (Component component : calendar.getComponents()) {
             if (component.getName().equals(EVENT_NAME)) {
