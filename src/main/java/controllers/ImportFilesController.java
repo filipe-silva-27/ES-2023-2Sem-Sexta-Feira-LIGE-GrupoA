@@ -2,7 +2,6 @@ package controllers;
 
 import gui.App;
 import models.CustomExceptions;
-import org.junit.Ignore;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import utils.importer.FileDownloader;
@@ -16,7 +15,6 @@ import java.io.IOException;
 /**
  * Esta classe é um controlador para importar para a aplicação ficheiros CSV e JSON.
  * Estende a classe ViewController.
- * @see ViewController
  */
 public class ImportFilesController extends ViewController{
 
@@ -25,7 +23,6 @@ public class ImportFilesController extends ViewController{
     /**
      * Construtor do controlador de upload de arquivos.
      * @param app - instância da classe principal da aplicação
-     * @see App
      */
     public ImportFilesController(App app) {
         super(app);
@@ -35,7 +32,6 @@ public class ImportFilesController extends ViewController{
     /**
      * Função que trata do carregamento do ficheiro local
      */
-    @Ignore
     public void importLocalFile() {
         JFileChooser fileChooser = new JFileChooser();
         fileChooser.setFileFilter(new FileNameExtensionFilter("CSV and JSON Files", "csv", "json"));
@@ -49,7 +45,6 @@ public class ImportFilesController extends ViewController{
     /**
      * Função que trata do import de ficheiro remoto.
      */
-    @Ignore
     public void importRemoteFile()  {
         File fromFile = null;
         try{
@@ -92,7 +87,6 @@ public class ImportFilesController extends ViewController{
      * Método que exibe uma mensagem de erro e volta à view de upload de arquivos.
      * @param message - mensagem de erro a ser exibida
      */
-    @Ignore
     private void showErrorAndUploadView(String message) {
         JOptionPane.showMessageDialog(null, message, "Erro", JOptionPane.ERROR_MESSAGE);
         showImportFilesView();

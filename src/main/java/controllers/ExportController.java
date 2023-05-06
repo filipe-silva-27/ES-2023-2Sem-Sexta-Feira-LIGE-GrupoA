@@ -18,7 +18,6 @@ import java.net.URI;
 /**
  * Esta classe é um controlador para exportar conteúdo.
  * Estende a classe ViewController.
- * @see ViewController
  */
 public class ExportController extends ViewController {
 
@@ -29,7 +28,6 @@ public class ExportController extends ViewController {
     /**
      * Construtor da classe ExportController.
      * @param app O objeto principal da aplicação.
-     * @see App
      */
     public ExportController(final App app) {
         super(app);
@@ -43,7 +41,6 @@ public class ExportController extends ViewController {
         if(!isContentSet()){
             JOptionPane.showMessageDialog(null, "Não existe contéudo para exportar!",
                     ERROR_MSG, JOptionPane.ERROR_MESSAGE);
-            return;
         }
         String content = getContent();
         if(isHorarioSet()){
@@ -67,7 +64,6 @@ public class ExportController extends ViewController {
         if(!isContentSet()){
             JOptionPane.showMessageDialog(null, "Não existe contéudo para exportar!",
                     ERROR_MSG, JOptionPane.ERROR_MESSAGE);
-            return;
         }
         String content = getContent();
         String fileName = JOptionPane.showInputDialog(null,

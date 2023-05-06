@@ -11,7 +11,6 @@ import java.awt.*;
 /**
  * Classe ViewController que é o controlador das views todas que
  * trata da lógica dos botões etc
- * @see App
  */
 public class ViewController {
 
@@ -20,13 +19,13 @@ public class ViewController {
 
     protected final JFrame frame;
     protected final JPanel contentPane;
+    //fazer string content
     private static String content;
     private static Horario horario = null;
 
     /**
      * Construtor do controlador
      * @param app A instância da classe App
-     * @see App
      */
     public ViewController(App app) {
         this.cardLayout = (CardLayout) app.getMainPanel().getLayout();
@@ -104,9 +103,6 @@ public class ViewController {
      * Métodos que mostram as views
      */
 
-    /**
-     * Mostra a view de conversão
-     */
     public void showConvertView(){
         app.getConvertFilesView().initFrame();
         cardLayout.show(contentPane, App.CONVERT_MENU);

@@ -1,7 +1,3 @@
-controllers
 gui
-models
 utils
-utils.exporter
-utils.importer
 views
