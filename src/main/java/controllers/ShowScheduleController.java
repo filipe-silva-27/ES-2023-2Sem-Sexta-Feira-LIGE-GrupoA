@@ -68,11 +68,7 @@ public class ShowScheduleController extends ViewController{
                         PosixFilePermissions.asFileAttribute(PosixFilePermissions.fromString("rw-------"));
                 tempFile = Files.createTempFile("calendar", ".html", attr);
             } else {
-                Path tempDir = Files.createTempDirectory("tempDir");
-                tempFile = Files.createTempFile(tempDir, "calendar", ".html");
-                tempFile.toFile().setReadable(false, false);
-                tempFile.toFile().setWritable(false, false);
-                tempFile.toFile().setExecutable(false, false);
+                tempFile = Files.createTempFile("calendar", ".html");
             }
             tempFile.toFile().deleteOnExit();
 
