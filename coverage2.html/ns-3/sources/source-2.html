@@ -1,0 +1,147 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <title>Coverage Report > Curso</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">models</a>
+</div>
+
+<h1>Coverage Summary for Class: Curso (models)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">Curso</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (4/4)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (5/5)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;package models;
+&nbsp;
+&nbsp;/**
+&nbsp; * Classe que representa um curso.
+&nbsp; */
+&nbsp;public class Curso {
+&nbsp;
+&nbsp;    private String nome;
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Construtor que cria um objeto Curso com o nome especificado.
+&nbsp;     * @param nome o nome do curso
+&nbsp;     */
+<b class="fc">&nbsp;    public Curso(String nome) {</b>
+<b class="fc">&nbsp;        this.nome = nome;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Obtém o nome do curso.
+&nbsp;     * @return o nome do curso
+&nbsp;     */
+&nbsp;    public String getNome() {
+<b class="fc">&nbsp;        return nome;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Define o nome do curso.
+&nbsp;     * @param nome o nome do curso
+&nbsp;     */
+&nbsp;    public void setNome(final String nome) {
+<b class="fc">&nbsp;        this.nome = nome;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Retorna uma representação em formato de string deste objeto Curso.
+&nbsp;     * @return uma string que representa o objeto Curso
+&nbsp;     */
+&nbsp;    @Override
+&nbsp;    public String toString() {
+<b class="fc">&nbsp;        return &quot;Curso{&quot; +</b>
+&nbsp;                &quot;nome=&#39;&quot; + nome + &#39;\&#39;&#39; +
+&nbsp;                &#39;}&#39;;
+&nbsp;    }
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2023-04-21 10:41</div>
+</div>
+</body>
+</html>

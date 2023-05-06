@@ -229,6 +229,16 @@ public class ImportFileReader {
     private static final String UC_PREFIX = "Unidade de execução: ";
 
 
+
+    public static String invertDateFormat(String dateStr) {
+        DateTimeFormatter inputFormat = DateTimeFormatter.ofPattern("yyyy/MM/dd");
+        DateTimeFormatter outputFormat = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+
+        LocalDate date = LocalDate.parse(dateStr, inputFormat);
+        return date.format(outputFormat);
+    }
+
+
     public Horario processaWebcal(String uriString) {
         CalendarBuilder builder = new CalendarBuilder();
         Calendar calendar = null;
@@ -247,12 +257,10 @@ public class ImportFileReader {
                 String[] lines = description.split(LINE_SEPARATOR);
                 String unidadeCurricular = parseValue(lines, UC_PREFIX);
                 String sala = event.getLocation().getValue();
-                //String summary = event.getSummary().getValue();
-                //String dataInicioStr = lines[4].split(": ")[1];
                 Date date = event.getStartDate().getDate();
-                String data = date.toString();
                 LocalDate dataInicial = date.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
-                String dataInicio = dataInicial.toString().replace("-", "/");
+                String dataInicioUnformat = dataInicial.toString().replace("-", "/");
+                String dataInicio = invertDateFormat(dataInicioUnformat);
                 Date end = event.getEndDate().getDate();
                 LocalTime horaInicial = date.toInstant().atZone(ZoneId.systemDefault()).toLocalTime();
                 String horaInicio = horaInicial.toString().concat(":00");
@@ -267,18 +275,6 @@ public class ImportFileReader {
                 criaHorario(unidadeCurricular, "-1", "-1", "-1", diaDaSemana, horaInicio, horaFim, dataInicio, sala, -1, -1);
 
                 logger.info("{}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}", unidadeCurricular, "-1", "-1", "-1", diaDaSemana, horaInicio, horaFim, dataInicio, sala, -1, -1);
-
-
-                /*// Create new DataAula object and add to list
-                DataAula data = new DataAula(diaDaSemana, horaInicio, horaFim, data);
-                datas.add(data);
-
-
-                // Create new Aula object and add to list
-                Aula aula = new Aula(new UnidadeCurricular(uc), turno, location);
-                aulas.add(aula);
-                aula.setDataAula(datas.get(i));
-                i++;*/
             }
         }
         return horario;

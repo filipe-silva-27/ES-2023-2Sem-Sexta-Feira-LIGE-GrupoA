@@ -1,0 +1,316 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <title>Coverage Report > ImportFileReader</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">utils</a>
+</div>
+
+<h1>Coverage Summary for Class: ImportFileReader (utils)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">ImportFileReader</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/9)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/86)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;package utils;
+&nbsp;
+&nbsp;import com.opencsv.CSVParserBuilder;
+&nbsp;import com.opencsv.CSVReader;
+&nbsp;import com.opencsv.CSVReaderBuilder;
+&nbsp;import com.opencsv.exceptions.CsvValidationException;
+&nbsp;import models.*;
+&nbsp;import org.json.simple.JSONArray;
+&nbsp;import org.json.simple.JSONObject;
+&nbsp;import org.json.simple.parser.JSONParser;
+&nbsp;import org.slf4j.Logger;
+&nbsp;import org.slf4j.LoggerFactory;
+&nbsp;
+&nbsp;import java.io.File;
+&nbsp;import java.io.FileReader;
+&nbsp;import java.io.IOException;
+&nbsp;import java.lang.management.ManagementFactory;
+&nbsp;import java.lang.management.MemoryMXBean;
+&nbsp;import java.lang.management.MemoryUsage;
+&nbsp;import java.lang.management.ThreadMXBean;
+&nbsp;import java.text.ParseException;
+&nbsp;import java.text.SimpleDateFormat;
+&nbsp;import java.time.LocalTime;
+&nbsp;import java.time.format.DateTimeFormatter;
+&nbsp;import java.util.Date;
+&nbsp;
+<b class="nc">&nbsp;public class ImportFileReader {</b>
+&nbsp;
+<b class="nc">&nbsp;    private final Horario horario = new Horario(&quot;&quot;);</b>
+<b class="nc">&nbsp;    private static final Logger logger = LoggerFactory.getLogger(ImportFileReader.class);</b>
+&nbsp;
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Método que recebe parametros com valores do ficheiro e cria um objeto DataAula
+&nbsp;     * @param diaDaSemana dia da semana da aula
+&nbsp;     * @param horaInicio hora de inicio da aula
+&nbsp;     * @param horaFim hora de fim da aula
+&nbsp;     * @param data data da aula
+&nbsp;     * @return objeto DataAula com as informações passadas como parâmetro
+&nbsp;     */
+&nbsp;    private DataAula criaDataAula(String diaDaSemana, String horaInicio, String horaFim, String data) {
+<b class="nc">&nbsp;        DataAula dataAula = null;</b>
+&nbsp;
+&nbsp;        try {
+<b class="nc">&nbsp;            DateTimeFormatter timeFormatter = DateTimeFormatter.ofPattern(&quot;HH:mm:ss&quot;);</b>
+<b class="nc">&nbsp;            Date dataObject = new SimpleDateFormat(&quot;dd/MM/yyyy&quot;).parse(data);</b>
+<b class="nc">&nbsp;            horaInicio = horaInicio.length() == 7 ? &quot;0&quot; + horaInicio : horaInicio;</b>
+<b class="nc">&nbsp;            horaFim = horaFim.length() == 7 ? &quot;0&quot; + horaFim : horaFim;</b>
+<b class="nc">&nbsp;            dataAula = new DataAula(</b>
+<b class="nc">&nbsp;                    DiaSemana.fromName(diaDaSemana),</b>
+<b class="nc">&nbsp;                    LocalTime.parse(horaInicio, timeFormatter),</b>
+<b class="nc">&nbsp;                    LocalTime.parse(horaFim, timeFormatter),</b>
+&nbsp;                    dataObject
+&nbsp;            );
+<b class="nc">&nbsp;        } catch (ParseException e) {</b>
+<b class="nc">&nbsp;            logger.error(&quot;Erro na conversão da data da aula&quot;, e);</b>
+<b class="nc">&nbsp;        }</b>
+&nbsp;
+<b class="nc">&nbsp;        return dataAula;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Método que recebe parametros com valores do ficheiro e cria um objeto UnidadeCurricular, adicionando à lista de Unidaddes Curriculares do horário
+&nbsp;     * @param curso curso da unidade curricular
+&nbsp;     * @param unidadeCurricular nome da unidade curricular
+&nbsp;     * @return objeto UnidadeCurricular com as informações passadas como parâmetro
+&nbsp;     */
+&nbsp;    public UnidadeCurricular criaUC(String curso, String unidadeCurricular){
+<b class="nc">&nbsp;        UnidadeCurricular uc = new UnidadeCurricular(curso, unidadeCurricular);</b>
+<b class="nc">&nbsp;        if(!horario.addUnidadeCurricular(uc)){</b>
+<b class="nc">&nbsp;            uc = horario.getUnidadeCurricular(uc);</b>
+&nbsp;        }
+<b class="nc">&nbsp;        return uc;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Método que recebe parametros com valores do ficheiro e cria os objetos necessários para criar um horário
+&nbsp;     * @param unidadeCurricular nome da unidade curricular
+&nbsp;     * @param curso             curso da unidade curricular
+&nbsp;     * @param turno             turno da aula
+&nbsp;     * @param turma             turma da aula
+&nbsp;     * @param diaDaSemana       dia da semana da aula
+&nbsp;     * @param horaInicio        hora de inicio da aula
+&nbsp;     * @param horaFim           hora de fim da aula
+&nbsp;     * @param data              data da aula
+&nbsp;     * @param sala              sala da aula
+&nbsp;     * @param inscritos         número de inscritos na aula
+&nbsp;     * @param lotacao           lotação da aula
+&nbsp;     */
+&nbsp;    private void criaHorario (String unidadeCurricular, String curso, String turno,
+&nbsp;                              String turma, String diaDaSemana, String horaInicio,
+&nbsp;                              String horaFim, String data,  String sala,
+&nbsp;                              Integer inscritos, Integer lotacao) {
+<b class="nc">&nbsp;        UnidadeCurricular uc = criaUC(curso, unidadeCurricular);</b>
+<b class="nc">&nbsp;        Aula aula = new Aula(uc,turno, turma, inscritos, sala, lotacao);</b>
+<b class="nc">&nbsp;        DataAula dataAula = criaDataAula(diaDaSemana, horaInicio, horaFim, data);</b>
+<b class="nc">&nbsp;        aula.setDataAula(dataAula);</b>
+<b class="nc">&nbsp;        uc.addAula(aula);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Método auxiliar que cria objeto UnidadeCurricular por cada linha CSV
+&nbsp;     * @param recrd Linha de CSV
+&nbsp;     */
+&nbsp;    private void processRecord(String[] recrd) {
+&nbsp;        try {
+<b class="nc">&nbsp;            String unidadeCurricular = recrd[1];</b>
+<b class="nc">&nbsp;            String curso = recrd[0];</b>
+<b class="nc">&nbsp;            String turno = recrd[2];</b>
+<b class="nc">&nbsp;            String turma = recrd[3];</b>
+<b class="nc">&nbsp;            String diaDaSemana = recrd[5];</b>
+<b class="nc">&nbsp;            String horaInicio = recrd[6];</b>
+<b class="nc">&nbsp;            String horaFim = recrd[7];</b>
+<b class="nc">&nbsp;            String data = recrd[8];</b>
+<b class="nc">&nbsp;            String sala = recrd[9];</b>
+&nbsp;
+<b class="nc">&nbsp;            Integer inscritos = recrd[4].isEmpty() ? -1 : Integer.parseInt(recrd[4]);</b>
+<b class="nc">&nbsp;            Integer lotacao = recrd[10].isEmpty() ? -1 : Integer.parseInt(recrd[10]);</b>
+&nbsp;
+<b class="nc">&nbsp;            if (unidadeCurricular.equals(&quot;&quot;) || horaInicio.equals(&quot;&quot;) || horaFim.equals(&quot;&quot;)</b>
+<b class="nc">&nbsp;                    || data.equals(&quot;&quot;) || diaDaSemana.equals(&quot;&quot;)) return;</b>
+&nbsp;
+<b class="nc">&nbsp;            criaHorario(unidadeCurricular, curso, turno, turma, diaDaSemana, horaInicio, horaFim, data, sala, inscritos, lotacao);</b>
+<b class="nc">&nbsp;        } catch (Exception e) {</b>
+<b class="nc">&nbsp;            logger.error(String.valueOf(e));</b>
+<b class="nc">&nbsp;        }</b>
+&nbsp;    }
+&nbsp;
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Método que lê um ficheiro JSON e cria um horário preenchendo os campos com as informações do ficheiro
+&nbsp;     * @param fileCSV ficheiro CSV a ser lido
+&nbsp;     * @return horário preenchido com as informações do ficheiro
+&nbsp;     */
+&nbsp;    public Horario csvToHorario(File fileCSV) {
+<b class="nc">&nbsp;        try (FileReader reader = new FileReader(fileCSV);</b>
+<b class="nc">&nbsp;             CSVReader csvReader = new CSVReaderBuilder(reader)</b>
+<b class="nc">&nbsp;                     .withSkipLines(1)</b>
+<b class="nc">&nbsp;                     .withCSVParser(new CSVParserBuilder().withSeparator(&#39;;&#39;).build())</b>
+<b class="nc">&nbsp;                     .build()) {</b>
+&nbsp;            String[] recrd;
+<b class="nc">&nbsp;            while ((recrd = csvReader.readNext()) != null) {</b>
+<b class="nc">&nbsp;                processRecord(recrd);</b>
+&nbsp;            }
+<b class="nc">&nbsp;            logger.info(&quot;Lines read: {}&quot;, csvReader.getLinesRead());</b>
+&nbsp;
+&nbsp;            // debug logger
+<b class="nc">&nbsp;            memoryDebug();</b>
+<b class="nc">&nbsp;        } catch (IOException | CsvValidationException e) {</b>
+<b class="nc">&nbsp;            logger.error(&quot;Error reading CSV file: {}&quot;, e.getMessage());</b>
+<b class="nc">&nbsp;        }</b>
+<b class="nc">&nbsp;        return horario;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Método que lê um ficheiro JSON e cria um horário preenchendo os campos com as informações do ficheiro
+&nbsp;     * @param jsonFile ficheiro JSON a ser lido
+&nbsp;     * @return horário preenchido com as informações do ficheiro
+&nbsp;     */
+&nbsp;    public Horario jsonToHorario(File jsonFile) {
+<b class="nc">&nbsp;        try (FileReader reader = new FileReader(jsonFile)) {</b>
+<b class="nc">&nbsp;            Object o = new JSONParser().parse(reader);</b>
+&nbsp;
+<b class="nc">&nbsp;            JSONArray jArray = (JSONArray) o;</b>
+&nbsp;
+<b class="nc">&nbsp;            for (Object doc : jArray) {</b>
+&nbsp;
+<b class="nc">&nbsp;                JSONObject jsonDoc = (JSONObject) doc;</b>
+&nbsp;
+<b class="nc">&nbsp;                String curso = (String) jsonDoc.get(&quot;Curso&quot;);</b>
+<b class="nc">&nbsp;                String unidadeCurricular = (String) jsonDoc.get(&quot;Unidade Curricular&quot;);</b>
+<b class="nc">&nbsp;                String turno = (String) jsonDoc.get(&quot;Turno&quot;);</b>
+<b class="nc">&nbsp;                String turma = (String) jsonDoc.get(&quot;Turma&quot;);</b>
+<b class="nc">&nbsp;                Integer inscritos = ((Long) jsonDoc.get(&quot;Inscritos no turno&quot;)).intValue();</b>
+<b class="nc">&nbsp;                String diaDaSemana = (String) jsonDoc.get(&quot;Dia da semana&quot;);</b>
+<b class="nc">&nbsp;                String horaInicio = (String) jsonDoc.get(&quot;Hora início da aula&quot;);</b>
+<b class="nc">&nbsp;                String horaFim = (String) jsonDoc.get(&quot;Hora fim da aula&quot;);</b>
+<b class="nc">&nbsp;                String data = (String) jsonDoc.get(&quot;Data da aula&quot;);</b>
+<b class="nc">&nbsp;                String sala = (String) jsonDoc.get(&quot;Sala atribuída à aula&quot;);</b>
+<b class="nc">&nbsp;                Integer lotacao = ((Long) jsonDoc.get(&quot;Lotação da sala&quot;)).intValue();</b>
+&nbsp;
+&nbsp;
+&nbsp;
+<b class="nc">&nbsp;                if (unidadeCurricular.equals(&quot;&quot;) || horaInicio.equals(&quot;&quot;) || horaFim.equals(&quot;&quot;)</b>
+<b class="nc">&nbsp;                        || data.equals(&quot;&quot;) || diaDaSemana.equals(&quot;&quot;) ) continue;</b>
+&nbsp;
+<b class="nc">&nbsp;                criaHorario(unidadeCurricular, curso, turno, turma, diaDaSemana, horaInicio, horaFim, data, sala, inscritos, lotacao);</b>
+&nbsp;
+<b class="nc">&nbsp;            }</b>
+&nbsp;            // debug logger
+<b class="nc">&nbsp;            memoryDebug();</b>
+<b class="nc">&nbsp;        } catch (org.json.simple.parser.ParseException | IOException ex) {</b>
+<b class="nc">&nbsp;            logger.error(&quot;Error reading JSON file: {}&quot; , ex.getMessage());</b>
+<b class="nc">&nbsp;        }</b>
+&nbsp;
+<b class="nc">&nbsp;        return horario;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Método que imprime o estado da memória e o tempo de CPU foi utilizado pois com ficheiros grandes o programa pode ficar lento
+&nbsp;     */
+&nbsp;    private void memoryDebug() {
+<b class="nc">&nbsp;        MemoryMXBean memBean = ManagementFactory.getMemoryMXBean();</b>
+<b class="nc">&nbsp;        MemoryUsage heapUsage = memBean.getHeapMemoryUsage();</b>
+<b class="nc">&nbsp;        ThreadMXBean threadMXBean = ManagementFactory.getThreadMXBean();</b>
+<b class="nc">&nbsp;        long cpuTime = threadMXBean.getCurrentThreadCpuTime() / 1_000_000; // convert to milliseconds</b>
+<b class="nc">&nbsp;        logger.debug(&quot;Memory usage: {}MB&quot;, heapUsage.getUsed() / (1024 * 1024));</b>
+<b class="nc">&nbsp;        logger.debug(&quot;CPU time: {}ms&quot;, cpuTime);</b>
+&nbsp;    }
+&nbsp;}
+&nbsp;
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2023-04-21 10:41</div>
+</div>
+</body>
+</html>

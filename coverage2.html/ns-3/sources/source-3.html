@@ -1,0 +1,204 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <title>Coverage Report > DataAula</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">models</a>
+</div>
+
+<h1>Coverage Summary for Class: DataAula (models)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">DataAula</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (8/8)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (18/18)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;package models;
+&nbsp;
+&nbsp;import java.time.LocalTime;
+&nbsp;import java.util.Date;
+&nbsp;import java.util.Objects;
+&nbsp;
+&nbsp;/**
+&nbsp; * Classe que representa uma data de aula.
+&nbsp; */
+&nbsp;public class DataAula {
+&nbsp;    private final DiaSemana diaSemana;
+&nbsp;    private final LocalTime horaInicio;
+&nbsp;    private final LocalTime horaFim;
+&nbsp;    private final Date data;
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Construtor que cria um objeto DataAula com os parâmetros especificados.
+&nbsp;     *
+&nbsp;     * @param diaSemana  o dia da semana da aula
+&nbsp;     * @param horaInicio a hora de início da aula
+&nbsp;     * @param horaFim    a hora de fim da aula
+&nbsp;     * @param data       a data da aula
+&nbsp;     */
+<b class="fc">&nbsp;    public DataAula(DiaSemana diaSemana, LocalTime horaInicio, LocalTime horaFim, Date data) {</b>
+<b class="fc">&nbsp;        this.diaSemana = diaSemana;</b>
+<b class="fc">&nbsp;        this.horaInicio = horaInicio;</b>
+<b class="fc">&nbsp;        this.horaFim = horaFim;</b>
+<b class="fc">&nbsp;        this.data = data;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Obtém o dia da semana da aula.
+&nbsp;     * @return o dia da semana da aula
+&nbsp;     */
+&nbsp;    public DiaSemana getDiaSemana() {
+<b class="fc">&nbsp;        return diaSemana;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Obtém a hora de início da aula.
+&nbsp;     * @return a hora de início da aula
+&nbsp;     */
+&nbsp;    public LocalTime getHoraInicio() {
+<b class="fc">&nbsp;        return horaInicio;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Obtém a hora de fim da aula.
+&nbsp;     * @return a hora de fim da aula
+&nbsp;     */
+&nbsp;    public LocalTime getHoraFim() {
+<b class="fc">&nbsp;        return horaFim;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Obtém a data da aula.
+&nbsp;     * @return a data da aula
+&nbsp;     */
+&nbsp;    public Date getData() {
+<b class="fc">&nbsp;        return data;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Verifica se este objeto DataAula é igual a outro objeto.
+&nbsp;     * @param o o objeto a ser comparado
+&nbsp;     * @return true se os objetos forem iguais, false caso contrário
+&nbsp;     */
+&nbsp;    @Override
+&nbsp;    public boolean equals(Object o) {
+<b class="fc">&nbsp;        if (this == o) return true;</b>
+<b class="fc">&nbsp;        if (!(o instanceof DataAula)) return false;</b>
+<b class="fc">&nbsp;        DataAula dataAula = (DataAula) o;</b>
+<b class="fc">&nbsp;        return diaSemana == dataAula.diaSemana &amp;&amp;</b>
+<b class="fc">&nbsp;                horaInicio.equals(dataAula.horaInicio) &amp;&amp;</b>
+<b class="fc">&nbsp;                horaFim.equals(dataAula.horaFim) &amp;&amp;</b>
+<b class="fc">&nbsp;                data.equals(dataAula.data);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Retorna o código de hash deste objeto DataAula.
+&nbsp;     * @return o código de hash do objeto DataAula
+&nbsp;     */
+&nbsp;    @Override
+&nbsp;    public int hashCode() {
+<b class="fc">&nbsp;        return Objects.hash(diaSemana, horaInicio, horaFim, data);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Retorna uma representação em formato de string deste objeto DataAula.
+&nbsp;     * @return uma string que representa o objeto DataAula
+&nbsp;     */
+&nbsp;    @Override
+&nbsp;    public String toString() {
+<b class="fc">&nbsp;        return &quot;DataAula{&quot; +</b>
+&nbsp;                &quot;diaSemana=&quot; + diaSemana +
+&nbsp;                &quot;, horaInicio=&quot; + horaInicio +
+&nbsp;                &quot;, horaFim=&quot; + horaFim +
+&nbsp;                &quot;, data=&quot; + data +
+&nbsp;                &#39;}&#39;;
+&nbsp;    }
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2023-04-21 10:41</div>
+</div>
+</body>
+</html>
