@@ -1,6 +1,8 @@
 package models;
 
 import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -128,6 +130,25 @@ public class Horario {
             bld.append(uc.toString()).append("\n");
         }
         return bld.toString();
+    }
+
+    public String toHtml() {
+        StringBuilder sb = new StringBuilder();
+        sb.append("<html><body><h1>").append(name).append("</h1>");
+        for (UnidadeCurricular uc : unidadesCurriculares) {
+            sb.append("<h2>").append(uc.getNomeUC()).append("</h2>");
+            sb.append("<ul>");
+            for (Aula aula : uc.getAulas()) {
+                sb.append("<li>").append(aula.getTurno()).append(" - ");
+                sb.append(aula.getDataAula().getDiaSemana()).append(" ");
+                sb.append(aula.getDataAula().getHoraInicio()).append("-");
+                sb.append(aula.getDataAula().getHoraFim()).append(", ");
+                sb.append(aula.getSala()).append("</li>");
+            }
+            sb.append("</ul>");
+        }
+        sb.append("</body></html>");
+        return sb.toString();
     }
 
 

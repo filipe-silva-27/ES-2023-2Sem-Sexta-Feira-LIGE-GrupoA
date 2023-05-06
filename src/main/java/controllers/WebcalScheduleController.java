@@ -1,6 +1,7 @@
 package controllers;
 
 import models.Aula;
+import models.Horario;
 import models.UnidadeCurricular;
 import org.apache.commons.io.input.ObservableInputStream;
 import org.slf4j.Logger;

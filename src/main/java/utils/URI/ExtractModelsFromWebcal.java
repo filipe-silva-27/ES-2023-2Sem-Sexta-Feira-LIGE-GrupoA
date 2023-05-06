@@ -18,9 +18,7 @@ import java.net.URISyntaxException;
 import java.text.ParseException;
 import java.time.LocalTime;
 import java.time.ZoneId;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 
 public class ExtractModelsFromWebcal {
 
@@ -143,6 +141,17 @@ public class ExtractModelsFromWebcal {
         }
         return aulas;
     }
+
+    public static Set<UnidadeCurricular> getUnidadesCurriculares(String nomeUC, List<Aula> aulas) {
+        Set<UnidadeCurricular> ucs = new HashSet<>();
+        for (Aula aula : aulas) {
+            if (aula.getUc().getNomeUC().equals(nomeUC)) {
+                ucs.add(aula.getUc());
+            }
+        }
+        return ucs;
+    }
+
 
 
     private static String parseValue(String[] lines, String prefix) {

@@ -1,6 +1,7 @@
 package views;
 
 import controllers.*;
+import models.Horario;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import controllers.ShowScheduleController;
@@ -50,7 +51,7 @@ public class WebcalScheduleView extends View {
         logger.info("Inicializando a frame da view MainMenuView");
         JButton inserirBtn = new JButton("Inserir URI");
         JButton verBtn = new JButton("Ver Horário");
-
+       // Horario horario = CreateScheduleController.setHorario();
         TimerTask task = new TimerTask() {
             public void run() {
                 if (!WebcalScheduleController.getURI()) {
@@ -69,7 +70,10 @@ public class WebcalScheduleView extends View {
         //back button to redirect to ImportFilesView
         JButton backBtn = new JButton("Voltar");
         backBtn.addActionListener(e -> viewController.showImportFilesView());
-
+/*verHorario.addActionListener(e ->{
+                    List<Aula> selectedAulas = ((CreateScheduleController) viewController).getSelectedAulas();
+                    ShowScheduleController.createHtmlView(selectedAulas);
+                }*/
 
         add(inserirBtn);
         add(verBtn);

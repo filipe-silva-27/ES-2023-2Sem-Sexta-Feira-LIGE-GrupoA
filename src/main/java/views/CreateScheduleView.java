@@ -42,7 +42,7 @@ public class CreateScheduleView extends View {
 
         add(criarUc);
         add(verHorario);
-        add(guardarBtn);
+add(guardarBtn);
         add(backBtn);
     }
 
