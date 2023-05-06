@@ -70,9 +70,7 @@ public class ShowScheduleController extends ViewController{
             } else {
                 Path tempDir = Files.createTempDirectory("tempDir");
                 tempFile = Files.createTempFile(tempDir, "calendar", ".html");
-                tempFile.toFile().setReadable(false, false);
-                tempFile.toFile().setWritable(false, false);
-                tempFile.toFile().setExecutable(false, false);
+                Files.setPosixFilePermissions(tempFile, PosixFilePermissions.fromString("rw-------"));
             }
             tempFile.toFile().deleteOnExit();
 
