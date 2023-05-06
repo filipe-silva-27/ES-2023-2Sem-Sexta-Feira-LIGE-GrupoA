@@ -149,9 +149,6 @@ public class ViewController {
 
     }
 
-    /*public void importWebcalScheduleView(){
-        app.getImportWebcal
-    }*/
 
     /**
      * Exibe a tela de upload de ficheiros.

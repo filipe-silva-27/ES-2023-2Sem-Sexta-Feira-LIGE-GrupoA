@@ -7,10 +7,12 @@ import org.apache.commons.io.input.ObservableInputStream;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import gui.App;
+import utils.URI.ExtractModelsFromWebcal;
 import views.WebcalScheduleView;
 
 import javax.swing.*;
 import java.io.BufferedReader;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
@@ -46,7 +48,6 @@ public class WebcalScheduleController extends ViewController{
                 // Load the calendar events from the Webcal URI using the TesteLeitorURI class
                 loadScheduleFromWebcal(webcalURI);
 
-
                 // For example, you could use the following code to display the calendar
                 // events in a dialog box:
                 JOptionPane.showMessageDialog(null, "Calendar events imported from:\n" + webcalURI);
@@ -58,6 +59,8 @@ public class WebcalScheduleController extends ViewController{
             }
         }
     }
+
+
 
 
     public static String getWebcalURIFromUser(String input) {
@@ -111,15 +114,82 @@ public class WebcalScheduleController extends ViewController{
     }
 
 
+    /*public static void createHtmlView(List<Aula> aulas){
+        String aulasURI =
+
+    }*/
+
+
+
+
+    /* public static void createHtml(Horario horario) {
+         // Construct HTML content
+         String htmlContent = horario.toHtml();
+
+         // Write HTML content to file
+         try {
+             FileWriter writer = new FileWriter("output.html");
+             writer.write(htmlContent);
+             writer.close();
+         } catch (IOException e) {
+             System.out.println("Error writing HTML file: " + e.getMessage());
+         }
+
+         // Open HTML file in browser
+         try {
+             String os = System.getProperty("os.name").toLowerCase();
+             Runtime rt = Runtime.getRuntime();
+             if (os.contains("win")) {
+                 rt.exec("cmd /c start output.html");
+             } else if (os.contains("mac")) {
+                 rt.exec("open output.html");
+             } else if (os.contains("nix") || os.contains("nux")) {
+                 rt.exec("xdg-open output.html");
+             }
+         } catch (IOException e) {
+             System.out.println("Error opening HTML file in browser: " + e.getMessage());
+         }
+     }*/
+   /* public static void createHtml() {
+        // Extract parts from URI
+        // For example, extract the hostname and path
+        String[] parts = webcalURI.split("/");
+        String hostname = parts[2];
+        String path = "/" + parts[3];
+
+        // Construct HTML content
+        String htmlContent = "<html><body><h1>URI Information</h1>" +
+                "<p>Hostname: " + hostname + "</p>" +
+                "<p>Path: " + path + "</p></body></html>";
+
+        // Write HTML content to file
+        try {
+            FileWriter writer = new FileWriter("output.html");
+            writer.write(htmlContent);
+            writer.close();
+        } catch (IOException e) {
+            System.out.println("Error writing HTML file: " + e.getMessage());
+        }
+
+        // Open HTML file in browser
+        try {
+            String os = System.getProperty("os.name").toLowerCase();
+            Runtime rt = Runtime.getRuntime();
+            if (os.contains("win")) {
+                rt.exec("cmd /c start output.html");
+            } else if (os.contains("mac")) {
+                rt.exec("open output.html");
+            } else if (os.contains("nix") || os.contains("nux")) {
+                rt.exec("xdg-open output.html");
+            }
+        } catch (IOException e) {
+            System.out.println("Error opening HTML file in browser: " + e.getMessage());
+        }
+    }*/
+
+
     public static boolean getURI(){
         return stateURI;
     }
 
-    /*public static void main(String[] args) throws IOException, URISyntaxException {
-        //String webcalURI = getWebcalURIFromUser();
-        //String webcalURI = "https://fenix.iscte-iul.pt/publico/publicPersonICalendar.do?method=iCalendar&username=rmfde@iscte.pt&password=Kat41qMCyPigm7gCNAc5l1WKb5cHkLdInbvS1IYm3fDz84UaPhyJ3nsvdKcLPAfOMZkW0sW0STWAHYsNi3B6cOqDzoF2Sa0Q2aGPQ7LSw23yhGHehYEnsWWHhyYTADFZ";
-        //loadScheduleFromWebcal(webcalURI);
-
-
-    }*/
 }

@@ -10,6 +10,7 @@ import models.Aula;
 import org.apache.commons.text.StringEscapeUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import utils.URI.ExtractModelsFromWebcal;
 import utils.URI.URIToWebcal;
 
 import javax.swing.*;
@@ -41,6 +42,8 @@ public class WebcalScheduleView extends View {
         super(viewController);
     }
 
+
+
     /**
      * Inicializa o frame da view.
      */
@@ -65,8 +68,12 @@ public class WebcalScheduleView extends View {
         timer.schedule(task, 0, 1000);
 
         inserirBtn.addActionListener(e -> ((WebcalScheduleController) viewController).insertURI());
-        verBtn.addActionListener(e -> viewController.showWebcalScheduleView());
+        verBtn.addActionListener(e ->
+                WebcalScheduleController.createHtmlView(((WebcalScheduleController) viewController).getAulas()));
 
+       /* verBtn.addActionListener(
+                e -> ((WebcalScheduleController) viewController).createHtml());
+*/
         //back button to redirect to ImportFilesView
         JButton backBtn = new JButton("Voltar");
         backBtn.addActionListener(e -> viewController.showImportFilesView());
