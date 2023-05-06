@@ -10,7 +10,7 @@ import java.util.*;
 
 /**
  * Classe que serve para exportar um ficheiro para um Gist do GitHub.
-
+ * @see Gist
  */
 public class GistExporter {
 
@@ -27,6 +27,9 @@ public class GistExporter {
      * @param accessToken Token de acesso do GitHub.
      * @return URL do Gist criado.
      * @throws IOException Caso ocorra algum erro de I/O durante o upload.
+     * @see GistService
+     * @see GistFile
+     * @see Gist
      */
     public static String uploadToGist(String fileName, String content, String accessToken) throws IOException {
 
