@@ -142,12 +142,12 @@ public class ViewController {
         }
     }
 
-    public void showWebcalScheduleView(){
+    /*public void showWebcalScheduleView(){
         app.getWebcalScheduleView().initFrame();
         cardLayout.show(contentPane, App.SHOW_WEBCAL_MENU);
 
 
-    }
+    }*/
 
 
     /**

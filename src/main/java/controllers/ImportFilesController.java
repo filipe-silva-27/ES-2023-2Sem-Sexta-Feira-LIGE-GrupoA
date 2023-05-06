@@ -4,7 +4,6 @@ import gui.App;
 import models.Aula;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import utils.URI.URIToWebcal;
 import utils.importer.FileDownloader;
 import utils.importer.ImportFileReader;
 
@@ -58,7 +57,24 @@ public class ImportFilesController extends ViewController{
 
     public void importWebcalURI(){
         // Display a dialog box to prompt the user to enter the Webcal URI
-        showWebcalScheduleView();
+        //showWebcalScheduleView();
+        //webcalImport.webcalToHorario();
+
+            String input = JOptionPane.showInputDialog(null, "Enter the Webcal URI: ");
+            if (input != null && !input.trim().isEmpty()) {
+
+                if (input.startsWith("webcal://")) {
+                    input = "https://" + input.substring(9);
+                }
+
+
+
+                setHorario(new ImportFileReader().processaWebcal(input));
+
+
+                JOptionPane.showMessageDialog(null, "Calendar events imported from:\n" + input);
+                showMainMenuView();
+            }
 
 
     }

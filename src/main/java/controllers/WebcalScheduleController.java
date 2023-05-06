@@ -1,3 +1,4 @@
+/*
 package controllers;
 
 import models.Aula;
@@ -70,9 +71,8 @@ public class WebcalScheduleController extends ViewController{
 
         if (webcalURI.startsWith("webcal://")) {
             webcalURI = "https://" + webcalURI.substring(9);
-            // Add "https://" prefix if necessary
-            // if (!webcalURI.startsWith("https://")) {
-            //   webcalURI = "https://" + webcalURI;
+
+
         }
 
         return webcalURI;

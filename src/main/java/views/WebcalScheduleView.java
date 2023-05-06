@@ -1,3 +1,4 @@
+/*
 package views;
 
 import controllers.*;
@@ -32,11 +33,13 @@ public class WebcalScheduleView extends View {
 
     private static final Logger logger = LoggerFactory.getLogger(WebcalScheduleView.class);
 
-    /**
+    */
+/**
      * Construtor da classe ShowScheduleView.
      *
      * @param viewController O controlador da view.
-     */
+     *//*
+
     public WebcalScheduleView(ViewController viewController) {
 
         super(viewController);
@@ -46,7 +49,8 @@ public class WebcalScheduleView extends View {
 
     /**
      * Inicializa o frame da view.
-     */
+     *//*
+
     @Override
     public void initFrame() {
 
@@ -89,3 +93,4 @@ public class WebcalScheduleView extends View {
         logger.info("Frame da view WebcalScheduleView inicializada com sucesso!");
     }
 }
+*/
