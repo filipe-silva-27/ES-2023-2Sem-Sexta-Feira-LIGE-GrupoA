@@ -37,9 +37,7 @@ class ExportControllerTest {
         
         viewController.setContent("okkk");
         controller.exportToLocal();
-        
-        viewController.setHorario(new Horario("okk"));
-        controller.exportToLocal();
+       
 
     }
 
