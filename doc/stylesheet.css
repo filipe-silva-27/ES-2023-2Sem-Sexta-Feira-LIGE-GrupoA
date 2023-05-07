@@ -491,7 +491,9 @@ div.checkboxes > label > input {
 .table-header[onclick]::after {
     content:"";
     display:inline-block;
-    background-image:url('data:image/svg+xml; utf8, <svg xmlns="http://www.w3.org/2000/svg" width="125" height="170"> <path d="M10.101 57.059L63.019 4.142l52.917 52.917M10.101 86.392l52.917 52.917 52.917-52.917" style="opacity:.35;"/></svg>');
+    background-image:url('data:image/svg+xml; utf8, \
+    <svg xmlns="http://www.w3.org/2000/svg" width="125" height="170"> \
+    <path d="M10.101 57.059L63.019 4.142l52.917 52.917M10.101 86.392l52.917 52.917 52.917-52.917" style="opacity:.35;"/></svg>');
     background-size:100% 100%;
     width:9px;
     height:14px;
@@ -499,15 +501,22 @@ div.checkboxes > label > input {
     margin-bottom:-3px;
 }
 .table-header[onclick].sort-asc::after {
-    background-image:url('data:image/svg+xml; utf8, <svg xmlns="http://www.w3.org/2000/svg" width="125" height="170"><path d="M10.101 57.059L63.019 4.142l52.917 52.917" style="opacity:.75;"/><path d="M10.101 86.392l52.917 52.917 52.917-52.917" style="opacity:.35;"/></svg>');
+    background-image:url('data:image/svg+xml; utf8, \
+    <svg xmlns="http://www.w3.org/2000/svg" width="125" height="170"> \
+    <path d="M10.101 57.059L63.019 4.142l52.917 52.917" style="opacity:.75;"/> \
+    <path d="M10.101 86.392l52.917 52.917 52.917-52.917" style="opacity:.35;"/></svg>');
+
 }
 .table-header[onclick].sort-desc::after {
-    background-image:url('data:image/svg+xml; utf8,<svg xmlns="http://www.w3.org/2000/svg" width="125" height="170"><path d="M10.101 57.059L63.019 4.142l52.917 52.917" style="opacity:.35;"/><path d="M10.101 86.392l52.917 52.917 52.917-52.917" style="opacity:.75;"/></svg>');
+    background-image:url('data:image/svg+xml; utf8, \
+    <svg xmlns="http://www.w3.org/2000/svg" width="125" height="170"> \
+    <path d="M10.101 57.059L63.019 4.142l52.917 52.917" style="opacity:.35;"/> \
+    <path d="M10.101 86.392l52.917 52.917 52.917-52.917" style="opacity:.75;"/></svg>');
 }
-.col-first {
+.col-first, .col-first {
     font-size:13px;
 }
-.col-second, .col-last, .col-constructor-name, .col-summary-item-name{
+.col-second, .col-second, .col-last, .col-constructor-name, .col-summary-item-name, .col-last {
     font-size:13px;
 }
 .col-first, .col-second, .col-constructor-name {
@@ -517,6 +526,8 @@ div.checkboxes > label > input {
 .col-last {
     white-space:normal;
 }
+.col-first a:link, .col-first a:visited,
+.col-second a:link, .col-second a:visited,
 .col-first a:link, .col-first a:visited,
 .col-second a:link, .col-second a:visited,
 .col-constructor-name a:link, .col-constructor-name a:visited,
@@ -745,7 +756,10 @@ div#result-container a.search-result-link {
     height: 0;
     transition: all 0.2s ease;
 }
-
+div.table-tabs > button.table-tab {
+    background: #4D7A97;
+    color: #FFFFFF;
+}
 .page-search-header {
     padding: 5px 12px 7px 12px;
     font-weight: bold;
@@ -811,7 +825,11 @@ ul.help-subtoc > li::before {
 main a[href*="://"]::after {
     content:"";
     display:inline-block;
-    background-image:url('data:image/svg+xml; utf8, <svg xmlns="http://www.w3.org/2000/svg" width="768" height="768"><path d="M584 664H104V184h216V80H0v688h688V448H584zM384 0l132 132-240 240 120 120 240-240 132 132V0z" fill="%234a6782"/></svg>');
+    background-image:url('data:image/svg+xml; utf8, \
+      <svg xmlns="http://www.w3.org/2000/svg" width="768" height="768">\
+        <path d="M584 664H104V184h216V80H0v688h688V448H584zM384 0l132 \
+        132-240 240 120 120 240-240 132 132V0z" fill="%234a6782"/>\
+      </svg>');
     background-size:100% 100%;
     width:7px;
     height:7px;
@@ -820,7 +838,11 @@ main a[href*="://"]::after {
 }
 main a[href*="://"]:hover::after,
 main a[href*="://"]:focus::after {
-    background-image:url('data:image/svg+xml; utf8, <svg xmlns="http://www.w3.org/2000/svg" width="768" height="768"><path d="M584 664H104V184h216V80H0v688h688V448H584zM384 0l132 132-240 240 120 120 240-240 132 132V0z" fill="%23bb7a2a"/></svg>');
+    background-image:url('data:image/svg+xml; utf8, \
+      <svg xmlns="http://www.w3.org/2000/svg" width="768" height="768">\
+        <path d="M584 664H104V184h216V80H0v688h688V448H584zM384 0l132 \
+        132-240 240 120 120 240-240 132 132V0z" fill="%23bb7a2a"/>\
+      </svg>');
 }
 /*
  * Styles for copy-to-clipboard buttons

@@ -25,12 +25,12 @@
 
 "use strict";
 $(function() {
-    let copy = $("#page-search-copy");
-    let expand = $("#page-search-expand");
-    let searchLink = $("span#page-search-link");
-    let redirect = $("input#search-redirect");
+    var copy = $("#page-search-copy");
+    var expand = $("#page-search-expand");
+    var searchLink = $("span#page-search-link");
+    var redirect = $("input#search-redirect");
     function setSearchUrlTemplate() {
-        let href = document.location.href.split(/[#?]/)[0];
+        var href = document.location.href.split(/[#?]/)[0];
         href += "?q=" + "%s";
         if (redirect.is(":checked")) {
             href += "&r=1";
@@ -39,19 +39,19 @@ $(function() {
         copy[0].onmouseenter();
     }
     function copyLink(e) {
-        let textarea = document.createElement("textarea");
+        var textarea = document.createElement("textarea");
         textarea.style.height = 0;
         document.body.appendChild(textarea);
         textarea.value = this.previousSibling.innerText;
         textarea.select();
         document.execCommand("copy");
         document.body.removeChild(textarea);
-        let span = this.lastElementChild;
-        let copied = span.getAttribute("data-copied");
+        var span = this.lastElementChild;
+        var copied = span.getAttribute("data-copied");
         if (span.innerHTML !== copied) {
-            let initialLabel = span.innerHTML;
+            var initialLabel = span.innerHTML;
             span.innerHTML = copied;
-            let parent = this.parentElement.parentElement;
+            var parent = this.parentElement.parentElement;
             parent.onmouseleave = parent.ontouchend = copy[0].onmouseenter = function() {
                 span.innerHTML = initialLabel;
             };
@@ -64,7 +64,7 @@ $(function() {
     copy.prop("disabled", false);
     redirect.prop("disabled", false);
     expand.click(function (e) {
-        let searchInfo = $("div.page-search-info");
+        var searchInfo = $("div.page-search-info");
         if(this.parentElement.hasAttribute("open")) {
             searchInfo.attr("style", "border-width: 0;");
         } else {
@@ -73,16 +73,16 @@ $(function() {
     });
 });
 $(window).on("load", function() {
-    let input = $("#page-search-input");
-    let reset = $("#page-search-reset");
-    let notify = $("#page-search-notify");
-    let resultSection = $("div#result-section");
-    let resultContainer = $("div#result-container");
-    let searchTerm = "";
-    let activeTab = "";
-    let fixedTab = false;
-    let visibleTabs = [];
-    let feelingLucky = false;
+    var input = $("#page-search-input");
+    var reset = $("#page-search-reset");
+    var notify = $("#page-search-notify");
+    var resultSection = $("div#result-section");
+    var resultContainer = $("div#result-container");
+    var searchTerm = "";
+    var activeTab = "";
+    var fixedTab = false;
+    var visibleTabs = [];
+    var feelingLucky = false;
     function renderResults(result) {
         if (!result.length) {
             notify.html(messages.noResult);
@@ -92,16 +92,16 @@ $(window).on("load", function() {
             notify.html(messages.manyResults.replace("{0}", result.length));
         }
         resultContainer.empty();
-        let r = {
+        var r = {
             "types": [],
             "members": [],
             "packages": [],
             "modules": [],
             "searchTags": []
         };
-        for (let i in result) {
-            let item = result[i];
-            let arr = r[item.category];
+        for (var i in result) {
+            var item = result[i];
+            var arr = r[item.category];
             arr.push(item);
         }
         if (!activeTab || r[activeTab].length === 0 || !fixedTab) {
@@ -115,7 +115,7 @@ $(window).on("load", function() {
         }
         if (feelingLucky && activeTab) {
             notify.html(messages.redirecting)
-            let firstItem = r[activeTab][0];
+            var firstItem = r[activeTab][0];
             window.location = getURL(firstItem.indexItem, firstItem.category);
             return;
         }
@@ -128,17 +128,17 @@ $(window).on("load", function() {
                 }
             }
         }
-        let categoryCount = Object.keys(r).reduce(function(prev, curr) {
+        var categoryCount = Object.keys(r).reduce(function(prev, curr) {
             return prev + (r[curr].length > 0 ? 1 : 0);
         }, 0);
         visibleTabs = [];
-        let tabContainer = $("<div class='table-tabs'></div>").appendTo(resultContainer);
-        for (let key in r) {
-            let id = "#result-tab-" + key.replace("searchTags", "search_tags");
+        var tabContainer = $("<div class='table-tabs'></div>").appendTo(resultContainer);
+        for (var key in r) {
+            var id = "#result-tab-" + key.replace("searchTags", "search_tags");
             if (r[key].length) {
-                let count = r[key].length >= 1000 ? "999+" : r[key].length;
+                var count = r[key].length >= 1000 ? "999+" : r[key].length;
                 if (result.length > 20 && categoryCount > 1) {
-                    let button = $("<button id='result-tab-" + key
+                    var button = $("<button id='result-tab-" + key
                         + "' class='page-search-header'><span>" + categories[key] + "</span>"
                         + "<span style='font-weight: normal'> (" + count + ")</span></button>").appendTo(tabContainer);
                     button.click(key, function(e) {
@@ -173,11 +173,11 @@ $(window).on("load", function() {
         $("button#result-tab-" + category).click();
     }
     function renderTable(category, items) {
-        let table = $("<div class='summary-table'>")
+        var table = $("<div class='summary-table'>")
             .addClass(category === "modules"
                 ? "one-column-search-results"
                 : "two-column-search-results");
-        let col1, col2;
+        var col1, col2;
         if (category === "modules") {
             col1 = "Module";
         } else if (category === "packages") {
@@ -198,19 +198,19 @@ $(window).on("load", function() {
             $("<div class='table-header col-plain'>" + col2 + "</div>").appendTo(table);
         }
         $.each(items, function(index, item) {
-            let rowColor = index % 2 ? "odd-row-color" : "even-row-color";
+            var rowColor = index % 2 ? "odd-row-color" : "even-row-color";
             renderItem(item, table, rowColor);
         });
         return table;
     }
     function renderItem(item, table, rowColor) {
-        let label = getHighlightedText(item.input, item.boundaries, item.prefix.length, item.input.length);
-        let link = $("<a/>")
+        var label = getHighlightedText(item.input, item.boundaries, item.prefix.length, item.input.length);
+        var link = $("<a/>")
             .attr("href",  getURL(item.indexItem, item.category))
             .attr("tabindex", "0")
             .addClass("search-result-link")
             .html(label);
-        let container = getHighlightedText(item.input, item.boundaries, 0, item.prefix.length - 1);
+        var container = getHighlightedText(item.input, item.boundaries, 0, item.prefix.length - 1);
         if (item.category === "searchTags") {
             container = item.indexItem.h || "";
         }
@@ -219,8 +219,7 @@ $(window).on("load", function() {
         }
         $("<div/>").html(link).addClass("col-last").addClass(rowColor).appendTo(table);
     }
-
-    let timeout;
+    var timeout;
     function schedulePageSearch() {
         if (timeout) {
             clearTimeout(timeout);
@@ -231,7 +230,7 @@ $(window).on("load", function() {
     }
     function doPageSearch() {
         setSearchUrl();
-        let term = searchTerm = input.val().trim();
+        var term = searchTerm = input.val().trim();
         if (term === "") {
             notify.html(messages.enterTerm);
             activeTab = "";
@@ -244,8 +243,8 @@ $(window).on("load", function() {
         }
     }
     function setSearchUrl() {
-        let query = input.val().trim();
-        let url = document.location.pathname;
+        var query = input.val().trim();
+        var url = document.location.pathname;
         if (query) {
             url += "?q=" + encodeURI(query);
             if (activeTab && fixedTab) {
@@ -261,7 +260,7 @@ $(window).on("load", function() {
     $(document).keydown(function(e) {
         if ((e.ctrlKey || e.metaKey) && (e.key === "ArrowLeft" || e.key === "ArrowRight")) {
             if (activeTab && visibleTabs.length > 1) {
-                let idx = visibleTabs.indexOf(activeTab);
+                var idx = visibleTabs.indexOf(activeTab);
                 idx += e.key === "ArrowLeft" ? visibleTabs.length - 1 : 1;
                 selectTab(visibleTabs[idx % visibleTabs.length]);
                 return false;
@@ -280,7 +279,7 @@ $(window).on("load", function() {
     input.prop("disabled", false);
     reset.prop("disabled", false);
 
-    let urlParams = new URLSearchParams(window.location.search);
+    var urlParams = new URLSearchParams(window.location.search);
     if (urlParams.has("q")) {
         input.val(urlParams.get("q"))
     }
