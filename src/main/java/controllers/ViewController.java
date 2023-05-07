@@ -170,7 +170,10 @@ public class ViewController {
         cardLayout.show(contentPane, App.EXPORT_MENU);
     }
 
-
+    /**
+     * Retorna o objeto CardLayout utilizado no componente.
+     * @return o objeto CardLayout utilizado no componente
+     */
     public CardLayout getCardLayout() {
         return cardLayout;
     }
