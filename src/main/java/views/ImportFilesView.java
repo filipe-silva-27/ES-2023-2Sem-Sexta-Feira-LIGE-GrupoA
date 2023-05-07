@@ -29,12 +29,15 @@ public class ImportFilesView extends View {
         // Cria os botões e adiciona-os ao painel
         JButton localBtn = new JButton("Ficheiro local");
         JButton remoteBtn = new JButton("Ficheiro online");
+        JButton webcalBtn = new JButton("Webcal URI");
 
         localBtn.addActionListener(e -> ((ImportFilesController) viewController).importLocalFile());
         remoteBtn.addActionListener(e -> ((ImportFilesController) viewController).importRemoteFile());
+        webcalBtn.addActionListener(e -> ((ImportFilesController) viewController).importWebcalURI());
 
         add(localBtn);
         add(remoteBtn);
+        add(webcalBtn);
     }
 
 }

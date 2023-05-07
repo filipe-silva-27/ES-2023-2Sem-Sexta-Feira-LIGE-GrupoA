@@ -1,0 +1,262 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <title>Coverage Report > App</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">gui</a>
+</div>
+
+<h1>Coverage Summary for Class: App (gui)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">App</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    91,7%
+  </span>
+  <span class="absValue">
+    (11/12)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    97,4%
+  </span>
+  <span class="absValue">
+    (37/38)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;package gui;
+&nbsp;
+&nbsp;import controllers.*;
+&nbsp;import views.*;
+&nbsp;import org.slf4j.Logger;
+&nbsp;import org.slf4j.LoggerFactory;
+&nbsp;import java.awt.BorderLayout;
+&nbsp;import java.awt.CardLayout;
+&nbsp;import javax.swing.*;
+&nbsp;
+&nbsp;/**
+&nbsp; * Classe que é a aplicação principal que interage com o utilizador - GUI.
+&nbsp; * Esta classe cria uma interface gráfica do usuário (GUI) para a aplicação
+&nbsp; * Calendar App, que permite ao usuário interagir com várias funcionalidades,
+&nbsp; * como upload de arquivos, visualização de horários, criação de horários,
+&nbsp; * conversão de arquivos e exportação de arquivos.
+&nbsp; */
+&nbsp;public class App {
+&nbsp;
+&nbsp;    private final JFrame frame;
+&nbsp;    private final JPanel mainPanel;
+<b class="fc">&nbsp;    private static final Logger logger = LoggerFactory.getLogger(App.class);</b>
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Variáveis estáticas que representam os nomes dos painéis no CardLayout.
+&nbsp;     * Esses nomes são usados para trocar entre as diferentes telas da aplicação.
+&nbsp;     */
+&nbsp;    public static final String MAIN_MENU =&quot;mainMenuView&quot;;
+&nbsp;    public static final String UPLOAD_MENU =&quot;uploadFilesView&quot;;
+&nbsp;    public static final String SHOW_SCHEDULE_MENU =&quot;showScheduleView&quot;;
+&nbsp;    public static final String CONVERT_MENU = &quot;convertView&quot;;
+&nbsp;    public static final String CREATE_SCHEDULE_MENU =&quot;createScheduleView&quot;;
+&nbsp;    public static final String EXPORT_MENU = &quot;exportFilesView&quot;;
+&nbsp;
+&nbsp;    private MainMenuView mainMenuView;
+&nbsp;    private UploadFilesView uploadFilesView;
+&nbsp;    private ShowScheduleView showScheduleView;
+&nbsp;    private CreateScheduleView createScheduleView;
+&nbsp;    private ConvertFilesView convertFilesView;
+&nbsp;    private ExportFilesView exportFilesView;
+&nbsp;
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Método construtor que inicializa a GUI da aplicação.
+&nbsp;     */
+<b class="fc">&nbsp;    public App() {</b>
+<b class="fc">&nbsp;        logger.info(&quot;Inicializando a GUI...&quot;);</b>
+&nbsp;        // Inicializar a frame e o painel principal
+<b class="fc">&nbsp;        this.frame = new JFrame(&quot;Calendar App&quot;);</b>
+<b class="fc">&nbsp;        CardLayout cardLayout = new CardLayout();</b>
+<b class="fc">&nbsp;        this.mainPanel = new JPanel();</b>
+&nbsp;
+<b class="fc">&nbsp;        mainPanel.setLayout(cardLayout);</b>
+&nbsp;
+<b class="fc">&nbsp;        initViews();</b>
+&nbsp;
+&nbsp;        // Configurar a frame
+<b class="fc">&nbsp;        frame.getContentPane().add(mainPanel, BorderLayout.CENTER);</b>
+<b class="fc">&nbsp;        frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);</b>
+<b class="fc">&nbsp;        frame.pack();</b>
+<b class="fc">&nbsp;        frame.setVisible(true);</b>
+&nbsp;
+&nbsp;        // Mostrar o menu de upload de ficheiros/horario
+<b class="fc">&nbsp;        getUploadFilesView().initFrame();</b>
+<b class="fc">&nbsp;        cardLayout.show(mainPanel, UPLOAD_MENU);</b>
+<b class="fc">&nbsp;        logger.info(&quot;GUI inicializada com sucesso!&quot;);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Função que inicializa as views e adiciona ao painel.
+&nbsp;     * Cada view é inicializada com seu respectivo controller e adicionada ao CardLayout.
+&nbsp;     */
+&nbsp;    private void initViews(){
+<b class="fc">&nbsp;        logger.info(&quot;Inicializando as views...&quot;);</b>
+&nbsp;        // Inicializar as views
+<b class="fc">&nbsp;        mainMenuView = new MainMenuView(new MainMenuController(this));</b>
+<b class="fc">&nbsp;        uploadFilesView = new UploadFilesView(new UploadFilesController(this));</b>
+<b class="fc">&nbsp;        createScheduleView = new CreateScheduleView(new CreateScheduleController(this));</b>
+<b class="fc">&nbsp;        showScheduleView = new ShowScheduleView( new ShowScheduleController(this));</b>
+<b class="fc">&nbsp;        convertFilesView = new ConvertFilesView(new ConvertController(this));</b>
+<b class="fc">&nbsp;        exportFilesView = new ExportFilesView(new ExportController(this));</b>
+&nbsp;
+&nbsp;        // Adicionar as views ao CardLayout
+<b class="fc">&nbsp;        mainPanel.add(getMainMenuView(), MAIN_MENU);</b>
+<b class="fc">&nbsp;        mainPanel.add(getUploadFilesView(), UPLOAD_MENU);</b>
+<b class="fc">&nbsp;        mainPanel.add(getCreateScheduleView(), CREATE_SCHEDULE_MENU);</b>
+<b class="fc">&nbsp;        mainPanel.add(getShowScheduleView(), SHOW_SCHEDULE_MENU);</b>
+<b class="fc">&nbsp;        mainPanel.add(getConvertFilesView(), CONVERT_MENU);</b>
+<b class="fc">&nbsp;        mainPanel.add(getExportFilesView(), EXPORT_MENU);</b>
+<b class="fc">&nbsp;        logger.info(&quot;Views adicionadas com sucesso ao panel!&quot;);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public static void main(String[] args) {
+<b class="nc">&nbsp;        new App();</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Obtém a referência para a JFrame da aplicação.
+&nbsp;     * @return A JFrame da aplicação.
+&nbsp;     */
+&nbsp;    public JFrame getFrame() {
+<b class="fc">&nbsp;        return frame;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Obtém a referência para o painel principal da aplicação.
+&nbsp;     * @return O JPanel do painel principal da aplicação.
+&nbsp;     */
+&nbsp;    public JPanel getMainPanel() {
+<b class="fc">&nbsp;        return mainPanel;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Obtém a referência para a view do menu principal.
+&nbsp;     * @return A MainMenuView do menu principal.
+&nbsp;     */
+&nbsp;    public MainMenuView getMainMenuView() {
+<b class="fc">&nbsp;        return mainMenuView;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Obtém a referência para a view de upload de arquivos.
+&nbsp;     * @return A UploadFilesView da view de upload de arquivos.
+&nbsp;     */
+&nbsp;    public UploadFilesView getUploadFilesView() {
+<b class="fc">&nbsp;        return uploadFilesView;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Obtém a referência para a view de exibição de horário.
+&nbsp;     * @return A ShowScheduleView da view de exibição de horário.
+&nbsp;     */
+&nbsp;    public ShowScheduleView getShowScheduleView() {
+<b class="fc">&nbsp;        return showScheduleView;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Obtém a referência para a view de criação de horário.
+&nbsp;     * @return A CreateScheduleView da view de criação de horário.
+&nbsp;     */
+&nbsp;    public CreateScheduleView getCreateScheduleView() {
+<b class="fc">&nbsp;        return createScheduleView;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Obtém a referência para a view de conversão de arquivos.
+&nbsp;     * @return A ConvertFilesView da view de conversão de arquivos.
+&nbsp;     */
+&nbsp;    public ConvertFilesView getConvertFilesView() {
+<b class="fc">&nbsp;        return convertFilesView;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Obtém a referência para a view de exportação de arquivos.
+&nbsp;     * @return A ExportFilesView da view de exportação de arquivos.
+&nbsp;     */
+<b class="fc">&nbsp;    public View getExportFilesView() { return exportFilesView;</b>
+&nbsp;    }
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2023-04-21 10:41</div>
+</div>
+</body>
+</html>

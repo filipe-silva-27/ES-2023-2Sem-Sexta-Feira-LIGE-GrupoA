@@ -5,6 +5,11 @@ import com.opencsv.CSVReader;
 import com.opencsv.CSVReaderBuilder;
 import com.opencsv.exceptions.CsvValidationException;
 import models.*;
+import net.fortuna.ical4j.data.CalendarBuilder;
+import net.fortuna.ical4j.data.ParserException;
+import net.fortuna.ical4j.model.Calendar;
+import net.fortuna.ical4j.model.Component;
+import net.fortuna.ical4j.model.component.VEvent;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
@@ -18,11 +23,17 @@ import java.lang.management.ManagementFactory;
 import java.lang.management.MemoryMXBean;
 import java.lang.management.MemoryUsage;
 import java.lang.management.ThreadMXBean;
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
 import java.time.LocalTime;
+import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 /**
  * Classe que lê um ficheiro e cria um horário com base neste
@@ -211,6 +222,72 @@ public class ImportFileReader {
         long cpuTime = threadMXBean.getCurrentThreadCpuTime() / 1_000_000; // convert to milliseconds
         logger.debug("Memory usage: {}MB", heapUsage.getUsed() / (1024 * 1024));
         logger.debug("CPU time: {}ms", cpuTime);
+    }
+
+    private static final String EVENT_NAME = "VEVENT";
+    private static final String LINE_SEPARATOR = "\n";
+    private static final String UC_PREFIX = "Unidade de execução: ";
+
+
+
+    public static String invertDateFormat(String dateStr) {
+        DateTimeFormatter inputFormat = DateTimeFormatter.ofPattern("yyyy/MM/dd");
+        DateTimeFormatter outputFormat = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+
+        LocalDate date = LocalDate.parse(dateStr, inputFormat);
+        return date.format(outputFormat);
+    }
+
+
+    public Horario processaWebcal(String uriString) {
+        CalendarBuilder builder = new CalendarBuilder();
+        Calendar calendar = null;
+        try {
+            calendar = builder.build(new URI(uriString).toURL().openStream());
+        } catch (IOException | ParserException | URISyntaxException e) {
+            throw new RuntimeException(e);
+        }
+
+        for (Component component : calendar.getComponents()) {
+            if (component.getName().equals(EVENT_NAME)) {
+                VEvent event = (VEvent) component;
+
+                //n da curso nem turma nem turno nem inscritos nem lotacao
+                String description = event.getDescription().getValue();
+                String[] lines = description.split(LINE_SEPARATOR);
+                String unidadeCurricular = parseValue(lines, UC_PREFIX);
+                String sala = event.getLocation().getValue();
+                Date date = event.getStartDate().getDate();
+                LocalDate dataInicial = date.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+                String dataInicioUnformat = dataInicial.toString().replace("-", "/");
+                String dataInicio = invertDateFormat(dataInicioUnformat);
+                Date end = event.getEndDate().getDate();
+                LocalTime horaInicial = date.toInstant().atZone(ZoneId.systemDefault()).toLocalTime();
+                String horaInicio = horaInicial.toString().concat(":00");
+                LocalTime horaFinal = end.toInstant().atZone(ZoneId.systemDefault()).toLocalTime();
+                String horaFim = horaFinal.toString().concat(":00");
+
+                // Get day of week
+                int dayOfWeek = date.toInstant().atZone(ZoneId.systemDefault()).getDayOfWeek().getValue();
+                DiaSemana diaSemana = DiaSemana.values()[dayOfWeek - 1];
+                String diaDaSemana = diaSemana.getName();
+
+                criaHorario(unidadeCurricular, "-1", "-1", "-1", diaDaSemana, horaInicio, horaFim, dataInicio, sala, -1, -1);
+
+                logger.info("{}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}", unidadeCurricular, "-1", "-1", "-1", diaDaSemana, horaInicio, horaFim, dataInicio, sala, -1, -1);
+            }
+        }
+        return horario;
+    }
+
+
+    private static String parseValue(String[] lines, String prefix) {
+        for (String line : lines) {
+            if (line.startsWith(prefix)) {
+                return line.substring(prefix.length()).trim();
+            }
+        }
+        return "";
     }
 }
 

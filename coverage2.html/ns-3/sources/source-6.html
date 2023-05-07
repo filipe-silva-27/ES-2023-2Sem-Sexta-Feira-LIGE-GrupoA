@@ -1,0 +1,196 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <title>Coverage Report > UnidadeCurricular</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">models</a>
+</div>
+
+<h1>Coverage Summary for Class: UnidadeCurricular (models)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">UnidadeCurricular</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (8/8)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (14/14)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;package models;
+&nbsp;
+&nbsp;import java.util.*;
+&nbsp;
+&nbsp;
+&nbsp;public class UnidadeCurricular {
+&nbsp;
+&nbsp;    private String curso;
+&nbsp;    private String nomeUC;
+&nbsp;    private List&lt;Aula&gt; aulas;
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Construtor da classe UnidadeCurricular.
+&nbsp;     * @param curso O curso da unidade curricular.
+&nbsp;     * @param nomeUC O nome da unidade curricular.
+&nbsp;     */
+<b class="fc">&nbsp;    public UnidadeCurricular(String curso, String nomeUC) {</b>
+<b class="fc">&nbsp;        this.curso = curso;</b>
+<b class="fc">&nbsp;        this.nomeUC = nomeUC;</b>
+<b class="fc">&nbsp;        this.aulas = new ArrayList&lt;&gt;();</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Retorna o curso da unidade curricular.
+&nbsp;     * @return O curso da unidade curricular.
+&nbsp;     */
+&nbsp;    public String getCurso() {
+<b class="fc">&nbsp;        return curso;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Retorna o nome da unidade curricular.
+&nbsp;     * @return O nome da unidade curricular.
+&nbsp;     */
+&nbsp;    public String getNomeUC() {
+<b class="fc">&nbsp;        return nomeUC;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Retorna a lista de aulas associadas à unidade curricular.
+&nbsp;     * @return A lista de aulas associadas à unidade curricular.
+&nbsp;     */
+&nbsp;    public List&lt;Aula&gt; getAulas() {
+<b class="fc">&nbsp;        return aulas;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Verifica se duas unidades curriculares são iguais.
+&nbsp;     * Duas unidades curriculares são iguais se possuem o mesmo curso e mesmo nome.
+&nbsp;     * @param o O objeto a ser comparado.
+&nbsp;     * @return true se as unidades curriculares são iguais, false caso contrário.
+&nbsp;     */
+&nbsp;    @Override
+&nbsp;    public boolean equals(Object o) {
+<b class="fc">&nbsp;        if (this == o) return true;</b>
+<b class="fc">&nbsp;        if (o == null || getClass() != o.getClass()) return false;</b>
+<b class="fc">&nbsp;        UnidadeCurricular that = (UnidadeCurricular) o;</b>
+<b class="fc">&nbsp;        return Objects.equals(curso, that.curso) &amp;&amp; Objects.equals(nomeUC, that.nomeUC);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Retorna o código de hash da unidade curricular.
+&nbsp;     * @return O código de hash da unidade curricular.
+&nbsp;     */
+&nbsp;    @Override
+&nbsp;    public int hashCode() {
+<b class="fc">&nbsp;        return Objects.hash(curso, nomeUC);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Adiciona uma aula à lista de aulas associadas à unidade curricular.
+&nbsp;     * @param aula A aula a ser adicionada.
+&nbsp;     * @return true se a aula foi adicionada com sucesso, false caso contrário.
+&nbsp;     */
+&nbsp;    public boolean addAula(Aula aula){
+<b class="fc">&nbsp;        return aulas.add(aula);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Retorna uma representação em formato de String do objeto UnidadeCurricular.
+&nbsp;     * A representação contém o curso, nome e aulas associadas à unidade curricular.
+&nbsp;     * @return Uma String representando o objeto UnidadeCurricular.
+&nbsp;     */
+&nbsp;    @Override
+&nbsp;    public String toString() {
+<b class="fc">&nbsp;        return &quot;UnidadeCurricular{&quot; +</b>
+&nbsp;                &quot;curso=&#39;&quot; + curso + &#39;\&#39;&#39; +
+&nbsp;                &quot;, nomeUC=&#39;&quot; + nomeUC + &#39;\&#39;&#39; +
+&nbsp;                &quot;, aulas=&quot; + aulas +
+&nbsp;                &#39;}&#39;;
+&nbsp;    }
+&nbsp;
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2023-04-21 10:41</div>
+</div>
+</body>
+</html>
