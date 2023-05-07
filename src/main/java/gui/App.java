@@ -33,6 +33,9 @@ public class App extends Component {
     public static final String EXPORT_MENU = "exportFilesView";
     public static final String SHOW_WEBCAL_MENU ="webcalScheduleView";
 
+    /**
+     * Views
+     */
     private MainMenuView mainMenuView;
     private ImportFilesView importFilesView;
     private ShowScheduleView showScheduleView;

@@ -1,6 +1,8 @@
 package controllers;
 
 import gui.App;
+import models.CustomExceptions;
+import org.junit.Ignore;
 import models.Aula;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -12,10 +14,12 @@ import javax.swing.filechooser.FileNameExtensionFilter;
 import java.io.File;
 import java.io.IOException;
 import java.util.List;
+import java.io.IOException;
 
 /**
  * Esta classe é um controlador para importar para a aplicação ficheiros CSV e JSON.
  * Estende a classe ViewController.
+ * @see ViewController
  */
 public class ImportFilesController extends ViewController{
 
@@ -24,6 +28,7 @@ public class ImportFilesController extends ViewController{
     /**
      * Construtor do controlador de upload de arquivos.
      * @param app - instância da classe principal da aplicação
+     * @see App
      */
     public ImportFilesController(App app) {
         super(app);
@@ -33,6 +38,7 @@ public class ImportFilesController extends ViewController{
     /**
      * Função que trata do carregamento do ficheiro local
      */
+    @Ignore
     public void importLocalFile() {
         JFileChooser fileChooser = new JFileChooser();
         fileChooser.setFileFilter(new FileNameExtensionFilter("CSV and JSON Files", "csv", "json"));
@@ -46,9 +52,19 @@ public class ImportFilesController extends ViewController{
     /**
      * Função que trata do import de ficheiro remoto.
      */
+    @Ignore
     public void importRemoteFile()  {
-        File fromFile = FileDownloader.downloadRemoteFile();
-        importFile(fromFile);
+        File fromFile = null;
+        try{
+            fromFile = FileDownloader.downloadRemoteFile();
+        }catch (CustomExceptions.EmptyUrlException | IOException | CustomExceptions.InvalidFilenameException |
+                CustomExceptions.InvalidFileExtensionException e) {
+            showErrorAndUploadView(e.getMessage());
+        }
+        if(fromFile != null){
+            importFile(fromFile);
+        }
+
     }
 
     /**
@@ -109,6 +125,7 @@ public class ImportFilesController extends ViewController{
      * Método que exibe uma mensagem de erro e volta à view de upload de arquivos.
      * @param message - mensagem de erro a ser exibida
      */
+    @Ignore
     private void showErrorAndUploadView(String message) {
         JOptionPane.showMessageDialog(null, message, "Erro", JOptionPane.ERROR_MESSAGE);
         showImportFilesView();

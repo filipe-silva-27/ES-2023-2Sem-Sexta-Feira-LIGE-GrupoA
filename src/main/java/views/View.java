@@ -7,7 +7,8 @@ import javax.swing.*;
 import java.net.URISyntaxException;
 
 /**
- * Classe abstrata das views
+ * Classe abstrata das views que extende o JPanel do swing
+ * @see JPanel
  */
 public abstract class View extends JPanel {
 
@@ -16,6 +17,7 @@ public abstract class View extends JPanel {
     /**
      * Construtor da view que inicializa a frame (pintar os componentes)
      * @param viewController ViewController que é o controlador das views
+     * @see ViewController
      */
     protected View(ViewController viewController){
         this.viewController = viewController;

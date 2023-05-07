@@ -6,6 +6,7 @@ import com.opencsv.ICSVWriter;
 import io.github.cdimascio.dotenv.Dotenv;
 import models.*;
 import com.google.gson.Gson;
+import org.junit.Ignore;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -24,13 +25,17 @@ import static org.apache.logging.log4j.core.util.FileUtils.getFileExtension;
 
 /**
  *  Classe que transforma um horário num ficheio CSV ou JSON, guardando-o
+ *  @see Dotenv
  */
 public class FileExporter {
     
     private static final Logger logger = LoggerFactory.getLogger(FileExporter.class);
-    private static Dotenv dotenv = Dotenv.load();
-    private static String githubAccessToken = dotenv.get("GITHUB_ACCESS_TOKEN");
+    private static final Dotenv DOTENV = Dotenv.load();
+    private static final String GITHUB_ACCESS_TOKEN = DOTENV.get("GITHUB_ACCESS_TOKEN");
 
+    /**
+     * Construtor privado de modo a não permitir a sua instanciação
+     */
     private FileExporter() {
         throw new IllegalStateException("Classe de funções de utilidade!");
     }
@@ -64,12 +69,12 @@ public class FileExporter {
     public static String exportToGist(String fileName, String content) throws IOException{
         logger.info("Starting upload to GIST...");
         // check if the access token is set
-        if (githubAccessToken == null) {
+        if (GITHUB_ACCESS_TOKEN == null) {
             JOptionPane.showMessageDialog(null, "Não foi configurado o access token do GitHub!",
                     "Error", JOptionPane.ERROR_MESSAGE);
             throw new IllegalArgumentException("GITHUB_ACCESS_TOKEN environment variable not set");
         }
-        return GistExporter.uploadToGist(fileName, content, githubAccessToken);
+        return GistExporter.uploadToGist(fileName, content, GITHUB_ACCESS_TOKEN);
     }
 
     /**
@@ -114,53 +119,6 @@ public class FileExporter {
         return stringWriter.toString();
     }
 
-
-    /**
-     * Convert a Horario object to a String in JSON format
-     *
-     * @param horario the Horario object to be converted
-     * @param outputFile the FileWriter object to write the converted Horario object
-
-    public static void horarioToCsv(Horario horario, FileWriter outputFile) {
-
-        try {
-
-            // create CSVWriter object filewriter object as parameter
-            CSVWriter writer = new CSVWriter(outputFile, ',',
-                    ICSVWriter.NO_QUOTE_CHARACTER,
-                    ICSVWriter.DEFAULT_ESCAPE_CHARACTER,
-                    ICSVWriter.DEFAULT_LINE_END);
-
-            LOGGER.info("Writing CSV file...");
-
-            // adding header to csv
-            String[] header = { "Curso" ,"Unidade Curricular","Turno","Turma","Inscritos no turno","Dia da semana","Hora inÃ\u00ADcio da aula","Hora fim da aula","Data da aula","Sala atribuÃ\u00ADda Ã  aula","LotaÃ§Ã£o da sala"};
-            writer.writeNext(header);
-
-            // add data to csv
-            for (UnidadeCurricular uc : horario.getUnidadesCurriculares()) {
-                for (Aula aula : uc.getAulas()) {
-                    SimpleDateFormat outputFormat = new SimpleDateFormat("dd/MM/yyyy");
-                    String dateString = outputFormat.format(aula.getDataAula().getData());
-                    DateTimeFormatter timeFormatter = DateTimeFormatter.ofPattern("HH:mm:ss");
-                    String horaInicio = aula.getDataAula().getHoraInicio().format(timeFormatter);
-                    String horaFim = aula.getDataAula().getHoraFim().format(timeFormatter);
-
-                    String[] row = { uc.getCurso() , uc.getNomeUC(), aula.getTurno(), aula.getTurma() , aula.getNumInscritos().toString(),
-                            aula.getDataAula().getDiaSemana().getName(), horaInicio, horaFim, dateString, aula.getSala(), aula.getLotacao().toString()} ;
-                    writer.writeNext(row);
-                }
-            }
-            // closing writer connection
-            writer.close();
-            LOGGER.info("CSV file written successfully.");
-        }
-        catch (IOException e) {
-            LOGGER.severe("Error writing CSV file: " + e.getMessage());
-            e.printStackTrace();
-
-        }
-    }*/
 
     /**
      * Converte um objeto do tipo Horario para uma representação em formato JSON.

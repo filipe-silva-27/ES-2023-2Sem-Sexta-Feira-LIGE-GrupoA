@@ -1,5 +1,6 @@
 package utils.importer;
 
+import models.CustomExceptions;
 import org.apache.commons.io.FileUtils;
 
 import java.io.File;
@@ -23,8 +24,14 @@ public class FileDownloader {
      * @param remoteUrl o URL do ficheiro remoto
      * @return o ficheiro local caso seja feito com sucesso, null se não tiver sucesso
      * @throws IOException caso ocorrra um erro durante o processo de download ou de guardar o ficheiro
+     * @throws models.CustomExceptions.InvalidFilenameException caso o utilizador escolha um nome de ficheiro inválido
+     * @throws models.CustomExceptions.InvalidFileExtensionException caso a extensao do ficheiro seja inválida
+     * @see models.CustomExceptions.InvalidFilenameException
+     * @see models.CustomExceptions.InvalidFileExtensionException
      */
-    public static File downloadFile(URL remoteUrl) throws IOException {
+    public static File downloadFile(URL remoteUrl) throws IOException,
+            CustomExceptions.InvalidFilenameException, CustomExceptions.InvalidFileExtensionException {
+
         JFileChooser fileChooser = new JFileChooser();
         fileChooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
         int result = fileChooser.showSaveDialog(null);
@@ -36,9 +43,7 @@ public class FileDownloader {
         String fileName = JOptionPane.showInputDialog(null,
                 "Introduza o nome do ficheiro (sem a extensão):");
         if (fileName == null || fileName.isEmpty()) {
-            JOptionPane.showMessageDialog(null, "Por favor escolha um nome válido!",
-                    "Erro", JOptionPane.ERROR_MESSAGE);
-            return null;
+            throw new CustomExceptions.InvalidFilenameException("Por favor escolha um nome válido!");
         }
 
         // Adiciona a extensão apropriada ao nome do arquivo
@@ -47,21 +52,13 @@ public class FileDownloader {
         File localFile = new File(selectedDirectory, fileName);
 
         if(fileExtension == null){
-            JOptionPane.showMessageDialog(null,
-                    "A extensão do ficheiro não é reconhecida!",
-                    "Erro", JOptionPane.ERROR_MESSAGE);
-            return null;
+            throw new CustomExceptions.InvalidFileExtensionException("A extensão do ficheiro não é reconhecida!");
         }
 
         FileUtils.copyURLToFile(remoteUrl, localFile);
         if (!fileExtension.equalsIgnoreCase("csv") &&
                 !fileExtension.equalsIgnoreCase("json")) {
-
-            JOptionPane.showMessageDialog(null,
-                    "O arquivo selecionado não é um arquivo CSV ou JSON.",
-                    "Erro", JOptionPane.ERROR_MESSAGE);
-            return null;
-
+            throw new CustomExceptions.InvalidFileExtensionException("O arquivo selecionado não é um arquivo CSV ou JSON.");
         }
 
         return localFile;
@@ -71,22 +68,22 @@ public class FileDownloader {
      * Pede ao utilizador para inserir um URL remoto e faz download do ficheiro correspondente.
      *
      * @return o ficheiro local onde o ficheiro remoto foi salvo, ou null se o utilizador cancelar ou ocorrer erro.
+     * @throws CustomExceptions.EmptyUrlException url do user é vazio
+     * @throws IOException erro no download do ficheiro
+     * @throws models.CustomExceptions.InvalidFilenameException caso o utilizador escolha um nome inválido para o ficheiro
+     * @throws models.CustomExceptions.InvalidFileExtensionException caso a extensao do ficheiro seja inválida
+     * @see models.CustomExceptions.InvalidFilenameException
+     * @see models.CustomExceptions.InvalidFileExtensionException
      */
-    public static File downloadRemoteFile() {
+    public static File downloadRemoteFile() throws CustomExceptions.EmptyUrlException,
+            IOException, CustomExceptions.InvalidFilenameException, CustomExceptions.InvalidFileExtensionException {
+
         String url = JOptionPane.showInputDialog(null, "Introduza o URL do ficheiro remoto:");
         if (url == null || url.isEmpty()) {
-            JOptionPane.showMessageDialog(null, "Por favor introduza um URL válido.",
-                    "Erro", JOptionPane.ERROR_MESSAGE);
-            return null;
+            throw new CustomExceptions.EmptyUrlException("Por favor introduza um URL válido.");
         }
+        return downloadFile(new URL(url));
 
-        try {
-            return downloadFile(new URL(url));
-        } catch (IOException e) {
-            JOptionPane.showMessageDialog(null, "Ocorreu um erro ao fazer download do ficheiro.",
-                    "Erro", JOptionPane.ERROR_MESSAGE);
-            return null;
-        }
     }
 
     /**
