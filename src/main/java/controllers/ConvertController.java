@@ -26,10 +26,7 @@ public class ConvertController extends ViewController {
     }
 
     /**
-     * Função que faz transforma o objeto Horário para uma String
-     * esta String pode então ser convertida para qualquer formato
-     * @see FileExporter
-     * @see ViewController
+     * Função que faz a conversão de CSV para JSON
      */
     public void convertFile(){
         if(isHorarioSet()){

@@ -51,11 +51,11 @@ function escapeHtml(str) {
     return str.replace(/</g, "&lt;").replace(/>/g, "&gt;");
 }
 function getHighlightedText(str, boundaries, from, to) {
-    var start = from;
-    var text = "";
-    for (var i = 0; i < boundaries.length; i += 2) {
-        var b0 = boundaries[i];
-        var b1 = boundaries[i + 1];
+    let start = from;
+    let text = "";
+    for (let i = 0; i < boundaries.length; i += 2) {
+        let b0 = boundaries[i];
+        let b1 = boundaries[i + 1];
         if (b0 >= to || b1 <= from) {
             continue;
         }
@@ -69,8 +69,8 @@ function getHighlightedText(str, boundaries, from, to) {
     return text;
 }
 function getURLPrefix(item, category) {
-    var urlPrefix = "";
-    var slash = "/";
+    let urlPrefix = "";
+    let slash = "/";
     if (category === "modules") {
         return item.l + slash;
     } else if (category === "packages" && item.m) {
@@ -92,7 +92,7 @@ function getURL(item, category) {
     if (item.url) {
         return item.url;
     }
-    var url = getURLPrefix(item, category);
+    let url = getURLPrefix(item, category);
     if (category === "modules") {
         url += "module-summary.html";
     } else if (category === "packages") {
@@ -124,16 +124,16 @@ function createMatcher(term, camelCase) {
     if (camelCase && !isUpperCase(term)) {
         return null;  // no need for camel-case matcher for lower case query
     }
-    var pattern = "";
-    var upperCase = [];
+    let pattern = "";
+    let upperCase = [];
     term.trim().split(/\s+/).forEach(function(w, index, array) {
-        var tokens = w.split(/(?=[A-Z,.()<>?[\/])/);
-        for (var i = 0; i < tokens.length; i++) {
-            var s = tokens[i];
+        let tokens = w.split(/(?=[A-Z,.()<>?[\/])/);
+        for (let i = 0; i < tokens.length; i++) {
+            let s = tokens[i];
             // ',' and '?' are the only delimiters commonly followed by space in java signatures
             pattern += "(" + $.ui.autocomplete.escapeRegex(s).replace(/[,?]/g, "$&\\s*?") + ")";
             upperCase.push(false);
-            var isWordToken =  /\w$/.test(s);
+            let isWordToken =  /\w$/.test(s);
             if (isWordToken) {
                 if (i === tokens.length - 1 && index < array.length - 1) {
                     // space in query string matches all delimiters
@@ -153,14 +153,14 @@ function createMatcher(term, camelCase) {
             }
         }
     });
-    var re = new RegExp(pattern, "gi");
+    let re = new RegExp(pattern, "gi");
     re.upperCase = upperCase;
     return re;
 }
 function analyzeMatch(matcher, input, startOfName, category) {
-    var from = startOfName;
+    let from = startOfName;
     matcher.lastIndex = from;
-    var match = matcher.exec(input);
+    let match = matcher.exec(input);
     while (!match && from > 1) {
         from = input.lastIndexOf(".", from - 2) + 1;
         matcher.lastIndex = from;
@@ -169,9 +169,9 @@ function analyzeMatch(matcher, input, startOfName, category) {
     if (!match) {
         return NO_MATCH;
     }
-    var boundaries = [];
-    var matchEnd = match.index + match[0].length;
-    var leftParen = input.indexOf("(");
+    let boundaries = [];
+    let matchEnd = match.index + match[0].length;
+    let leftParen = input.indexOf("(");
     // exclude peripheral matches
     if (category !== "modules" && category !== "searchTags") {
         if (leftParen > -1 && leftParen < match.index) {
@@ -180,18 +180,18 @@ function analyzeMatch(matcher, input, startOfName, category) {
             return NO_MATCH;
         }
     }
-    var endOfName = leftParen > -1 ? leftParen : input.length;
-    var score = 5;
-    var start = match.index;
-    var prevEnd = -1;
-    for (var i = 1; i < match.length; i += 2) {
-        var isUpper = isUpperCase(input[start]);
-        var isMatcherUpper = matcher.upperCase[i];
+    let endOfName = leftParen > -1 ? leftParen : input.length;
+    let score = 5;
+    let start = match.index;
+    let prevEnd = -1;
+    for (let i = 1; i < match.length; i += 2) {
+        let isUpper = isUpperCase(input[start]);
+        let isMatcherUpper = matcher.upperCase[i];
         // capturing groups come in pairs, match and non-match
         boundaries.push(start, start + match[i].length);
         // make sure groups are anchored on a left word boundary
-        var prevChar = input[start - 1] || "";
-        var nextChar = input[start + 1] || "";
+        let prevChar = input[start - 1] || "";
+        let nextChar = input[start + 1] || "";
         if (start !== 0 && !/[\W_]/.test(prevChar) && !/[\W_]/.test(input[start])) {
             if (isUpper && (isLowerCase(prevChar) || isLowerCase(nextChar))) {
                 score -= 0.1;
@@ -236,16 +236,16 @@ function rateNoise(str) {
          +  str.length / 20;
 }
 function doSearch(request, response) {
-    var term = request.term.trim();
-    var maxResults = request.maxResults || MAX_RESULTS;
+    let term = request.term.trim();
+    let maxResults = request.maxResults || MAX_RESULTS;
     if (term.length === 0) {
         return this.close();
     }
-    var matcher = {
+    let matcher = {
         plainMatcher: createMatcher(term, false),
         camelCaseMatcher: createMatcher(term, true)
     }
-    var indexLoaded = indexFilesLoaded();
+    let indexLoaded = indexFilesLoaded();
 
     function getPrefix(item, category) {
         switch (category) {
@@ -271,7 +271,7 @@ function doSearch(request, response) {
         }
     }
     function searchIndex(indexArray, category) {
-        var matches = [];
+        let matches = [];
         if (!indexArray) {
             if (!indexLoaded) {
                 matches.push({ l: messages.loading, category: category });
@@ -279,13 +279,13 @@ function doSearch(request, response) {
             return matches;
         }
         $.each(indexArray, function (i, item) {
-            var prefix = getPrefix(item, category);
-            var simpleName = item.l;
-            var qualifiedName = prefix + simpleName;
-            var useQualified = useQualifiedName(category);
-            var input = useQualified ? qualifiedName : simpleName;
-            var startOfName = useQualified ? prefix.length : 0;
-            var m = analyzeMatch(matcher.plainMatcher, input, startOfName, category);
+            let prefix = getPrefix(item, category);
+            let simpleName = item.l;
+            let qualifiedName = prefix + simpleName;
+            let useQualified = useQualifiedName(category);
+            let input = useQualified ? qualifiedName : simpleName;
+            let startOfName = useQualified ? prefix.length : 0;
+            let m = analyzeMatch(matcher.plainMatcher, input, startOfName, category);
             if (m === NO_MATCH && matcher.camelCaseMatcher) {
                 m = analyzeMatch(matcher.camelCaseMatcher, input, startOfName, category);
             }
@@ -307,18 +307,18 @@ function doSearch(request, response) {
         });
     }
 
-    var result = searchIndex(moduleSearchIndex, "modules")
+    let result = searchIndex(moduleSearchIndex, "modules")
          .concat(searchIndex(packageSearchIndex, "packages"))
          .concat(searchIndex(typeSearchIndex, "types"))
          .concat(searchIndex(memberSearchIndex, "members"))
          .concat(searchIndex(tagSearchIndex, "searchTags"));
 
     if (!indexLoaded) {
-        updateSearchResults = function() {
+        let updateSearchResults = function() {
             doSearch(request, response);
         }
     } else {
-        updateSearchResults = function() {};
+        let updateSearchResults = function() {};
     }
     response(result);
 }
@@ -329,7 +329,7 @@ $.widget("custom.catcomplete", $.ui.autocomplete, {
         this.widget().menu("option", "items", "> .result-item");
         // workaround for search result scrolling
         this.menu._scrollIntoView = function _scrollIntoView( item ) {
-            var borderTop, paddingTop, offset, scroll, elementHeight, itemHeight;
+            let borderTop, paddingTop, offset, scroll, elementHeight, itemHeight;
             if ( this._hasScroll() ) {
                 borderTop = parseFloat( $.css( this.activeMenu[ 0 ], "borderTopWidth" ) ) || 0;
                 paddingTop = parseFloat( $.css( this.activeMenu[ 0 ], "paddingTop" ) ) || 0;
@@ -347,15 +347,15 @@ $.widget("custom.catcomplete", $.ui.autocomplete, {
         };
     },
     _renderMenu: function(ul, items) {
-        var currentCategory = "";
-        var widget = this;
+        let currentCategory = "";
+        let widget = this;
         widget.menu.bindings = $();
         $.each(items, function(index, item) {
             if (item.category && item.category !== currentCategory) {
                 ul.append("<li class='ui-autocomplete-category'>" + categories[item.category] + "</li>");
                 currentCategory = item.category;
             }
-            var li = widget._renderItemData(ul, item);
+            let li = widget._renderItemData(ul, item);
             if (item.category) {
                 li.attr("aria-label", categories[item.category] + " : " + item.l);
             } else {
@@ -367,12 +367,12 @@ $.widget("custom.catcomplete", $.ui.autocomplete, {
             + encodeURI(widget.term) + "'>Go to search page</a></li>");
     },
     _renderItem: function(ul, item) {
-        var li = $("<li/>").appendTo(ul);
-        var div = $("<div/>").appendTo(li);
-        var label = item.l
+        let li = $("<li/>").appendTo(ul);
+        let div = $("<div/>").appendTo(li);
+        let label = item.l
             ? item.l
             : getHighlightedText(item.input, item.boundaries, 0, item.input.length);
-        var idx = item.indexItem;
+        let idx = item.indexItem;
         if (item.category === "searchTags" && idx.h) {
             if (idx.d) {
                 div.html(label + "<span class='search-tag-holder-result'> (" + idx.h + ")</span><br><span class='search-tag-desc-result'>"
@@ -387,8 +387,8 @@ $.widget("custom.catcomplete", $.ui.autocomplete, {
     }
 });
 $(function() {
-    var expanded = false;
-    var windowWidth;
+    let expanded = false;
+    let windowWidth;
     function collapse() {
         if (expanded) {
             $("div#navbar-top").removeAttr("style");
@@ -402,7 +402,7 @@ $(function() {
         if (expanded) {
             collapse();
         } else {
-            var navbar = $("div#navbar-top");
+            let navbar = $("div#navbar-top");
             navbar.height(navbar.prop("scrollHeight"));
             $("button#navbar-toggle-button")
                 .addClass("expanded")
@@ -427,8 +427,8 @@ $(function() {
     $(window).on("orientationchange", collapse).on("resize", function(e) {
         if (expanded && windowWidth !== window.innerWidth) collapse();
     });
-    var search = $("#search-input");
-    var reset = $("#reset-button");
+    let search = $("#search-input");
+    let reset = $("#reset-button");
     search.catcomplete({
         minLength: 1,
         delay: 200,
@@ -449,7 +449,7 @@ $(function() {
         },
         select: function(event, ui) {
             if (ui.item.indexItem) {
-                var url = getURL(ui.item.indexItem, ui.item.category);
+                let url = getURL(ui.item.indexItem, ui.item.category);
                 window.location.href = pathtoroot + url;
                 $("#search-input").focus();
             }

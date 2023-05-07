@@ -6,7 +6,6 @@ import com.opencsv.ICSVWriter;
 import io.github.cdimascio.dotenv.Dotenv;
 import models.*;
 import com.google.gson.Gson;
-import org.junit.Ignore;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -25,17 +24,13 @@ import static org.apache.logging.log4j.core.util.FileUtils.getFileExtension;
 
 /**
  *  Classe que transforma um horário num ficheio CSV ou JSON, guardando-o
- *  @see Dotenv
  */
 public class FileExporter {
     
     private static final Logger logger = LoggerFactory.getLogger(FileExporter.class);
-    private static final Dotenv DOTENV = Dotenv.load();
-    private static final String GITHUB_ACCESS_TOKEN = DOTENV.get("GITHUB_ACCESS_TOKEN");
+    private static Dotenv dotenv = Dotenv.load();
+    private static String githubAccessToken = dotenv.get("GITHUB_ACCESS_TOKEN");
 
-    /**
-     * Construtor privado de modo a não permitir a sua instanciação
-     */
     private FileExporter() {
         throw new IllegalStateException("Classe de funções de utilidade!");
     }
@@ -69,12 +64,12 @@ public class FileExporter {
     public static String exportToGist(String fileName, String content) throws IOException{
         logger.info("Starting upload to GIST...");
         // check if the access token is set
-        if (GITHUB_ACCESS_TOKEN == null) {
+        if (githubAccessToken == null) {
             JOptionPane.showMessageDialog(null, "Não foi configurado o access token do GitHub!",
                     "Error", JOptionPane.ERROR_MESSAGE);
             throw new IllegalArgumentException("GITHUB_ACCESS_TOKEN environment variable not set");
         }
-        return GistExporter.uploadToGist(fileName, content, GITHUB_ACCESS_TOKEN);
+        return GistExporter.uploadToGist(fileName, content, githubAccessToken);
     }
 
     /**

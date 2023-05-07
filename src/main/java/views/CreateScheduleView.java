@@ -5,8 +5,8 @@ import controllers.ShowScheduleController;
 import controllers.ViewController;
 import models.Aula;
 import models.UnidadeCurricular;
-import org.junit.Ignore;
-import utils.DetalhesAulasDialog;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import utils.exporter.FileExporter;
 
 import javax.swing.*;
@@ -17,18 +17,10 @@ import java.util.List;
 
 import static controllers.ViewController.setContent;
 
-/**
- * Classe view da criação de horário e a sua visualização
- * @see View
- */
 public class CreateScheduleView extends View {
 
-    JButton criarUc;
-    JButton verHorario;
-    JButton verSobrelotacao;
-    JButton verSobreposicoes;
-    JButton guardarBtn;
-    JButton backBtn;
+    private static final Logger logger = LoggerFactory.getLogger(CreateScheduleView.class);
+
 
     List<Aula> selectedAulas;
     /**
@@ -36,6 +28,7 @@ public class CreateScheduleView extends View {
      * @param viewController ViewController
      * @see ViewController
      */
+
     public CreateScheduleView(ViewController viewController) {
         super(viewController);
         selectedAulas = null;
@@ -76,9 +69,7 @@ public class CreateScheduleView extends View {
             List<Aula> aulasSobrelotadas = DetalhesAulasDialog.getSobreposicoes(selectedAulas);
             DetalhesAulasDialog.showSobreposicoesView(aulasSobrelotadas);
         });
-        guardarBtn.addActionListener(e -> showChooseFileFormat());
-        backBtn.addActionListener(e -> viewController.showMainMenuView());
-    }
+
 
     /**
      * Função que inicializa a frame
@@ -101,21 +92,14 @@ public class CreateScheduleView extends View {
         this.revalidate();
     }
 
-    /**
-     * Função que abre um JDialog para o user escolher as Unidades Curriculares
-     * @param unidadesCurriculares Set de unidadescurriculares disponiveis para serem escolhidas
-     * @see JDialog
-     * @see DefaultListModel
-     * @see UCCheckBoxListRenderer
-     */
-    @Ignore
-    private void showCreateUC(Set<UnidadeCurricular> unidadesCurriculares) {
-
+    private void showCreateUC() {
+        // Create the list to display the checkboxes
         JList<UnidadeCurricular> ucList = new JList<>();
         ucList.setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
         ucList.setCellRenderer(new UCCheckBoxListRenderer());
 
         DefaultListModel<UnidadeCurricular> listModel = new DefaultListModel<>();
+        Set<UnidadeCurricular> unidadesCurriculares = viewController.getHorario().getUnidadesCurriculares();
         List<UnidadeCurricular> sortedList = new ArrayList<>(unidadesCurriculares);
         sortedList.sort(Comparator.comparing(UnidadeCurricular::getNomeUC));
         for (UnidadeCurricular uc : sortedList) {
@@ -126,19 +110,19 @@ public class CreateScheduleView extends View {
         JLabel instructionsLabel = new JLabel("" +
                 "Selecione uma ou mais Unidades Curriculares (use Ctrl + clique para selecionar várias):");
 
+        // Create a new dialog for the popup and add the checkboxes and save button to it
         JDialog dialog = new JDialog();
         dialog.setLayout(new BorderLayout());
         dialog.add(instructionsLabel, BorderLayout.NORTH);
         dialog.add(new JScrollPane(ucList), BorderLayout.CENTER);
         JButton saveBtn = new JButton("Save");
-
         saveBtn.addActionListener(e -> {
+            // Save the selected units and close the dialog
             Set<UnidadeCurricular> selectedUnits = new HashSet<>(ucList.getSelectedValuesList());
             ((CreateScheduleController) viewController).setSelectedUnits(selectedUnits);
             dialog.dispose();
             showChooseTurno();
         });
-
         JPanel buttonPanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
         buttonPanel.add(saveBtn);
         dialog.add(buttonPanel, BorderLayout.SOUTH);
@@ -149,14 +133,6 @@ public class CreateScheduleView extends View {
         dialog.setVisible(true);
     }
 
-
-    /**
-     * Função que abre um JDialog para o user escolher os turnos
-     * @see JDialog
-     * @see DefaultListModel
-     * @see AulaCheckBoxListRenderer
-     */
-    @Ignore
     private void showChooseTurno() {
         Set<UnidadeCurricular> selectedUnits = ((CreateScheduleController) viewController).getSelectedUnits();
         if (selectedUnits.isEmpty()) {
@@ -180,7 +156,7 @@ public class CreateScheduleView extends View {
         aulasList.setCellRenderer(new AulaCheckBoxListRenderer());
 
         JLabel instructionsLabel = new JLabel("" +
-                "Selecione um ou mais Turnos (use Ctrl + clique para selecionar várias):");
+                "Selecione uma ou mais Unidades Curriculares (use Ctrl + clique para selecionar várias):");
 
         // Create a new dialog for the popup and add the list and save button to it
         JDialog dialog = new JDialog();
@@ -205,12 +181,6 @@ public class CreateScheduleView extends View {
         dialog.setVisible(true);
     }
 
-    /**
-     * Função que mostra um JDialog para escolher como guardar o ficheiro.
-     * @see JDialog
-     * @see CreateScheduleController
-     */
-    @Ignore
     private void showChooseFileFormat(){
         // Create a new dialog for the popup and add the checkboxes and save button to it
         JDialog dialog = new JDialog();
@@ -232,6 +202,9 @@ public class CreateScheduleView extends View {
             viewController.showExportFilesView();
         });
 
+
+
+
         JPanel buttonPanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
         buttonPanel.add(toCsv);
         buttonPanel.add(toJson);
@@ -244,11 +217,6 @@ public class CreateScheduleView extends View {
     }
 
 
-    /**
-     * Classe que altera o look default dos JCheckbox
-     * @see JCheckBox
-     */
-    @Ignore
     static class UCCheckBoxListRenderer extends JCheckBox implements ListCellRenderer<UnidadeCurricular> {
         @Override
         public Component getListCellRendererComponent(JList<? extends UnidadeCurricular> list,
@@ -260,11 +228,6 @@ public class CreateScheduleView extends View {
         }
     }
 
-    /**
-     * Classe que altera o look default dos JCheckbox
-     * @see JCheckBox
-     */
-    @Ignore
     static class AulaCheckBoxListRenderer extends JCheckBox implements ListCellRenderer<Aula> {
         @Override
         public Component getListCellRendererComponent(JList<? extends Aula> list, Aula aula, int index, boolean isSelected, boolean cellHasFocus) {
