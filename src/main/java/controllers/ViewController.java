@@ -153,6 +153,7 @@ public class ViewController {
      * Exibe a tela de upload de ficheiros.
      */
     public void showImportFilesView(){
+        setIsURI(false);
         app.getImportFilesView().initFrame();
         cardLayout.show(contentPane, App.UPLOAD_MENU);
     }
