@@ -16,14 +16,24 @@ import java.util.List;
 
 import static controllers.ViewController.setContent;
 
+/**
+ * Classe responsável por criar a vista da funcionalidade de criação de horário.
+ */
 public class CreateScheduleView extends View {
 
     private static final Logger logger = LoggerFactory.getLogger(CreateScheduleView.class);
 
+    /**
+     * Construtor da classe.
+     * @param viewController o controlador que controla a view
+     */
     public CreateScheduleView(ViewController viewController) {
         super(viewController);
     }
 
+    /**
+     * Método responsável por inicializar a frame da vista.
+     */
     @Override
     public void initFrame() {
         this.removeAll();
@@ -46,6 +56,9 @@ public class CreateScheduleView extends View {
         add(backBtn);
     }
 
+    /**
+     * Método responsável por mostrar a janela para escolher as unidades curriculares.
+     */
     private void showCreateUC() {
         // Create the list to display the checkboxes
         JList<UnidadeCurricular> ucList = new JList<>();
@@ -87,6 +100,9 @@ public class CreateScheduleView extends View {
         dialog.setVisible(true);
     }
 
+    /**
+     * Método responsável por mostrar a janela para escolher os turnos.
+     */
     private void showChooseTurno() {
         Set<UnidadeCurricular> selectedUnits = ((CreateScheduleController) viewController).getSelectedUnits();
         if (selectedUnits.isEmpty()) {
@@ -134,6 +150,9 @@ public class CreateScheduleView extends View {
         dialog.setVisible(true);
     }
 
+    /**
+     * Exibe uma caixa de diálogo para escolher o formato do arquivo de exportação e realiza a exportação para CSV ou JSON.
+     */
     private void showChooseFileFormat(){
         // Create a new dialog for the popup and add the checkboxes and save button to it
         JDialog dialog = new JDialog();
@@ -169,7 +188,9 @@ public class CreateScheduleView extends View {
         dialog.setVisible(true);
     }
 
-
+    /**
+     * Renderiza a célula de uma lista de checkboxes para UnidadeCurricular.
+     */
     static class UCCheckBoxListRenderer extends JCheckBox implements ListCellRenderer<UnidadeCurricular> {
         @Override
         public Component getListCellRendererComponent(JList<? extends UnidadeCurricular> list, UnidadeCurricular uc, int index, boolean isSelected, boolean cellHasFocus) {
@@ -180,6 +201,9 @@ public class CreateScheduleView extends View {
         }
     }
 
+    /**
+     * Renderiza a célula de uma lista de checkboxes para Aula.
+     */
     static class AulaCheckBoxListRenderer extends JCheckBox implements ListCellRenderer<Aula> {
         @Override
         public Component getListCellRendererComponent(JList<? extends Aula> list, Aula aula, int index, boolean isSelected, boolean cellHasFocus) {

@@ -46,7 +46,8 @@ public class ShowScheduleController extends ViewController{
     }
 
     /**
-     * Função que lê o ficheiro html template e gera um calendário dado um objeto JSON
+     * Cria uma visualização HTML das aulas fornecidas utilizando um template predefinido.
+     * @param aulas Lista de aulas a serem exibidas na visualização HTML.
      */
     public static void createHtmlView(List<Aula> aulas){
         String aulasJson = exportAulasToJson(aulas);

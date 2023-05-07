@@ -25,6 +25,9 @@ public class ShowScheduleView extends View {
         super(viewController);
     }
 
+    /**
+     * Mostra uma janela com as aulas que estão sobrelotadas.
+     */
     private void showAulasSobrelotadasView(){
 
         List<Aula> aulasSobrelotadas = ((ShowScheduleController) viewController).showAulasSobreLotadas();
@@ -37,6 +40,10 @@ public class ShowScheduleView extends View {
         }
     }
 
+    /**
+     * Mostra uma janela com as aulas sobrelotadas.
+     * @param aulasSobrelotadas Lista de aulas sobrelotadas a serem exibidas na tabela.
+     */
     private void showSobrelotadasDialog(List<Aula> aulasSobrelotadas){
         JDialog dialog = new JDialog();
         dialog.setTitle("Aulas sobrepostas");

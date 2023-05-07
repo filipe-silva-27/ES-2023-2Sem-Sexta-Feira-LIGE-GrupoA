@@ -12,7 +12,6 @@ public class ExportFilesView extends View {
 
     /**
      * Construtor da classe ExportFilesView.
-     *
      * @param viewController O controlador da view.
      */
     public ExportFilesView(ViewController viewController){

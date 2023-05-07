@@ -30,16 +30,28 @@ public class CreateScheduleController extends ViewController{
         logger.info("- inicializado com sucesso.");
     }
 
+    /**
+     * Define o conjunto de unidades curriculares selecionadas.
+     * @param selectedUnits o conjunto de unidades curriculares selecionadas
+     */
     public void setSelectedUnits(Set<UnidadeCurricular> selectedUnits){
         this.selectedUnits = selectedUnits;
         selectedUnits.forEach(f -> logger.info(f.getNomeUC()));
     }
 
+    /**
+     * Define a lista de aulas selecionadas.
+     * @param selectedAulas a lista de aulas selecionadas
+     */
     public void setSelectedAulas(List<Aula> selectedAulas){
         this.selectedAulas = selectedAulas;
         selectedAulas.forEach(f -> logger.info(f.toString()));
     }
 
+    /**
+     * Cria um horário com base nas aulas selecionadas.
+     * @throws IllegalStateException se nenhuma aula tiver sido selecionada
+     */
     public void createHorario(){
         if (selectedAulas.isEmpty()){
             return;
@@ -58,14 +70,26 @@ public class CreateScheduleController extends ViewController{
         }
     }
 
+    /**
+     * Obtém o horário selecionado.
+     * @return o horário selecionado
+     */
     public Horario getSelectedHorario(){
         return selectedHorario;
     }
 
+    /**
+     * Obtém a lista de aulas selecionadas.
+     * @return a lista de aulas selecionadas
+     */
     public List<Aula> getSelectedAulas(){
         return selectedAulas;
     }
 
+    /**
+     * Obtém o conjunto de unidades curriculares selecionadas.
+     * @return o conjunto de unidades curriculares selecionadas
+     */
     public Set<UnidadeCurricular> getSelectedUnits() {
         return selectedUnits;
     }
