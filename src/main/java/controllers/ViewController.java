@@ -24,6 +24,7 @@ public class ViewController {
     private static String content;
     private static Horario horario = null;
 
+    private static boolean isURI = false;
     /**
      * Construtor do controlador
      * @param app A instância da classe App
@@ -143,14 +144,6 @@ public class ViewController {
         }
     }
 
-    /*public void showWebcalScheduleView(){
-        app.getWebcalScheduleView().initFrame();
-        cardLayout.show(contentPane, App.SHOW_WEBCAL_MENU);
-
-
-    }*/
-
-
 
     /**
      * Exibe a tela de upload de ficheiros.
@@ -177,5 +170,11 @@ public class ViewController {
         return cardLayout;
     }
 
+    public boolean isIsURI() {
+        return isURI;
+    }
 
+    public void setIsURI(boolean isURI) {
+        ViewController.isURI = isURI;
+    }
 }

@@ -57,8 +57,6 @@ public class ImportFilesController extends ViewController{
 
     public void importWebcalURI(){
         // Display a dialog box to prompt the user to enter the Webcal URI
-        //showWebcalScheduleView();
-        //webcalImport.webcalToHorario();
 
             String input = JOptionPane.showInputDialog(null, "Enter the Webcal URI: ");
             if (input != null && !input.trim().isEmpty()) {
@@ -73,6 +71,7 @@ public class ImportFilesController extends ViewController{
 
 
                 JOptionPane.showMessageDialog(null, "Calendar events imported from:\n" + input);
+                setIsURI(true);
                 showMainMenuView();
             }
 

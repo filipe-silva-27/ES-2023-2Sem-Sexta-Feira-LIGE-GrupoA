@@ -36,6 +36,9 @@ public class MainMenuView extends View {
 
         criarBtn.addActionListener(e -> viewController.showCreateScheduleView());
         viewBtn.addActionListener(e -> viewController.showShowScheduleView());
+        if (viewController.isIsURI()) {
+            convertBtn.setVisible(false);
+        }
         convertBtn.addActionListener(e -> viewController.showConvertView());
 
         //back button to redirect to ImportFilesView
