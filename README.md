@@ -66,7 +66,7 @@
 - Visualização do horário em HTML (Diário, Semanal e Mensal) sendo as visualizações diárias, semanais com timetable
 - Visualização de aulas sobrepostas
 - Visualização de aulas sobrelotadas
-
+- Carregamento de horário através de URI (Webcal)
 
 
 ### Instruções de utilização
@@ -76,3 +76,17 @@
 ```GITHUB_ACCESS_TOKEN=<github_personal_access_token>```
 - Executar a App que está dentro da package gui
 - Para a criação de um horário, deve ser dado um ficheiro horário com as Unidades Curriculares e as aulas desejadas de modo a que possa escolher
+
+### Erros
+- https://github.com/filipe-silva-27/ES-2023-2Sem-Sexta-Feira-LIGE-GrupoA/issues/49
+- Na criação de um horário, quando se clica exportar remoto dá erro.
+
+### Anexos
+- Test Coverage de acordo com a métrica de Complexidade Ciclomática
+![TestCoverage.png](TestCoverage.png)
+- Sonarcloud 
+- https://sonarcloud.io/project/overview?id=filipe-silva-27_ES-2023-2Sem-Sexta-Feira-LIGE-GrupoA 
+![Sonarcloud-overview.png](Sonarcloud-overview.png)
+![Sonarcloud-master.png](Sonarcloud-master.png)
+- Burndown chart
+![Burndown-chart.png](Burndown-chart.png)

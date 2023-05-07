@@ -1,92 +1,123 @@
 package utils;
+
 import models.Aula;
 import models.DataAula;
 import models.DiaSemana;
 import models.UnidadeCurricular;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.*;
-
-import java.time.LocalDateTime;
 import java.time.LocalTime;
-import java.time.Month;
-import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-
-import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.Mockito.*;
 
 class DetalhesAulasDialogTest {
-	
-	
+
+	List<Aula> aulas;
+	@BeforeEach
+	void setUp() {
+		aulas = new ArrayList<>();
+	}
+
+	@AfterEach
+	void tearDown() {
+	}
 
 	@Test
-	void testGetSobreposicoes() {
-		List<Aula> aulasList = new ArrayList<>();
-		UnidadeCurricular uc1 = new UnidadeCurricular("LEI", "Programação Orientada a Objetos");
-		Aula aula1 = new Aula(uc1, "Manhã", "LEI01", 30, "A101", 40);
-		LocalDateTime fixedDate1 = LocalDateTime.of(2022, Month.MARCH, 14, 8, 0);
-		Date date1 = Date.from(fixedDate1.atZone(ZoneId.systemDefault()).toInstant());
-		DataAula dataAula1 = new DataAula(DiaSemana.MONDAY, LocalTime.of(8,0),LocalTime.of(9,30), date1);
-		aula1.setDataAula(dataAula1);
+	void showSobreposicoesViewEmpty() {
+		DetalhesAulasDialog.showSobreposicoesView(aulas);
+	}
 
-		UnidadeCurricular uc2 = new UnidadeCurricular("MAT", "Cálculo");
-		Aula aula2 = new Aula(uc2, "Tarde", "MAT02", 25, "B201", 30);
-		LocalDateTime fixedDate2 = LocalDateTime.of(2022, Month.MARCH, 14, 8, 0);
-		Date date2 = Date.from(fixedDate2.atZone(ZoneId.systemDefault()).toInstant());
-		DataAula dataAula2 = new DataAula(DiaSemana.MONDAY, LocalTime.of(8,0),LocalTime.of(9,30), date2);
-		aula2.setDataAula(dataAula2);
-		
-		aulasList.add(aula1);
-		aulasList.add(aula2);
+	@Test
+	void showSobreposicoesView() {
 
-	    List<Aula> sobrepostas = DetalhesAulasDialog.getSobreposicoes(aulasList);
-	    assertEquals(2, sobrepostas.size());
+		Aula aula1 = new Aula(new UnidadeCurricular("IGE" , "POO"),"String turno", "String turma", 50,"String sala", 30);
+		Aula aula2 = new Aula(new UnidadeCurricular("IGE" , "PCD"),"turno", "turma", 50,"sala", 30);
+		aula1.setDataAula(new DataAula(DiaSemana.MONDAY, LocalTime.of(10, 0), LocalTime.of(11, 0), Date.from(java.time.Instant.now())));
+		aula2.setDataAula(new DataAula(DiaSemana.MONDAY, LocalTime.of(11, 0), LocalTime.of(12, 0), Date.from(java.time.Instant.now())));
+
+		aulas.add(aula1);
+		aulas.add(aula2);
+		DetalhesAulasDialog dialogMock = mock(DetalhesAulasDialog.class);
+
+		DetalhesAulasDialog.showSobreposicoesView(aulas);
+
+	}
+
+
+
+	@Test
+	void showAulasSobrelotadasViewEmpty() {
+		DetalhesAulasDialog.showAulasSobrelotadasView(aulas);
+	}
+
+	@Test
+	void showAulasSobrelotadasView() {
+		Aula aula1 = new Aula(new UnidadeCurricular("IGE" , "POO"),"String turno", "String turma", 50,"String sala", 30);
+		Aula aula2 = new Aula(new UnidadeCurricular("IGE" , "PCD"),"turno", "turma", 50,"sala", 30);
+		aula1.setDataAula(new DataAula(DiaSemana.MONDAY, LocalTime.of(10, 0), LocalTime.of(11, 0), Date.from(java.time.Instant.now())));
+		aula2.setDataAula(new DataAula(DiaSemana.MONDAY, LocalTime.of(11, 0), LocalTime.of(12, 0), Date.from(java.time.Instant.now())));
+
+		aulas.add(aula1);
+		aulas.add(aula2);
+		DetalhesAulasDialog dialogMock = mock(DetalhesAulasDialog.class);
+		DetalhesAulasDialog.showAulasSobrelotadasView(aulas);
 	}
 
 
 	@Test
-	void testGetSobreposicoes_EmptyList() {
-	    List<Aula> sobrepostas = DetalhesAulasDialog.getSobreposicoes(new ArrayList<>());
-	    assertNotNull(sobrepostas);
-	    assertEquals(0, sobrepostas.size());
+	void getAulasSobreLotadas() {
+
+		Aula aula1 = new Aula(new UnidadeCurricular("IGE" , "POO"),"String turno", "String turma", 50,"String sala", 30);
+		Aula aula2 = new Aula(new UnidadeCurricular("IGE" , "PCD"),"turno", "turma", 50,"sala", 30);
+		Aula aula3 = new Aula(new UnidadeCurricular("IGE" , "UC2"),"String turno", "String turma", 10,"String sala", 30);
+
+
+		aula1.setDataAula(new DataAula(DiaSemana.MONDAY, LocalTime.of(10, 0), LocalTime.of(11, 0), Date.from(java.time.Instant.now())));
+		aula2.setDataAula(new DataAula(DiaSemana.MONDAY, LocalTime.of(12, 0), LocalTime.of(13, 0), Date.from(java.time.Instant.now())));
+		aula3.setDataAula(new DataAula(DiaSemana.MONDAY, LocalTime.of(14, 0), LocalTime.of(15, 0), Date.from(java.time.Instant.now())));
+
+		aulas.add(aula1);
+		aulas.add(aula2);
+		aulas.add(aula3);
+
+		List<Aula> expected = new ArrayList<>();
+		expected.add(aula1);
+		expected.add(aula2);
+
+		DetalhesAulasDialog.getAulasSobreLotadas(aulas);
+		assertEquals(expected, DetalhesAulasDialog.getAulasSobreLotadas(aulas), "Incorrect array aulasSobrelotadas");
+
+
 	}
 
 	@Test
-	void testGetAulasSobreLotadas() {
-	    List<Aula> aulasList = new ArrayList<>();
-		UnidadeCurricular uc1 = new UnidadeCurricular("LEI", "Programação Orientada a Objetos");
-		Aula aula1 = new Aula(uc1, "Manhã", "LEI01", 50, "A101", 40);
-		LocalDateTime fixedDate1 = LocalDateTime.of(2022, Month.MARCH, 14, 8, 0);
-		Date date1 = Date.from(fixedDate1.atZone(ZoneId.systemDefault()).toInstant());
-		DataAula dataAula1 = new DataAula(DiaSemana.MONDAY, LocalTime.of(8,0),LocalTime.of(9,30), date1);
-		aula1.setDataAula(dataAula1);
+	void getSobreposicoes() {
 
-		UnidadeCurricular uc2 = new UnidadeCurricular("MAT", "Cálculo");
-		Aula aula2 = new Aula(uc2, "Tarde", "MAT02", 40, "B201", 30);
-		LocalDateTime fixedDate2 = LocalDateTime.of(2022, Month.MARCH, 14, 14, 0);
-		Date date2 = Date.from(fixedDate2.atZone(ZoneId.systemDefault()).toInstant());
-		DataAula dataAula2 = new DataAula(DiaSemana.MONDAY, LocalTime.of(14,0),LocalTime.of(15,30), date2);
-		aula2.setDataAula(dataAula2);
-		
-		aulasList.add(aula1);
-		aulasList.add(aula2);
-	    List<Aula> sobrelotadas = DetalhesAulasDialog.getAulasSobreLotadas(aulasList);
-	    assertEquals(2, sobrelotadas.size());
+		Aula aula1 = new Aula(new UnidadeCurricular("IGE" , "POO"),"String turno", "String turma", 20,"String sala", 30);
+		Aula aula2 = new Aula(new UnidadeCurricular("IGE" , "PCD"),"turno", "turma", 20,"sala", 30);
+		Aula aula3 = new Aula(new UnidadeCurricular("IGE" , "UC2"),"String turno", "String turma", 20,"String sala", 30);
+
+
+		aula1.setDataAula(new DataAula(DiaSemana.MONDAY, LocalTime.of(10, 0), LocalTime.of(11, 0), Date.from(java.time.Instant.now())));
+		aula2.setDataAula(new DataAula(DiaSemana.MONDAY, LocalTime.of(12, 0), LocalTime.of(13, 0), Date.from(java.time.Instant.now())));
+		aula3.setDataAula(new DataAula(DiaSemana.MONDAY, LocalTime.of(10, 0), LocalTime.of(11, 0), Date.from(java.time.Instant.now())));
+
+		aulas.add(aula1);
+		aulas.add(aula2);
+		aulas.add(aula3);
+
+		List<Aula> expected = new ArrayList<>();
+		expected.add(aula1);
+		expected.add(aula3);
+
+		DetalhesAulasDialog.getSobreposicoes(aulas);
+		assertEquals(expected, DetalhesAulasDialog.getSobreposicoes(aulas), "Incorrect array aulasSobrelotadas");
+
 	}
-
-
-	@Test
-	void testGetAulasSobreLotadas_EmptyList() {
-	    List<Aula> sobrelotadas = DetalhesAulasDialog.getAulasSobreLotadas(new ArrayList<>());
-	    assertNotNull(sobrelotadas);
-	    assertEquals(0, sobrelotadas.size());
-	}
-
-
 }
