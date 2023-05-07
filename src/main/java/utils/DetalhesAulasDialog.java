@@ -3,9 +3,6 @@ package utils;
 import models.Aula;
 
 import javax.swing.*;
-
-import org.junit.Ignore;
-
 import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;

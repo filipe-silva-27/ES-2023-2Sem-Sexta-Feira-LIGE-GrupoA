@@ -28,7 +28,7 @@ class ViewControllerTest {
     @Test
     void testShowShowScheduleView() {
     	Horario horario = new Horario("Teste");
-    	viewController.setHorario(horario);
+        viewController.setHorario(horario);
     	viewController.showShowScheduleView();
     	viewController.setHorario(null);
     	viewController.showShowScheduleView();

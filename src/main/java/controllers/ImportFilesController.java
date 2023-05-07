@@ -3,7 +3,6 @@ package controllers;
 import gui.App;
 import models.CustomExceptions;
 import org.junit.Ignore;
-import models.Aula;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import utils.importer.FileDownloader;
