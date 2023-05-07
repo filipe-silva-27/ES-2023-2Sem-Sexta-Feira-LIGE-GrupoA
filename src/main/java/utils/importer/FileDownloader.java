@@ -5,7 +5,6 @@ import org.apache.commons.io.FileUtils;
 
 import java.io.File;
 import java.io.IOException;
-import java.net.MalformedURLException;
 import java.net.URL;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
@@ -27,6 +26,8 @@ public class FileDownloader {
      * @throws IOException caso ocorrra um erro durante o processo de download ou de guardar o ficheiro
      * @throws models.CustomExceptions.InvalidFilenameException caso o utilizador escolha um nome de ficheiro inválido
      * @throws models.CustomExceptions.InvalidFileExtensionException caso a extensao do ficheiro seja inválida
+     * @see models.CustomExceptions.InvalidFilenameException
+     * @see models.CustomExceptions.InvalidFileExtensionException
      */
     public static File downloadFile(URL remoteUrl) throws IOException,
             CustomExceptions.InvalidFilenameException, CustomExceptions.InvalidFileExtensionException {
@@ -71,6 +72,8 @@ public class FileDownloader {
      * @throws IOException erro no download do ficheiro
      * @throws models.CustomExceptions.InvalidFilenameException caso o utilizador escolha um nome inválido para o ficheiro
      * @throws models.CustomExceptions.InvalidFileExtensionException caso a extensao do ficheiro seja inválida
+     * @see models.CustomExceptions.InvalidFilenameException
+     * @see models.CustomExceptions.InvalidFileExtensionException
      */
     public static File downloadRemoteFile() throws CustomExceptions.EmptyUrlException,
             IOException, CustomExceptions.InvalidFilenameException, CustomExceptions.InvalidFileExtensionException {

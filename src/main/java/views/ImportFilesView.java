@@ -2,6 +2,7 @@ package views;
 
 import controllers.ImportFilesController;
 import controllers.ViewController;
+import org.junit.Ignore;
 
 import javax.swing.*;
 
@@ -22,6 +23,7 @@ public class ImportFilesView extends View {
      * Inicializa o frame da view.
      */
     @Override
+    @Ignore
     public void initFrame() {
         this.removeAll();
         // Cria os botões e adiciona-os ao painel
