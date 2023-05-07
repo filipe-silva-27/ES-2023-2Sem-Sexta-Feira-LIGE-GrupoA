@@ -56,6 +56,20 @@ public class CustomExceptions {
         }
     }
 
+    /**
+     * Exceção para formato URI invalido
+     * @see Exception
+     */
+    public static class WebcalInvalidFormatException extends Exception{
+        /**
+         * Cria uma nova exceção com a mensagem especificada.
+         * @param message A mensagem de erro.
+         */
+        public WebcalInvalidFormatException(String message) {
+            super(message);
+        }
+    }
+
 
 
 

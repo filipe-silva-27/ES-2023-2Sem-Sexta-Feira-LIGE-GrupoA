@@ -239,13 +239,13 @@ public class ImportFileReader {
     }
 
 
-    public Horario processaWebcal(String uriString) {
+    public Horario processaWebcal(String uriString) throws CustomExceptions.WebcalInvalidFormatException {
         CalendarBuilder builder = new CalendarBuilder();
         Calendar calendar = null;
         try {
             calendar = builder.build(new URI(uriString).toURL().openStream());
         } catch (IOException | ParserException | URISyntaxException e) {
-            throw new RuntimeException(e);
+            throw new CustomExceptions.WebcalInvalidFormatException(e.getMessage());
         }
 
         for (Component component : calendar.getComponents()) {

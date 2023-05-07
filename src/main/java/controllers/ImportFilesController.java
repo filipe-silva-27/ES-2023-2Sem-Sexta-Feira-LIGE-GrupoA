@@ -13,8 +13,6 @@ import javax.swing.*;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import java.io.File;
 import java.io.IOException;
-import java.util.List;
-import java.io.IOException;
 
 /**
  * Esta classe é um controlador para importar para a aplicação ficheiros CSV e JSON.
@@ -82,8 +80,11 @@ public class ImportFilesController extends ViewController{
                 }
 
 
-
-                setHorario(new ImportFileReader().processaWebcal(input));
+                try {
+                    setHorario(new ImportFileReader().processaWebcal(input));
+                } catch (CustomExceptions.WebcalInvalidFormatException e) {
+                    showErrorAndUploadView(e.getMessage());
+                }
 
 
                 JOptionPane.showMessageDialog(null, "Calendar events imported from:\n" + input);
