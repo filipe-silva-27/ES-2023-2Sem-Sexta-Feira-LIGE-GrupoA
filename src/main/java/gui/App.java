@@ -4,8 +4,8 @@ import controllers.*;
 import views.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import java.awt.BorderLayout;
-import java.awt.CardLayout;
+
+import java.awt.*;
 import javax.swing.*;
 
 /**
@@ -15,7 +15,7 @@ import javax.swing.*;
  * como upload de arquivos, visualização de horários, criação de horários,
  * conversão de arquivos e exportação de arquivos.
  */
-public class App {
+public class App extends Component {
 
     private final JFrame frame;
     private final JPanel mainPanel;
@@ -31,6 +31,7 @@ public class App {
     public static final String CONVERT_MENU = "convertView";
     public static final String CREATE_SCHEDULE_MENU ="createScheduleView";
     public static final String EXPORT_MENU = "exportFilesView";
+    public static final String SHOW_WEBCAL_MENU ="webcalScheduleView";
 
     /**
      * Views
@@ -41,6 +42,7 @@ public class App {
     private CreateScheduleView createScheduleView;
     private ConvertFilesView convertFilesView;
     private ExportFilesView exportFilesView;
+    //private WebcalScheduleView webcalScheduleView;
 
 
     /**
@@ -84,6 +86,7 @@ public class App {
         showScheduleView = new ShowScheduleView( new ShowScheduleController(this));
         convertFilesView = new ConvertFilesView(new ConvertController(this));
         exportFilesView = new ExportFilesView(new ExportController(this));
+       // webcalScheduleView = new WebcalScheduleView(new WebcalScheduleController(this));
 
         // Adicionar as views ao CardLayout
         mainPanel.add(getMainMenuView(), MAIN_MENU);
@@ -92,6 +95,7 @@ public class App {
         mainPanel.add(getShowScheduleView(), SHOW_SCHEDULE_MENU);
         mainPanel.add(getConvertFilesView(), CONVERT_MENU);
         mainPanel.add(getExportFilesView(), EXPORT_MENU);
+       // mainPanel.add(getWebcalScheduleView(), SHOW_WEBCAL_MENU);
         logger.info("Views adicionadas com sucesso ao panel!");
     }
 
@@ -161,4 +165,12 @@ public class App {
      */
     public View getExportFilesView() { return exportFilesView;
     }
+
+    /**
+     * Obtém a referência para import e visualização de URI.
+     * @return A WebcalScheduleView da view de URI.
+     */
+    ////public WebcalScheduleView getWebcalScheduleView(){ return webcalScheduleView;}
+
+
 }

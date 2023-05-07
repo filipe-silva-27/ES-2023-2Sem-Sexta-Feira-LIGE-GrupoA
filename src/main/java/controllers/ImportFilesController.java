@@ -3,6 +3,7 @@ package controllers;
 import gui.App;
 import models.CustomExceptions;
 import org.junit.Ignore;
+import models.Aula;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import utils.importer.FileDownloader;
@@ -11,6 +12,8 @@ import utils.importer.ImportFileReader;
 import javax.swing.*;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import java.io.File;
+import java.io.IOException;
+import java.util.List;
 import java.io.IOException;
 
 /**
@@ -63,6 +66,36 @@ public class ImportFilesController extends ViewController{
         }
 
     }
+
+    /**
+     * Função que faz o import do WebcalURI
+     */
+
+    public void importWebcalURI(){
+        // Display a dialog box to prompt the user to enter the Webcal URI
+
+            String input = JOptionPane.showInputDialog(null, "Enter the Webcal URI: ");
+            if (input != null && !input.trim().isEmpty()) {
+
+                if (input.startsWith("webcal://")) {
+                    input = "https://" + input.substring(9);
+                }
+
+
+
+                setHorario(new ImportFileReader().processaWebcal(input));
+
+
+                JOptionPane.showMessageDialog(null, "Calendar events imported from:\n" + input);
+                setIsURI(true);
+                showMainMenuView();
+            }
+
+
+    }
+
+
+
     /**
      * Método que realiza a importação de um arquivo.
      * @param fromFile - arquivo de origem a ser importado

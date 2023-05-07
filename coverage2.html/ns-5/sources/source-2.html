@@ -1,0 +1,157 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <title>Coverage Report > GistUploader</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">utils.uploader</a>
+</div>
+
+<h1>Coverage Summary for Class: GistUploader (utils.uploader)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">GistUploader</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/2)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/15)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;package utils.uploader;
+&nbsp;
+&nbsp;import org.eclipse.egit.github.core.*;
+&nbsp;import org.eclipse.egit.github.core.service.GistService;
+&nbsp;import org.slf4j.Logger;
+&nbsp;import org.slf4j.LoggerFactory;
+&nbsp;
+&nbsp;import java.io.IOException;
+&nbsp;import java.util.*;
+&nbsp;
+&nbsp;/**
+&nbsp; * Classe utilitária para fazer upload de arquivos para o Gist do GitHub.
+&nbsp; */
+&nbsp;public class GistUploader {
+&nbsp;
+&nbsp;    private GistUploader() {}
+&nbsp;    private static final String GIST_DESCRIPTION = &quot;Gist created by my Java application&quot;;
+&nbsp;    private static final boolean GIST_PUBLIC = true;
+<b class="nc">&nbsp;    private static final Logger LOGGER = LoggerFactory.getLogger(GistUploader.class);</b>
+&nbsp;
+&nbsp;    /**
+&nbsp;     * Faz upload de um arquivo para o Gist do GitHub.
+&nbsp;     *
+&nbsp;     * @param fileName Nome do arquivo.
+&nbsp;     * @param content Conteúdo do arquivo.
+&nbsp;     * @param accessToken Token de acesso do GitHub.
+&nbsp;     * @return URL do Gist criado.
+&nbsp;     * @throws IOException Caso ocorra algum erro de I/O durante o upload.
+&nbsp;     */
+&nbsp;    public static String uploadToGist(String fileName, String content, String accessToken) throws IOException {
+&nbsp;
+<b class="nc">&nbsp;        LOGGER.info(&quot;Uploading file to Gist...&quot;);</b>
+&nbsp;
+<b class="nc">&nbsp;        GistService gistService = new GistService();</b>
+<b class="nc">&nbsp;        gistService.getClient().setOAuth2Token(accessToken);</b>
+&nbsp;
+<b class="nc">&nbsp;        GistFile gistFile = new GistFile();</b>
+<b class="nc">&nbsp;        gistFile.setContent(content);</b>
+&nbsp;
+<b class="nc">&nbsp;        Map&lt;String, GistFile&gt; files = new HashMap&lt;&gt;();</b>
+<b class="nc">&nbsp;        files.put(fileName, gistFile);</b>
+&nbsp;
+<b class="nc">&nbsp;        Gist gist = new Gist();</b>
+<b class="nc">&nbsp;        gist.setDescription(GIST_DESCRIPTION);</b>
+<b class="nc">&nbsp;        gist.setPublic(GIST_PUBLIC);</b>
+<b class="nc">&nbsp;        gist.setFiles(files);</b>
+&nbsp;
+<b class="nc">&nbsp;        Gist newGist = gistService.createGist(gist);</b>
+&nbsp;
+<b class="nc">&nbsp;        LOGGER.info(&quot;File uploaded to Gist with URL: {}&quot;, newGist.getHtmlUrl());</b>
+<b class="nc">&nbsp;        return newGist.getHtmlUrl();</b>
+&nbsp;    }
+&nbsp;}
+&nbsp;
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2023-04-21 10:41</div>
+</div>
+</body>
+</html>

@@ -6,6 +6,7 @@ import models.Horario;
 
 import javax.swing.*;
 import java.awt.*;
+import java.net.URISyntaxException;
 
 
 /**
@@ -23,6 +24,7 @@ public class ViewController {
     private static String content;
     private static Horario horario = null;
 
+    private static boolean isURI = false;
     /**
      * Construtor do controlador
      * @param app A instância da classe App
@@ -146,10 +148,12 @@ public class ViewController {
         }
     }
 
+
     /**
      * Exibe a tela de upload de ficheiros.
      */
     public void showImportFilesView(){
+        setIsURI(false);
         app.getImportFilesView().initFrame();
         cardLayout.show(contentPane, App.UPLOAD_MENU);
     }
@@ -158,7 +162,11 @@ public class ViewController {
      * Exibe a tela de exportação de ficheiros.
      */
     public void showExportFilesView(){
-        app.getExportFilesView().initFrame();
+        try {
+            app.getExportFilesView().initFrame();
+        } catch (URISyntaxException e) {
+            throw new RuntimeException(e);
+        }
         cardLayout.show(contentPane, App.EXPORT_MENU);
     }
 
@@ -168,5 +176,13 @@ public class ViewController {
      */
     public CardLayout getCardLayout() {
         return cardLayout;
+    }
+
+    public boolean isIsURI() {
+        return isURI;
+    }
+
+    public void setIsURI(boolean isURI) {
+        ViewController.isURI = isURI;
     }
 }
