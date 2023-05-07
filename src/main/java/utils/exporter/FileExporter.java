@@ -1,12 +1,13 @@
 package utils.exporter;
 
+import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.opencsv.CSVWriter;
 import com.opencsv.ICSVWriter;
 import io.github.cdimascio.dotenv.Dotenv;
-import models.*;
-import com.google.gson.Gson;
-import org.junit.Ignore;
+import models.Aula;
+import models.Horario;
+import models.UnidadeCurricular;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -19,7 +20,6 @@ import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
-
 
 import static org.apache.logging.log4j.core.util.FileUtils.getFileExtension;
 

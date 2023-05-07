@@ -4,8 +4,6 @@ package views;
 import controllers.ViewController;
 
 import javax.swing.*;
-import java.net.URISyntaxException;
-
 /**
  * Classe abstrata das views que extende o JPanel do swing
  * @see JPanel
@@ -26,7 +24,7 @@ public abstract class View extends JPanel {
     /**
      * Inicializa o frame da view.
      */
-    public abstract void initFrame() throws URISyntaxException;
+    public abstract void initFrame();
 
 
     /**

@@ -42,7 +42,6 @@ public class App extends Component {
     private CreateScheduleView createScheduleView;
     private ConvertFilesView convertFilesView;
     private ExportFilesView exportFilesView;
-    //private WebcalScheduleView webcalScheduleView;
 
 
     /**
@@ -86,7 +85,6 @@ public class App extends Component {
         showScheduleView = new ShowScheduleView( new ShowScheduleController(this));
         convertFilesView = new ConvertFilesView(new ConvertController(this));
         exportFilesView = new ExportFilesView(new ExportController(this));
-       // webcalScheduleView = new WebcalScheduleView(new WebcalScheduleController(this));
 
         // Adicionar as views ao CardLayout
         mainPanel.add(getMainMenuView(), MAIN_MENU);
@@ -95,7 +93,6 @@ public class App extends Component {
         mainPanel.add(getShowScheduleView(), SHOW_SCHEDULE_MENU);
         mainPanel.add(getConvertFilesView(), CONVERT_MENU);
         mainPanel.add(getExportFilesView(), EXPORT_MENU);
-       // mainPanel.add(getWebcalScheduleView(), SHOW_WEBCAL_MENU);
         logger.info("Views adicionadas com sucesso ao panel!");
     }
 
@@ -170,7 +167,4 @@ public class App extends Component {
      * Obtém a referência para import e visualização de URI.
      * @return A WebcalScheduleView da view de URI.
      */
-    ////public WebcalScheduleView getWebcalScheduleView(){ return webcalScheduleView;}
-
-
 }

@@ -3,7 +3,6 @@ package controllers;
 import gui.App;
 import models.CustomExceptions;
 import org.junit.Ignore;
-import models.Aula;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import utils.importer.FileDownloader;
@@ -12,8 +11,6 @@ import utils.importer.ImportFileReader;
 import javax.swing.*;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import java.io.File;
-import java.io.IOException;
-import java.util.List;
 import java.io.IOException;
 
 /**
@@ -82,8 +79,11 @@ public class ImportFilesController extends ViewController{
                 }
 
 
-
-                setHorario(new ImportFileReader().processaWebcal(input));
+                try {
+                    setHorario(new ImportFileReader().processaWebcal(input));
+                } catch (CustomExceptions.WebcalInvalidFormatException e) {
+                    showErrorAndUploadView(e.getMessage());
+                }
 
 
                 JOptionPane.showMessageDialog(null, "Calendar events imported from:\n" + input);

@@ -10,7 +10,7 @@ import java.time.Month;
 import java.time.ZoneId;
 import java.util.Date;
 
-public class DataAulaTest {
+class DataAulaTest {
     private DataAula dataAula;
 
     @BeforeEach
