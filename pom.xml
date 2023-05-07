@@ -16,7 +16,6 @@
     <maven.compiler.source>${java.version}</maven.compiler.source>
     <maven.compiler.target>${java.version}</maven.compiler.target>
     <sonar.organization>filipe-silva-27</sonar.organization>
-    <sonar.host.url>https://sonarcloud.io</sonar.host.url>
   </properties>
 
   <repositories>
