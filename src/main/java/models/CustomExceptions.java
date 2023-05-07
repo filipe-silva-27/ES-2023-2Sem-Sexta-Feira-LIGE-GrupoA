@@ -1,9 +1,20 @@
 package models;
 
+/**
+ * Classe que contém exceções customizadas
+ */
 public class CustomExceptions {
 
     /**
-     * Exceção lançada quando a URL está vazia ou nula.
+     * Construtor privado de modo a não permitir a instanciação
+     */
+    private CustomExceptions(){
+        throw new IllegalArgumentException("Classe não pode ser instanciada!");
+    }
+
+    /**
+     * Exceção para urls vazios
+     * @see Exception
      */
     public static class EmptyUrlException extends Exception{
 
@@ -17,7 +28,8 @@ public class CustomExceptions {
     }
 
     /**
-     * Exceção lançada quando o nome do ficheiro é inválido.
+     * Exceção para nomes de ficheiros inválidos
+     * @see Exception
      */
     public static class InvalidFilenameException extends Exception{
         /**
@@ -30,7 +42,8 @@ public class CustomExceptions {
     }
 
     /**
-     * Exceção lançada quando a extensão do ficheiro é inválida.
+     * Exceção para extensões de ficheiros inválidos
+     * @see Exception
      */
     public static class InvalidFileExtensionException extends Exception{
 

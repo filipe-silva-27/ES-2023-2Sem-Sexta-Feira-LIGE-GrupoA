@@ -1,1 +1,1 @@
-const moduleSearchIndex = [];updateSearchResults();
+moduleSearchIndex = [];updateSearchResults();

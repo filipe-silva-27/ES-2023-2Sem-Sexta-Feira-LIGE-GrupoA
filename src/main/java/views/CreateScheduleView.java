@@ -5,68 +5,117 @@ import controllers.ShowScheduleController;
 import controllers.ViewController;
 import models.Aula;
 import models.UnidadeCurricular;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.junit.Ignore;
+import utils.DetalhesAulasDialog;
 import utils.exporter.FileExporter;
 
 import javax.swing.*;
 import java.awt.*;
+import java.text.SimpleDateFormat;
 import java.util.*;
 import java.util.List;
 
 import static controllers.ViewController.setContent;
 
 /**
- * Classe responsável por criar a vista da funcionalidade de criação de horário.
+ * Classe view da criação de horário e a sua visualização
+ * @see View
  */
 public class CreateScheduleView extends View {
 
-    private static final Logger logger = LoggerFactory.getLogger(CreateScheduleView.class);
+    JButton criarUc;
+    JButton verHorario;
+    JButton verSobrelotacao;
+    JButton verSobreposicoes;
+    JButton guardarBtn;
+    JButton backBtn;
 
+    List<Aula> selectedAulas;
     /**
-     * Construtor da classe.
-     * @param viewController o controlador que controla a view
+     * Método construtor
+     * @param viewController ViewController
+     * @see ViewController
      */
     public CreateScheduleView(ViewController viewController) {
         super(viewController);
+        selectedAulas = null;
     }
 
     /**
-     * Método responsável por inicializar a frame da vista.
+     * Função que inicializa os botões
+     */
+    @Ignore
+    private void initButtons(){
+        criarUc = new JButton("Personalizar horário");
+        verHorario = new JButton("Visualizar horário");
+        verSobrelotacao = new JButton("Ver sobrelotações");
+        verSobreposicoes = new JButton("Ver sobreposições");
+        guardarBtn = new JButton("Guardar Horário");
+        backBtn = new JButton("Voltar");
+    }
+
+    /**
+     * Função que inicializa os listeners
+     */
+    @Ignore
+    private void initListeners(){
+        criarUc.addActionListener(e -> {
+            Set<UnidadeCurricular> unidadesCurriculares = viewController.getHorario().getUnidadesCurriculares();
+            showCreateUC(unidadesCurriculares);
+        });
+        selectedAulas = ((CreateScheduleController) viewController).getSelectedAulas();
+
+        verHorario.addActionListener(e -> ShowScheduleController.createHtmlView(selectedAulas));
+
+        verSobrelotacao.addActionListener(e -> {
+            List<Aula> aulasSobrepostas = DetalhesAulasDialog.getAulasSobreLotadas(selectedAulas);
+            DetalhesAulasDialog.showAulasSobrelotadasView(aulasSobrepostas);
+        });
+
+        verSobreposicoes.addActionListener(e -> {
+            List<Aula> aulasSobrelotadas = DetalhesAulasDialog.getSobreposicoes(selectedAulas);
+            DetalhesAulasDialog.showSobreposicoesView(aulasSobrelotadas);
+        });
+        guardarBtn.addActionListener(e -> showChooseFileFormat());
+        backBtn.addActionListener(e -> viewController.showMainMenuView());
+    }
+
+    /**
+     * Função que inicializa a frame
      */
     @Override
+    @Ignore
     public void initFrame() {
         this.removeAll();
-        JButton criarUc = new JButton("Personalizar horário");
-        criarUc.addActionListener(e -> showCreateUC());
-        JButton verHorario = new JButton("Visualizar horário");
-        verHorario.addActionListener(e ->{
-                    List<Aula> selectedAulas = ((CreateScheduleController) viewController).getSelectedAulas();
-                    ShowScheduleController.createHtmlView(selectedAulas);
-                }
-        );
-        JButton guardarBtn = new JButton("Guardar Horário");
-        guardarBtn.addActionListener(e -> showChooseFileFormat());
-        JButton backBtn = new JButton("Voltar");
-        backBtn.addActionListener(e -> viewController.showMainMenuView());
-
+        initButtons();
+        initListeners();
+        //add buttons to panel
         add(criarUc);
-        add(verHorario);
-        add(guardarBtn);
         add(backBtn);
+        if (selectedAulas != null && !selectedAulas.isEmpty()) {
+            add(verHorario);
+            add(verSobrelotacao);
+            add(verSobreposicoes);
+            add(guardarBtn);
+        }
+        this.revalidate();
     }
 
     /**
-     * Método responsável por mostrar a janela para escolher as unidades curriculares.
+     * Função que abre um JDialog para o user escolher as Unidades Curriculares
+     * @param unidadesCurriculares Set de unidadescurriculares disponiveis para serem escolhidas
+     * @see JDialog
+     * @see DefaultListModel
+     * @see UCCheckBoxListRenderer
      */
-    private void showCreateUC() {
-        // Create the list to display the checkboxes
+    @Ignore
+    private void showCreateUC(Set<UnidadeCurricular> unidadesCurriculares) {
+
         JList<UnidadeCurricular> ucList = new JList<>();
         ucList.setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
         ucList.setCellRenderer(new UCCheckBoxListRenderer());
 
         DefaultListModel<UnidadeCurricular> listModel = new DefaultListModel<>();
-        Set<UnidadeCurricular> unidadesCurriculares = viewController.getHorario().getUnidadesCurriculares();
         List<UnidadeCurricular> sortedList = new ArrayList<>(unidadesCurriculares);
         sortedList.sort(Comparator.comparing(UnidadeCurricular::getNomeUC));
         for (UnidadeCurricular uc : sortedList) {
@@ -77,19 +126,19 @@ public class CreateScheduleView extends View {
         JLabel instructionsLabel = new JLabel("" +
                 "Selecione uma ou mais Unidades Curriculares (use Ctrl + clique para selecionar várias):");
 
-        // Create a new dialog for the popup and add the checkboxes and save button to it
         JDialog dialog = new JDialog();
         dialog.setLayout(new BorderLayout());
         dialog.add(instructionsLabel, BorderLayout.NORTH);
         dialog.add(new JScrollPane(ucList), BorderLayout.CENTER);
         JButton saveBtn = new JButton("Save");
+
         saveBtn.addActionListener(e -> {
-            // Save the selected units and close the dialog
             Set<UnidadeCurricular> selectedUnits = new HashSet<>(ucList.getSelectedValuesList());
             ((CreateScheduleController) viewController).setSelectedUnits(selectedUnits);
             dialog.dispose();
             showChooseTurno();
         });
+
         JPanel buttonPanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
         buttonPanel.add(saveBtn);
         dialog.add(buttonPanel, BorderLayout.SOUTH);
@@ -100,9 +149,14 @@ public class CreateScheduleView extends View {
         dialog.setVisible(true);
     }
 
+
     /**
-     * Método responsável por mostrar a janela para escolher os turnos.
+     * Função que abre um JDialog para o user escolher os turnos
+     * @see JDialog
+     * @see DefaultListModel
+     * @see AulaCheckBoxListRenderer
      */
+    @Ignore
     private void showChooseTurno() {
         Set<UnidadeCurricular> selectedUnits = ((CreateScheduleController) viewController).getSelectedUnits();
         if (selectedUnits.isEmpty()) {
@@ -126,7 +180,7 @@ public class CreateScheduleView extends View {
         aulasList.setCellRenderer(new AulaCheckBoxListRenderer());
 
         JLabel instructionsLabel = new JLabel("" +
-                "Selecione uma ou mais Unidades Curriculares (use Ctrl + clique para selecionar várias):");
+                "Selecione um ou mais Turnos (use Ctrl + clique para selecionar várias):");
 
         // Create a new dialog for the popup and add the list and save button to it
         JDialog dialog = new JDialog();
@@ -139,6 +193,7 @@ public class CreateScheduleView extends View {
             ((CreateScheduleController) viewController).setSelectedAulas(aulasList.getSelectedValuesList());
             ((CreateScheduleController) viewController).createHorario();
             dialog.dispose();
+            this.initFrame();
         });
         JPanel buttonPanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
         buttonPanel.add(saveBtn);
@@ -151,8 +206,11 @@ public class CreateScheduleView extends View {
     }
 
     /**
-     * Exibe uma caixa de diálogo para escolher o formato do arquivo de exportação e realiza a exportação para CSV ou JSON.
+     * Função que mostra um JDialog para escolher como guardar o ficheiro.
+     * @see JDialog
+     * @see CreateScheduleController
      */
+    @Ignore
     private void showChooseFileFormat(){
         // Create a new dialog for the popup and add the checkboxes and save button to it
         JDialog dialog = new JDialog();
@@ -174,9 +232,6 @@ public class CreateScheduleView extends View {
             viewController.showExportFilesView();
         });
 
-
-
-
         JPanel buttonPanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
         buttonPanel.add(toCsv);
         buttonPanel.add(toJson);
@@ -188,12 +243,16 @@ public class CreateScheduleView extends View {
         dialog.setVisible(true);
     }
 
+
     /**
-     * Renderiza a célula de uma lista de checkboxes para UnidadeCurricular.
+     * Classe que altera o look default dos JCheckbox
+     * @see JCheckBox
      */
+    @Ignore
     static class UCCheckBoxListRenderer extends JCheckBox implements ListCellRenderer<UnidadeCurricular> {
         @Override
-        public Component getListCellRendererComponent(JList<? extends UnidadeCurricular> list, UnidadeCurricular uc, int index, boolean isSelected, boolean cellHasFocus) {
+        public Component getListCellRendererComponent(JList<? extends UnidadeCurricular> list,
+                                                      UnidadeCurricular uc, int index, boolean isSelected, boolean cellHasFocus) {
             setText(uc.getNomeUC());
             setSelected(isSelected);
             setEnabled(list.isEnabled());
@@ -202,14 +261,19 @@ public class CreateScheduleView extends View {
     }
 
     /**
-     * Renderiza a célula de uma lista de checkboxes para Aula.
+     * Classe que altera o look default dos JCheckbox
+     * @see JCheckBox
      */
+    @Ignore
     static class AulaCheckBoxListRenderer extends JCheckBox implements ListCellRenderer<Aula> {
         @Override
         public Component getListCellRendererComponent(JList<? extends Aula> list, Aula aula, int index, boolean isSelected, boolean cellHasFocus) {
+            SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
+            String dateStr = dateFormat.format(aula.getDataAula().getData());
             setText("UC: " + aula.getUc().getNomeUC() + " | Turno: " + aula.getTurno() +
+                    " | Data Aula: " + dateStr +
                     " | Dia da semana: "
-                    + aula.getDataAula().getDiaSemana() + " | Hora início: " + aula.getDataAula().getHoraInicio() +
+                    + aula.getDataAula().getDiaSemana().getName() + " | Hora início: " + aula.getDataAula().getHoraInicio() +
                     " | Hora fim: " + aula.getDataAula().getHoraFim());
             setSelected(isSelected);
             setEnabled(list.isEnabled());

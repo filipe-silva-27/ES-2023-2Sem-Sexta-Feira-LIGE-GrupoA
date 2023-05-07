@@ -7,12 +7,14 @@ import javax.swing.*;
 
 /**
  * Classe que representa a visualização para a conversão de arquivos CSV e JSON.
+ * @see View
  */
 public class ConvertFilesView extends View{
 
     /**
      * Construtor da classe ConvertFilesView.
      * @param viewController O controlador da view.
+     * @see ViewController
      */
     public ConvertFilesView(ViewController viewController){
         super(viewController);
@@ -20,6 +22,7 @@ public class ConvertFilesView extends View{
 
     /**
      * Inicializa o frame da view.
+     * @see ConvertController
      */
     @Override
     public void initFrame() {

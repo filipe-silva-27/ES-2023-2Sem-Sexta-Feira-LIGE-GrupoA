@@ -16,10 +16,10 @@ import java.util.Set;
  */
 public class CreateScheduleController extends ViewController{
 
-    private static final Logger logger = LoggerFactory.getLogger(CreateScheduleController.class);
-    private Set<UnidadeCurricular> selectedUnits;
-    private List<Aula> selectedAulas;
-    private Horario selectedHorario;
+    private static final Logger logger = LoggerFactory.getLogger(CreateScheduleController.class);   // Log4j2
+    private Set<UnidadeCurricular> selectedUnits; //Set de unidades curriculares escolhida pelo User
+    private List<Aula> selectedAulas; //Lista de aulas selecionadas pelo User
+    private Horario selectedHorario; //Objeto Horario Novo personalizado pelo User
 
     /**
      * Construtor da classe CreateScheduleController.
@@ -31,8 +31,9 @@ public class CreateScheduleController extends ViewController{
     }
 
     /**
-     * Define o conjunto de unidades curriculares selecionadas.
-     * @param selectedUnits o conjunto de unidades curriculares selecionadas
+     * Função que faz set do Set de unidades curriculares
+     * @param selectedUnits set de UnidadeCurricular dado
+     * @see UnidadeCurricular
      */
     public void setSelectedUnits(Set<UnidadeCurricular> selectedUnits){
         this.selectedUnits = selectedUnits;
@@ -40,8 +41,9 @@ public class CreateScheduleController extends ViewController{
     }
 
     /**
-     * Define a lista de aulas selecionadas.
-     * @param selectedAulas a lista de aulas selecionadas
+     * Função que faz set da List de aulas
+     * @param selectedAulas lista de aulas selecionadas pelo User
+     * @see Aula
      */
     public void setSelectedAulas(List<Aula> selectedAulas){
         this.selectedAulas = selectedAulas;
@@ -49,8 +51,10 @@ public class CreateScheduleController extends ViewController{
     }
 
     /**
-     * Cria um horário com base nas aulas selecionadas.
-     * @throws IllegalStateException se nenhuma aula tiver sido selecionada
+     * Função que cria o objeto Horário dos turnos escolhidos pelo Utilizador
+     * @see Horario
+     * @see UnidadeCurricular
+     * @see Aula
      */
     public void createHorario(){
         if (selectedAulas.isEmpty()){
@@ -66,29 +70,32 @@ public class CreateScheduleController extends ViewController{
                 // Adicionar às aulas
                 selectedHorario.getUnidadeCurricular(uc).addAula(aula);
             }
-            logger.info(aula.getUc().toString());
         }
     }
 
+
     /**
-     * Obtém o horário selecionado.
-     * @return o horário selecionado
+     * Função getter do Horario criado pelo user
+     * @return selectedHorario horario criado pelo user
+     * @see Horario
      */
     public Horario getSelectedHorario(){
         return selectedHorario;
     }
 
     /**
-     * Obtém a lista de aulas selecionadas.
-     * @return a lista de aulas selecionadas
+     * Função getter da lista de aulas selecionadas pelo user
+     * @return selectedAulas aulas selecionadas pelo user
+     * @see Aula
      */
     public List<Aula> getSelectedAulas(){
         return selectedAulas;
     }
 
     /**
-     * Obtém o conjunto de unidades curriculares selecionadas.
-     * @return o conjunto de unidades curriculares selecionadas
+     * Função getter do set de unidades curriculares selecionadas pelo user
+     * @return selectedUnits set de unidades curriculares escolhidas pelo user
+     * @see UnidadeCurricular
      */
     public Set<UnidadeCurricular> getSelectedUnits() {
         return selectedUnits;
